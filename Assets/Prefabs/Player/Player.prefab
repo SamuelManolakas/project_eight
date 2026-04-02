@@ -1895,7 +1895,7 @@ Animator:
   m_GameObject: {fileID: 6791627358024047860}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
-  m_Controller: {fileID: 9100000, guid: b481413f70b808c4dbb46c48522ae272, type: 2}
+  m_Controller: {fileID: 9100000, guid: 38ae7db8e52ec814e9cb1275daacee04, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1940,7 +1940,11 @@ MonoBehaviour:
   m_Animator: {fileID: 2176307596309061044}
   TransitionStateInfoList: []
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: speed
+      NameHash: 254213878
+      Synchronize: 1
+      ParameterType: 1
   AnimatorParametersExpanded: 0
 --- !u!1 &6980039740596379671
 GameObject:

@@ -251,6 +251,7 @@ public class PlayerController : NetworkBehaviour
         Vector3 move = camForward * moveInput.y + camRight * moveInput.x;
 
         controller.Move(move * speed * Time.deltaTime);
+        m_animator.SetFloat("speed", move.magnitude);
 
         if (move.sqrMagnitude > 0.001f)
         {
