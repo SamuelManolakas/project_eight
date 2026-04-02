@@ -22,8 +22,8 @@ public class MyPlayerInput : NetworkBehaviour
         {
             return; 
         }
-        m_rawInput = m_movementReference.action.ReadValue<Vector2>();
-        MovementInput = Vector2.MoveTowards(MovementInput, m_rawInput, Time.deltaTime / m_smoothTime);
+        //m_rawInput = m_movementReference.action.ReadValue<Vector2>();
+        //MovementInput = Vector2.MoveTowards(MovementInput, m_rawInput, Time.deltaTime / m_smoothTime);
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         { 

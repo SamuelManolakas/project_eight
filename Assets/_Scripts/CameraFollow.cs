@@ -1,9 +1,11 @@
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
 public class CameraFollow : NetworkBehaviour
 {
-    private Camera m_camera;
+    [SerializeField]
+    private GameObject m_camera;
     Vector3 m_offsetFromPlayer;
     Vector3 m_originPosition;
 
@@ -12,7 +14,7 @@ public class CameraFollow : NetworkBehaviour
         base.OnNetworkSpawn();
         if (IsOwner == false)
             return;
-        m_camera = Camera.main;
+        m_camera = GameObject.FindGameObjectWithTag("CameraFollow");
         m_originPosition = m_camera.transform.position;
         m_offsetFromPlayer = transform.position - m_camera.transform.position;
     }
@@ -30,7 +32,7 @@ public class CameraFollow : NetworkBehaviour
     {
         if(IsOwner && m_camera != null)
         {
-            m_camera.transform.position = transform.position - m_offsetFromPlayer;
+            m_camera.transform.position = transform.position;
         }
     }
 }

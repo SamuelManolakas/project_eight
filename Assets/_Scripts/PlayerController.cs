@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -23,10 +24,26 @@ public class PlayerController : NetworkBehaviour
     private ResourceSpawner m_resourceSpawner;
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
+    
+    public Transform cameraTransform;
+    public float speed = 5f;
+    public float jumpHeight = 2f;
+    public float gravity = -9.8f;
+
+    private Vector2 moveInput;
+    private CharacterController controller;
+    private bool _shouldFaceMoveDirection = false;
 
     private void Awake()
     {
         m_resourceSpawner = FindAnyObjectByType<ResourceSpawner>();
+        controller = GetComponent<CharacterController>();
+        cameraTransform = Camera.main.transform;
+    }
+    
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
     }
 
     private void OnEnable()
@@ -221,11 +238,32 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
-        Vector2 movementInput = m_playerInput.MovementInput;
-        if(m_isChopping || m_isInteracting)
+        
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
+
+        camForward.y = 0f;
+        camRight.y = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 move = camForward * moveInput.y + camRight * moveInput.x;
+
+        controller.Move(move * speed * Time.deltaTime);
+
+        if (move.sqrMagnitude > 0.001f)
         {
-            movementInput = Vector2.zero;
+            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
         }
-        m_agentMover.Move(movementInput);
+        
+        
+        //Vector2 movementInput = m_playerInput.MovementInput;
+        //if(m_isChopping || m_isInteracting)
+        //{
+        //    movementInput = Vector2.zero;
+        //}
+        //m_agentMover.Move(movementInput);
     }
 }
