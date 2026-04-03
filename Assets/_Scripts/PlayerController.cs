@@ -32,7 +32,6 @@ public class PlayerController : NetworkBehaviour
 
     private Vector2 moveInput;
     private CharacterController controller;
-    private bool _shouldFaceMoveDirection = false;
 
     private void Awake()
     {
