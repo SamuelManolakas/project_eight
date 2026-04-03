@@ -69,5 +69,4 @@ public class BossBehaviour : NetworkBehaviour
     }
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
-    //public void Direction(){stateMachine.currentState.Direction();}
 }

@@ -10,7 +10,7 @@ public class Phase1State : State_B
     {
         Debug.Log("Phase1State Enter");
 
-        timer = 2f;
+        boss.StartCoroutine(Wait());
     }
 
     public override void Exit()
@@ -18,6 +18,11 @@ public class Phase1State : State_B
         Debug.Log("Phase1State Exit");
     }
 
+    internal IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2f);
+        boss.stateMachine.Transit(boss.movementState);
+    }
     public override void ContinuousAction()
     {
         if (timer > 0)
@@ -26,7 +31,7 @@ public class Phase1State : State_B
         }
         else if (timer < 0)
         {
-            boss.stateMachine.Transit(boss.movementState);
+            
         }
     }
 }
