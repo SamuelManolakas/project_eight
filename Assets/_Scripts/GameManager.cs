@@ -14,6 +14,8 @@ public class GameManager : NetworkBehaviour
     private UIDocument _sessionUI;
     [SerializeField]
     private GameObject m_playerPrefab;
+    [SerializeField]
+    private GameObject m_enemyPrefab;
 
     [SerializeField]
     private List<ResourcePallet> m_pallets;
@@ -72,7 +74,9 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.ConnectedClients[clientID].PlayerObject != null)
             return;
         GameObject player = Instantiate(m_playerPrefab);
+        GameObject enemy = Instantiate(m_enemyPrefab);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
+        enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
     }
 
     public override void OnNetworkDespawn()

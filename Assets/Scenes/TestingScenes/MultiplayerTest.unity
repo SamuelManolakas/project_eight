@@ -467,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394867068}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.036114283, y: -0.022853084, z: -0.00082607765, w: 0.999086}
+  m_LocalRotation: {x: -0.03611777, y: -0.018120524, z: -0.0006550079, w: 0.99918306}
   m_LocalPosition: {x: 10.648773, y: 23.803091, z: -26.530313}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -693,6 +693,7 @@ MonoBehaviour:
   m_multiplayerUI: {fileID: 0}
   _sessionUI: {fileID: 73344836}
   m_playerPrefab: {fileID: 5125210286697788315, guid: 653d1cec21779b741b3ae946f0775120, type: 3}
+  m_enemyPrefab: {fileID: 5125210286697788315, guid: 051f58756fa5bc14ba8996bd6bb75475, type: 3}
   m_pallets: []
 --- !u!1 &1425260202
 GameObject:
@@ -780,7 +781,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425260202}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.036114294, y: -0.022853088, z: -0.000826078, w: 0.999086}
+  m_LocalRotation: {x: -0.036117777, y: -0.018120525, z: -0.00065500813, w: 0.99918306}
   m_LocalPosition: {x: 10.648773, y: 23.803091, z: -26.530313}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
