@@ -6,12 +6,10 @@ public class MovementState_B : State_B
 
     public override void Enter()
     {
-        Debug.Log("MovementState Enter");
     }
 
     public override void Exit()
     {
-        Debug.Log("MovementState Exit");
     }
     public override void ContinuousAction()
     {
@@ -30,8 +28,6 @@ public class MovementState_B : State_B
             boss.animator.SetFloat("speed", 0);
         }
         
-        
-
         if (move.sqrMagnitude > 0.001f)
         {
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);

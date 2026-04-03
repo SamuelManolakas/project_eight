@@ -7,14 +7,11 @@ public class SpawnState_B : State_B
     
     public override void Enter()
     {
-        Debug.Log("SpawnState Enter");
-        
         boss.StartCoroutine(Wait());
     }
 
     public override void Exit()
     {
-        Debug.Log("SpawnState Exit");
     }
     
     private IEnumerator Wait()

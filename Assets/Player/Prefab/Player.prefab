@@ -1159,14 +1159,12 @@ GameObject:
   m_Component:
   - component: {fileID: 820807651429821145}
   - component: {fileID: 629659950324464260}
-  - component: {fileID: 3342748956598431269}
-  - component: {fileID: 8475262763304284367}
-  - component: {fileID: 6964912271197349561}
-  - component: {fileID: 2059343138943505529}
-  - component: {fileID: 3017893284361474456}
   - component: {fileID: 8396076650478503581}
-  - component: {fileID: 191098058858177352}
+  - component: {fileID: 3342748956598431269}
+  - component: {fileID: 2059343138943505529}
   - component: {fileID: 2722297990731148367}
+  - component: {fileID: 3017893284361474456}
+  - component: {fileID: 191098058858177352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1216,6 +1214,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8396076650478503581
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &3342748956598431269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,47 +1266,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8475262763304284367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e1e008b881aa1948b51caab3c799207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  m_movementReference: {fileID: -1680190386980627800, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  m_smoothTime: 0.1
---- !u!114 &6964912271197349561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73557bf3ab14e3249ad566112d0471ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  m_playerInput: {fileID: 8475262763304284367}
-  m_agentMover: {fileID: 0}
-  m_interactionDetector: {fileID: 6711439868172442985}
-  m_animator: {fileID: 2176307596309061044}
-  m_animationEvents: {fileID: 7568813376646770772}
-  _greatSwordModel: {fileID: 8913009396241726531}
-  m_pickAxeModel: {fileID: 0}
-  m_woodModel: {fileID: 0}
-  m_stoneModel: {fileID: 0}
-  cameraTransform: {fileID: 0}
-  speed: 5
-  jumpHeight: 2
-  gravity: -9.8
 --- !u!114 &2059343138943505529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1312,31 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &2722297990731148367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd214e2324762498ad444af50b780f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 100
+  currentHealth: 0
+  speed: 5
+  rigidbody: {fileID: 8396076650478503581}
+  animator: {fileID: 2176307596309061044}
+  m_animationEvents: {fileID: 7568813376646770772}
+  m_interactionDetector: {fileID: 6711439868172442985}
+  _greatSwordModel: {fileID: 8913009396241726531}
+  cameraTransform: {fileID: 0}
+  controller: {fileID: 0}
+  moveInput: {x: 0, y: 0}
+  stateMachine: {fileID: 0}
 --- !u!114 &3017893284361474456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,33 +1351,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   m_camera: {fileID: 0}
---- !u!54 &8396076650478503581
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1396,8 +1378,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6964912271197349561}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -1419,18 +1401,6 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &2722297990731148367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbfd214e2324762498ad444af50b780f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5208269392553450837
 GameObject:
   m_ObjectHideFlags: 0
