@@ -1324,6 +1324,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   speed: 5
+  sprintSpeed: 8
   jumpHeight: 2
   gravity: -15
   animator: {fileID: 2176307596309061044}
@@ -1438,6 +1439,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9be48847-8575-48a9-8829-937902628c74
     m_ActionName: 'Gameplay/Dodge[/Keyboard/ctrl]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d6c09574-d5f9-40c9-b656-a62bfcee16a9
+    m_ActionName: 'Gameplay/Sprint[/Keyboard/shift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

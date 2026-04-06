@@ -4,14 +4,15 @@ public class MovementState : State
 {
     public MovementState(PlayerBehaviour player, State parent) : base(player , parent){}
 
+    private float _initialSpeed;
     public override void Enter()
     {
-        
+        _initialSpeed = player.speed;
     }
 
     public override void Exit()
     {
-        
+        player.speed = _initialSpeed;
     }
 
     public override void ContinuousAction()
@@ -54,5 +55,10 @@ public class MovementState : State
     public override void OnDodge()
     {
         player.stateMachine.Transit(player.dodgeState);
+    }
+
+    public override void OnSprint()
+    {
+        player.speed = player.sprintSpeed;
     }
 }

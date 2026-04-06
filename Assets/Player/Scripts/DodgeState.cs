@@ -23,6 +23,11 @@ public class DodgeState : State
         
     }
 
+    public override void GetHit(int damage)
+    {
+        
+    }
+
     public override void ContinuousAction()
     {
         player.controller.Move(_dodgeDirection * ((player.speed * 5 )* Time.deltaTime));
@@ -30,7 +35,7 @@ public class DodgeState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         player.stateMachine.Transit(player.idleState);
     }
 }

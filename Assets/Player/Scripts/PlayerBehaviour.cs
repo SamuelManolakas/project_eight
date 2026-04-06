@@ -9,6 +9,7 @@ public class PlayerBehaviour : NetworkBehaviour
     [HideInInspector] 
     public int currentHealth;
     public float speed;
+    public float sprintSpeed;
     public float jumpHeight;
     public float gravity;
     
@@ -92,6 +93,11 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             stateMachine.currentState.OnJump();   
         }
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnSprint();
     }
 
     private void Update()

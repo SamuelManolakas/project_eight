@@ -20,4 +20,5 @@ public abstract class State
     public virtual void OnMove(){}
     public virtual void OnJump(){}
     public virtual void OnDodge(){}
+    public virtual void OnSprint(){}
 }

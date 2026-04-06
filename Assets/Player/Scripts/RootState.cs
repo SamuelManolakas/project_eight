@@ -10,4 +10,5 @@ public class RootState : State{
     public override void OnMove(){}
     public override void OnJump(){}
     public override void OnDodge(){}
+    public override void OnSprint(){}
 }
