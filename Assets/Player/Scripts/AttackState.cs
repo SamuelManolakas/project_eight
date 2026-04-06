@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpawnState : State
+public class AttackState : State
 {
-    public SpawnState(PlayerBehaviour player, State parent) : base(player , parent){}
+    public AttackState(PlayerBehaviour player, State parent) : base(player , parent){}
 
     public override void Enter()
     {
-        
+        player.animator.SetTrigger("attack");
+
         player.StartCoroutine(Wait());
     }
 
@@ -18,7 +19,7 @@ public class SpawnState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.6f);
         player.stateMachine.Transit(player.idleState);
     }
 }

@@ -73,8 +73,8 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.ConnectedClients[clientID].PlayerObject != null)
             return;
-        GameObject player = Instantiate(m_playerPrefab);
-        GameObject enemy = Instantiate(m_enemyPrefab);
+        GameObject player = Instantiate(m_playerPrefab, transform);
+        GameObject enemy = Instantiate(m_enemyPrefab, transform);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
         enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
     }

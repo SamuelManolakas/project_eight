@@ -9,9 +9,10 @@ public class PlayerBehaviour : NetworkBehaviour
     [HideInInspector] 
     public int currentHealth;
     public float speed;
+    public float jumpHeight;
+    public float gravity;
     
     [Header("Components")]
-    public Rigidbody rigidbody;
     public Animator animator;
     [SerializeField]
     private AnimationEvents m_animationEvents;
@@ -25,6 +26,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public CharacterController controller;
     [HideInInspector] 
     public Vector2 moveInput;
+    [HideInInspector] 
+    public Vector3 velocity;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -38,6 +41,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public SpawnState spawnState = null;
     public IdleState idleState = null;
     public MovementState movementState = null;
+    public DodgeState dodgeState = null;
+    public JumpState jumpState = null;
+    public AttackState attackState = null;
+    public JumpAttackState jumpAttackState = null;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -46,6 +53,10 @@ public class PlayerBehaviour : NetworkBehaviour
         spawnState = new SpawnState(this, rootState);
         idleState = new IdleState(this, aliveState);
         movementState = new MovementState(this, aliveState);
+        dodgeState = new DodgeState(this, aliveState);
+        jumpState = new JumpState(this, aliveState);
+        attackState = new AttackState(this, aliveState);
+        jumpAttackState = new JumpAttackState(this, attackState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -62,7 +73,25 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        Debug.Log(moveInput);
+        stateMachine.currentState.OnMove();
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnDodge();
+    }
+    
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnAttack();
+    }
+    
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && controller.isGrounded)
+        {
+            stateMachine.currentState.OnJump();   
+        }
     }
 
     private void Update()
@@ -71,6 +100,9 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
+        
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
         
         ContinuousAction();
     }

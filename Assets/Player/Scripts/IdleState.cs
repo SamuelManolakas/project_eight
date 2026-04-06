@@ -6,12 +6,12 @@ public class IdleState : State
 
     public override void Enter()
     {
-        Debug.Log("Entered IdleState");
+      
     }
 
     public override void Exit()
     {
-        Debug.Log("Exit IdleState");
+        
     }
 
     public override void ContinuousAction()
@@ -20,5 +20,20 @@ public class IdleState : State
         {
             player.stateMachine.Transit(player.movementState);
         }
+    }
+
+    public override void OnAttack()
+    {
+        player.stateMachine.Transit(player.attackState);
+    }
+
+    public override void OnJump()
+    {
+        player.stateMachine.Transit(player.jumpState);
+    }
+
+    public override void OnDodge()
+    {
+        player.stateMachine.Transit(player.dodgeState);
     }
 }

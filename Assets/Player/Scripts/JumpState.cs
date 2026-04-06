@@ -1,19 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
-public class MovementState : State
+public class JumpState : State
 {
-    public MovementState(PlayerBehaviour player, State parent) : base(player , parent){}
+    public JumpState(PlayerBehaviour player, State parent) : base(player, parent){}
 
     public override void Enter()
     {
-        
+        player.velocity.y = Mathf.Sqrt(player.jumpHeight * -2f * player.gravity);
     }
-
     public override void Exit()
     {
         
     }
-
+    
     public override void ContinuousAction()
     {
         Vector3 camForward = player.cameraTransform.forward;
@@ -35,7 +35,8 @@ public class MovementState : State
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
         }
-        else
+
+        if (player.controller.isGrounded)
         {
             player.stateMachine.Transit(player.idleState);
         }
@@ -43,16 +44,6 @@ public class MovementState : State
 
     public override void OnAttack()
     {
-        player.stateMachine.Transit(player.attackState);
-    }
-
-    public override void OnJump()
-    {
-        player.stateMachine.Transit(player.jumpState);
-    }
-    
-    public override void OnDodge()
-    {
-        player.stateMachine.Transit(player.dodgeState);
+        player.stateMachine.Transit(player.jumpAttackState);
     }
 }

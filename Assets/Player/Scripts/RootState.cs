@@ -6,4 +6,8 @@ public class RootState : State{
     public override void Exit(){}
     public override void GetHit(int damage){}
     public override void ContinuousAction(){}
+    public override void OnAttack(){}
+    public override void OnMove(){}
+    public override void OnJump(){}
+    public override void OnDodge(){}
 }
