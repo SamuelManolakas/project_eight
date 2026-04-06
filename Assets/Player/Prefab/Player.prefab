@@ -1324,9 +1324,10 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   speed: 5
-  sprintSpeed: 15
+  sprintSpeed: 8
   jumpHeight: 2
   gravity: -15
+  dodgeDistance: 3
   animator: {fileID: 2176307596309061044}
   m_animationEvents: {fileID: 7568813376646770772}
   m_interactionDetector: {fileID: 6711439868172442985}
