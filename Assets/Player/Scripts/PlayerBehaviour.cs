@@ -12,6 +12,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public float sprintSpeed;
     public float jumpHeight;
     public float gravity;
+    public float dodgeDistance;
     
     [Header("Components")]
     public Animator animator;
@@ -29,6 +30,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public Vector2 moveInput;
     [HideInInspector] 
     public Vector3 velocity;
+    [HideInInspector] 
+    public float initialSpeed;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -64,6 +67,7 @@ public class PlayerBehaviour : NetworkBehaviour
         
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
+        initialSpeed = speed;
     }
 
     private void Start()

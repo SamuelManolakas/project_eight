@@ -16,9 +16,13 @@ public class IdleState : State
 
     public override void ContinuousAction()
     {
-        if (player.moveInput.sqrMagnitude > 0.001f)
+        if (player.moveInput.sqrMagnitude > 0.01f)
         {
             player.stateMachine.Transit(player.movementState);
+        }
+        else if (player.moveInput.sqrMagnitude < 0.01f)
+        {
+            player.speed = player.initialSpeed;
         }
     }
 

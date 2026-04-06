@@ -15,10 +15,9 @@ public abstract class State
     public virtual void Exit(){}
     public virtual void GetHit(int damage){parent.GetHit(damage);}
     public virtual void ContinuousAction(){parent.ContinuousAction();}
-    
-    public virtual void OnAttack(){}
-    public virtual void OnMove(){}
-    public virtual void OnJump(){}
-    public virtual void OnDodge(){}
-    public virtual void OnSprint(){}
+    public virtual void OnAttack(){parent.OnAttack();}
+    public virtual void OnMove(){parent.OnMove();}
+    public virtual void OnJump(){parent.OnJump();}
+    public virtual void OnDodge(){parent.OnDodge();}
+    public virtual void OnSprint(){parent.OnSprint();}
 }

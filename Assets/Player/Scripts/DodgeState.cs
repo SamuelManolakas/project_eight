@@ -30,7 +30,7 @@ public class DodgeState : State
 
     public override void ContinuousAction()
     {
-        player.controller.Move(_dodgeDirection * ((player.speed * 5 )* Time.deltaTime));
+        player.controller.Move(_dodgeDirection * (player.dodgeDistance * Time.deltaTime));
     }
 
     private IEnumerator Wait()

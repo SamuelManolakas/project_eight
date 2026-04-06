@@ -1324,7 +1324,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   speed: 5
-  sprintSpeed: 8
+  sprintSpeed: 15
   jumpHeight: 2
   gravity: -15
   animator: {fileID: 2176307596309061044}
@@ -1335,6 +1335,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}
   velocity: {x: 0, y: 0, z: 0}
+  initialSpeed: 0
   stateMachine: {fileID: 0}
 --- !u!114 &3017893284361474456
 MonoBehaviour:
