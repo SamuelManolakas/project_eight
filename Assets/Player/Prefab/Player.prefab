@@ -1165,6 +1165,7 @@ GameObject:
   - component: {fileID: 2722297990731148367}
   - component: {fileID: 3017893284361474456}
   - component: {fileID: 191098058858177352}
+  - component: {fileID: 3908174808016753210}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1457,11 +1458,50 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d6c09574-d5f9-40c9-b656-a62bfcee16a9
     m_ActionName: 'Gameplay/Sprint[/Keyboard/shift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3908174808016753210}
+        m_TargetAssemblyTypeName: TargetLockHandler, Assembly-CSharp
+        m_MethodName: OnTargetLocked
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cce10d21-5e1e-45c7-ba68-d00ccbd20007
+    m_ActionName: 'Gameplay/TargetLock[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3908174808016753210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a160db02177fddf478ae1e99779f480c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2722297990731148367}
+  animator: {fileID: 0}
+  activeTarget: 0
+  enemyDetectionRange: 5
+  nearbyTargets: []
+  currentTarget: {fileID: 0}
+  freeLookCamera: {fileID: 0}
+  targetLockCamera: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &5208269392553450837
 GameObject:
   m_ObjectHideFlags: 0
