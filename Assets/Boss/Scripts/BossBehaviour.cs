@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -56,6 +57,7 @@ public class BossBehaviour : NetworkBehaviour
         base.OnNetworkSpawn();
         
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
+        GameObject.FindWithTag("TargetLockCamera").GetComponent<CinemachineCamera>().LookAt = transform;
     }
     
     public override void OnNetworkDespawn()

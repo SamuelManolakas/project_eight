@@ -1165,7 +1165,7 @@ GameObject:
   - component: {fileID: 2722297990731148367}
   - component: {fileID: 3017893284361474456}
   - component: {fileID: 191098058858177352}
-  - component: {fileID: 3908174808016753210}
+  - component: {fileID: 3917236963508724287}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1346,7 +1346,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42c65efd2707bd4478d87a654977b342, type: 3}
   m_Name: 
@@ -1460,9 +1460,9 @@ MonoBehaviour:
     m_ActionName: 'Gameplay/Sprint[/Keyboard/shift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3908174808016753210}
-        m_TargetAssemblyTypeName: TargetLockHandler, Assembly-CSharp
-        m_MethodName: OnTargetLocked
+      - m_Target: {fileID: 3917236963508724287}
+        m_TargetAssemblyTypeName: TargetLockHandler2, Assembly-CSharp
+        m_MethodName: OnTargetLock
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &3908174808016753210
+--- !u!114 &3917236963508724287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1488,20 +1488,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5125210286697788315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a160db02177fddf478ae1e99779f480c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ca4314d9aa8b94459a60eacce4703eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 2722297990731148367}
   animator: {fileID: 0}
-  activeTarget: 0
   enemyDetectionRange: 5
-  nearbyTargets: []
   currentTarget: {fileID: 0}
   freeLookCamera: {fileID: 0}
   targetLockCamera: {fileID: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &5208269392553450837
 GameObject:
   m_ObjectHideFlags: 0

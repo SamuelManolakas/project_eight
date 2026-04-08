@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using Unity.Collections;
+using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TargetLockHandler : MonoBehaviour
+public class TargetLockHandler : NetworkBehaviour
 {
     [Header("ScriptReferences")] [SerializeField]
     private PlayerBehaviour player;
@@ -14,12 +15,14 @@ public class TargetLockHandler : MonoBehaviour
     //public TargetMe targetMe;
     [SerializeField] private Animator animator;
 
-    [Header("Settings")] public bool activeTarget;
+    [Header("Settings")] 
+    public bool activeTarget;
     [SerializeField] [Range(5, 50)] private float enemyDetectionRange;
     [ReadOnly] [SerializeField] private List<Transform> nearbyTargets;
     [SerializeField] private Transform currentTarget;
 
-    [Header("Cameras")] [SerializeField] private GameObject freeLookCamera;
+    [Header("Cameras")] 
+    [SerializeField] private GameObject freeLookCamera;
     [SerializeField] private GameObject targetLockCamera;
 
     [SerializeField] private LayerMask enemyLayer;
@@ -28,12 +31,9 @@ public class TargetLockHandler : MonoBehaviour
 
     private void Start()
     {
+        animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
         SwitchCams();
         //targetMe.graphics.SetActive(false);
-        
-        freeLookCamera = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        targetLockCamera = GameObject.FindGameObjectWithTag("TargetLockCamera");
-        animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();
     }
 
     private float switchLockCooldownTime = 0.5f;
@@ -42,10 +42,8 @@ public class TargetLockHandler : MonoBehaviour
     private bool shouldSwitch;
     public void OnTargetLocked(InputAction.CallbackContext context)
     {
-        freeLookCamera = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        targetLockCamera = GameObject.FindGameObjectWithTag("TargetLockCamera");
-        animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();
-        
+        animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
+        targetLockCamera.GetComponent<CinemachineCamera>().LookAt = currentTarget;
         TargetLock(!activeTarget);
         //SwitchCams();
         if (shouldSwitch)
@@ -59,8 +57,23 @@ public class TargetLockHandler : MonoBehaviour
             shouldSwitch = false;
         }
     }
+
+    public override void OnNetworkSpawn()
+    {
+        freeLookCamera = GameObject.FindGameObjectWithTag("FreeLookCamera");
+        freeLookCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
+        
+        targetLockCamera = GameObject.FindGameObjectWithTag("TargetLockCamera");
+        targetLockCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
+        targetLockCamera.GetComponent<CinemachineCamera>().LookAt = currentTarget.transform;
+        
+        animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
+        base.OnNetworkSpawn();
+    }
+
     private void Update()
     {
+        
     }
 
     private void FixedUpdate()
