@@ -7,7 +7,10 @@ public class AttackState : State
 
     public override void Enter()
     {
-        player.animator.SetTrigger("attack");
+        if (player.IsOwner)
+        {
+            player.animator.SetTrigger("attack");
+        }
 
         player.StartCoroutine(Wait());
     }

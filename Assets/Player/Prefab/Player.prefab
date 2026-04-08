@@ -1163,7 +1163,6 @@ GameObject:
   - component: {fileID: 3342748956598431269}
   - component: {fileID: 2059343138943505529}
   - component: {fileID: 2722297990731148367}
-  - component: {fileID: 3017893284361474456}
   - component: {fileID: 191098058858177352}
   - component: {fileID: 3917236963508724287}
   m_Layer: 0
@@ -1339,20 +1338,6 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   initialSpeed: 0
   stateMachine: {fileID: 0}
---- !u!114 &3017893284361474456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42c65efd2707bd4478d87a654977b342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  m_camera: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0
