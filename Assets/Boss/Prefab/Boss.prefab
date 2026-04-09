@@ -1997,8 +1997,8 @@ GameObject:
   - component: {fileID: 8598183757852200340}
   - component: {fileID: 1563882745673343199}
   - component: {fileID: 8006838744608920341}
-  - component: {fileID: 6989152216669118413}
   - component: {fileID: 8151085552312745090}
+  - component: {fileID: 6989152216669118413}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
@@ -2096,28 +2096,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6989152216669118413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8496390614014114605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb7865d636c17274aad53e0cea80a990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
-  currentHealth: 0
-  speed: 3
-  animator: {fileID: 4450842917743366154}
-  m_animationEvents: {fileID: 5254673446890202819}
-  rigidbody: {fileID: 0}
-  player: {fileID: 0}
-  stateMachine: {fileID: 0}
-  controller: {fileID: 0}
 --- !u!114 &8151085552312745090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,6 +2142,31 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &6989152216669118413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496390614014114605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7865d636c17274aad53e0cea80a990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  players: []
+  currentTarget: {fileID: 0}
+  maxHealth: 100
+  currentHealth: 0
+  speed: 3
+  gravity: -15
+  animator: {fileID: 4450842917743366154}
+  m_animationEvents: {fileID: 5254673446890202819}
+  rigidbody: {fileID: 0}
+  stateMachine: {fileID: 0}
+  controller: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &8500066226898985916
 GameObject:
   m_ObjectHideFlags: 0

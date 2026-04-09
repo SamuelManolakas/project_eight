@@ -74,9 +74,10 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.ConnectedClients[clientID].PlayerObject != null)
             return;
         GameObject player = Instantiate(m_playerPrefab, transform);
-        GameObject enemy = Instantiate(m_enemyPrefab, transform);
+        //GameObject enemy = Instantiate(m_enemyPrefab, transform);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
-        enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
+        GameObject.FindGameObjectWithTag("Enemy").GetComponent<BossBehaviour>().players.Add(player.GetComponent<PlayerBehaviour>());
+        //enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
     }
 
     public override void OnNetworkDespawn()

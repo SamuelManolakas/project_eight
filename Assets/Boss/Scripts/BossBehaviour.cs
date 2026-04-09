@@ -3,12 +3,13 @@ using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BossBehaviour : NetworkBehaviour
+public class BossBehaviour : Enemy
 {
     [Header("Variables")]
     public int maxHealth;
     [HideInInspector] public int currentHealth;
     public float speed;
+    public float gravity;
     
     [Header("Components")]
     public Animator animator;
@@ -17,11 +18,11 @@ public class BossBehaviour : NetworkBehaviour
     [HideInInspector]
     public Rigidbody rigidbody;
     [HideInInspector]
-    public PlayerBehaviour player;
-    [HideInInspector]
     public StateMachine_B stateMachine = null;
     [HideInInspector]
     public CharacterController controller;
+    [HideInInspector] 
+    public Vector3 velocity;
     
     public RootState_B rootState = null;
     public AliveState_B aliveState = null;
@@ -30,6 +31,7 @@ public class BossBehaviour : NetworkBehaviour
     public Phase1State phase1State = null;
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
+    public AttackState_B attackState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -39,6 +41,7 @@ public class BossBehaviour : NetworkBehaviour
         phase1State = new Phase1State(this, aliveState);
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
+        attackState = new AttackState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
@@ -51,23 +54,36 @@ public class BossBehaviour : NetworkBehaviour
     {
         currentHealth = maxHealth;
     }
-    
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
-        GameObject.FindWithTag("TargetLockCamera").GetComponent<CinemachineCamera>().LookAt = transform;
-    }
-    
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-    }
 
+    private float _testTimer;
     private void Update()
     {
         ContinuousAction();
+        
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+        
+        _testTimer += Time.deltaTime;
+        if (_testTimer > 10f)
+        {
+            _testTimer = 0f;
+            SwitchTarget();
+        }
+    }
+
+    private void SwitchTarget()
+    {
+        if (players.Count > 0)
+        {
+            if (currentTarget == players[0] && players.Count > 1)
+            {
+                currentTarget = players[1];
+            }
+            else
+            {
+                currentTarget = players[0];
+            }
+        }
     }
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
