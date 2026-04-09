@@ -939,6 +939,7 @@ GameObject:
   - component: {fileID: 8684229780745244348}
   - component: {fileID: 6719605035254183088}
   - component: {fileID: 3008129386856971160}
+  - component: {fileID: 3528476751885557737}
   m_Layer: 0
   m_Name: Human_Greatsword
   m_TagString: Untagged
@@ -1014,6 +1015,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3528476751885557737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4482168442286844455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8eed31e82d01c40ac244b6f1b56d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!1 &4935078600148079338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,6 +2013,7 @@ GameObject:
   - component: {fileID: 8006838744608920341}
   - component: {fileID: 8151085552312745090}
   - component: {fileID: 6989152216669118413}
+  - component: {fileID: 5942188228963186110}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
@@ -2163,10 +2178,27 @@ MonoBehaviour:
   gravity: -15
   animator: {fileID: 4450842917743366154}
   m_animationEvents: {fileID: 5254673446890202819}
+  greatSwordModel: {fileID: 4482168442286844455}
   rigidbody: {fileID: 0}
   stateMachine: {fileID: 0}
   controller: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
+  hitBox: {fileID: 0}
+  hurtBox: {fileID: 0}
+--- !u!114 &5942188228963186110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496390614014114605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3fc882257e2ed4289a605fea8da375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  boss: {fileID: 6989152216669118413}
 --- !u!1 &8500066226898985916
 GameObject:
   m_ObjectHideFlags: 0

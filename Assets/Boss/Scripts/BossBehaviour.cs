@@ -7,13 +7,14 @@ public class BossBehaviour : Enemy
 {
     [Header("Variables")]
     public int maxHealth;
-    [HideInInspector] public int currentHealth;
+    public NetworkVariable<int> currentHealth;
     public float speed;
     public float gravity;
     
     [Header("Components")]
     public Animator animator;
     public AnimationEvents m_animationEvents;
+    public GameObject greatSwordModel;
     
     [HideInInspector]
     public Rigidbody rigidbody;
@@ -23,6 +24,10 @@ public class BossBehaviour : Enemy
     public CharacterController controller;
     [HideInInspector] 
     public Vector3 velocity;
+    [HideInInspector] 
+    public HitBox hitBox;
+    [HideInInspector] 
+    public HurtBox hurtBox;
     
     public RootState_B rootState = null;
     public AliveState_B aliveState = null;
@@ -52,7 +57,9 @@ public class BossBehaviour : Enemy
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth.Value = maxHealth;
+        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hurtBox = GetComponent<HurtBox>();
     }
 
     private float _testTimer;

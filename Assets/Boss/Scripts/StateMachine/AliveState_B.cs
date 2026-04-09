@@ -7,14 +7,16 @@ public class AliveState_B : State_B
     public override void Exit(){}
     public override void GetHit(int damage)
     {
-        boss.currentHealth -= damage;
+        boss.currentHealth.Value -= damage;
+        
+        Debug.Log(boss.currentHealth.Value);
 
-        if (boss.currentHealth <= boss.maxHealth / 2)
+        if (boss.currentHealth.Value <= boss.maxHealth / 2)
         {
             boss.stateMachine.Transit(boss.phase2State);
         }
 
-        if (boss.currentHealth <= 0)
+        if (boss.currentHealth.Value <= 0)
         {
             boss.stateMachine.Transit(boss.deadState);
         }

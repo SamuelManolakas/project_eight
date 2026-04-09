@@ -7,22 +7,30 @@ public class AttackState : State
 
     public override void Enter()
     {
-        if (player.IsOwner)
+        if (player.IsLocalPlayer)
         {
             player.animator.SetTrigger("attack");
         }
 
-        player.StartCoroutine(Wait());
+        player.hitBox.damage = player.damage;
+        player.StartCoroutine(HitBoxActivation());
     }
 
     public override void Exit()
     {
-        
+        player.greatSwordModel.GetComponent<Collider>().enabled = false;
+    }
+
+    private IEnumerator HitBoxActivation()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.greatSwordModel.GetComponent<Collider>().enabled = true;
+        player.StartCoroutine(Wait());
     }
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(1.2f);
         player.stateMachine.Transit(player.idleState);
     }
 }

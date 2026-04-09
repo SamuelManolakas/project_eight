@@ -7,12 +7,15 @@ public class PlayerBehaviour : NetworkBehaviour
     [Header("Variables")]
     public int maxHealth = 100;
     [HideInInspector] 
-    public int currentHealth;
+    public NetworkVariable<int> currentHealth;
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;
     public float gravity;
     public float dodgeDistance;
+    public int damage;
+    
+    public NetworkVariable<int> health;
     
     [Header("Components")]
     public Animator animator;
@@ -20,8 +23,8 @@ public class PlayerBehaviour : NetworkBehaviour
     private AnimationEvents m_animationEvents;
     [SerializeField]
     private InteractionDetector m_interactionDetector;
-    [SerializeField]
-    private GameObject _greatSwordModel;
+    public GameObject greatSwordModel;
+    
     [HideInInspector] 
     public Transform cameraTransform;
     [HideInInspector] 
@@ -32,6 +35,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public Vector3 velocity;
     [HideInInspector] 
     public float initialSpeed;
+    [HideInInspector] 
+    public HitBox hitBox;
+    [HideInInspector] 
+    public HurtBox hurtBox;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -72,7 +79,9 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth.Value = maxHealth;
+        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hurtBox = GetComponent<HurtBox>();
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -168,7 +177,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
     {
-        _greatSwordModel.SetActive(newValue == ObjectType.Axe);
+        greatSwordModel.SetActive(newValue == ObjectType.Axe);
     }
     
     private void HandleAnimationDone()
