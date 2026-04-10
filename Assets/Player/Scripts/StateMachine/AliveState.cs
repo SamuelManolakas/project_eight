@@ -5,5 +5,10 @@ public class AliveState : State
     public AliveState(PlayerBehaviour player, State parent) : base(player , parent){}
     public override void Enter(){}
     public override void Exit(){}
-    public override void GetHit(int damage){}
+
+    public override void GetHit(int damage)
+    {
+        player.currentHealth.Value -= damage;
+        player.slider.value = player.currentHealth.Value;
+    }
 }

@@ -11,6 +11,7 @@ public class BossBehaviour : Enemy
     public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
         NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
+    public int damage;
     public float gravity;
     
     [Header("Components")]
@@ -74,6 +75,11 @@ public class BossBehaviour : Enemy
         currentHealth.OnValueChanged += OnHealthChanged;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        currentHealth.OnValueChanged -= OnHealthChanged;
+    }
+
     private void OnHealthChanged(int previousValue, int newValue)
     {
         slider.value = newValue;
@@ -94,13 +100,11 @@ public class BossBehaviour : Enemy
             SwitchTarget();
         }
     }
-
-    //[ServerRpc(RequireOwnership = false)]
+    
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void GetHitRpc(int damage)
     {
         stateMachine.currentState.GetHit(damage);
-        //currentHealth.Value -= damage;
     }
 
     private void SwitchTarget()

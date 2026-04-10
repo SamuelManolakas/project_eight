@@ -9,6 +9,7 @@ TagManager:
   - TargetLockCamera
   - CameraAnimator
   - Enemy
+  - PlayerUI
   layers:
   - Default
   - TransparentFX

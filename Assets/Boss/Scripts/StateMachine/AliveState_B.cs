@@ -10,8 +10,6 @@ public class AliveState_B : State_B
     {
         boss.currentHealth.Value -= damage;
         boss.slider.value = boss.currentHealth.Value;
-        
-        Debug.Log(boss.currentHealth.Value);
 
         if (boss.currentHealth.Value <= boss.maxHealth / 2)
         {

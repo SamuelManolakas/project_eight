@@ -1,6 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour
 {
@@ -25,6 +26,7 @@ public class PlayerBehaviour : NetworkBehaviour
     [SerializeField]
     private InteractionDetector m_interactionDetector;
     public GameObject greatSwordModel;
+    public Slider slider;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -129,6 +131,12 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void GetHitRpc(int damage)
+    {
+        stateMachine.currentState.GetHit(damage);
+    }
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -141,6 +149,10 @@ public class PlayerBehaviour : NetworkBehaviour
             m_animationEvents.OnAnimationDone += HandleAnimationDone;
             m_animationEvents.OnChop += HandleChopAction;
         }
+        
+        slider = GameObject.FindGameObjectWithTag("PlayerUI").GetComponent<Slider>();
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
     }
     
     private void HandleChopAction()

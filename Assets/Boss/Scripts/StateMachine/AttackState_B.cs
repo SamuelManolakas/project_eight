@@ -7,30 +7,23 @@ public class AttackState_B : State_B
 
     public override void Enter()
     {
-        float random = UnityEngine.Random.Range(0,3);
-        if (random == 0)
-        {
-            boss.animator.SetTrigger("attack");
-        }
-        else
-        {
-            boss.animator.SetFloat("speed", 1);
-        }
-        
-        boss.StartCoroutine(Wait());
+        boss.animator.SetTrigger("attack");
+        boss.hitBox.damage = boss.damage;
+        boss.StartCoroutine(HitBoxActivation());
     }
 
     public override void Exit()
     {
         boss.animator.SetFloat("speed", 0);
-        base.Exit();
+        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
-    public override void ContinuousAction()
+    private IEnumerator HitBoxActivation()
     {
-        base.ContinuousAction();
+        yield return new WaitForSeconds(0.4f);
+        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        boss.StartCoroutine(Wait());
     }
-
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(1.6f);
