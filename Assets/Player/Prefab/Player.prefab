@@ -1323,13 +1323,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
-  currentHealth: 0
+  currentHealth:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   speed: 5
-  sprintSpeed: 8
+  sprintSpeed: 12
   jumpHeight: 2
   gravity: -15
   dodgeDistance: 3
   damage: 3
+  health:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   animator: {fileID: 2176307596309061044}
   m_animationEvents: {fileID: 7568813376646770772}
   m_interactionDetector: {fileID: 6711439868172442985}
@@ -1499,6 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3fc882257e2ed4289a605fea8da375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 2722297990731148367}
   boss: {fileID: 0}
 --- !u!1 &5208269392553450837

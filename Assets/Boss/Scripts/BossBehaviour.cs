@@ -2,6 +2,7 @@ using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBehaviour : Enemy
 {
@@ -16,6 +17,7 @@ public class BossBehaviour : Enemy
     public Animator animator;
     public AnimationEvents m_animationEvents;
     public GameObject greatSwordModel;
+    public Slider slider;
     
     [HideInInspector]
     public Rigidbody rigidbody;
@@ -59,8 +61,22 @@ public class BossBehaviour : Enemy
     private void Start()
     {
         currentHealth.Value = maxHealth;
+        
         hitBox = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
+
+        currentHealth.OnValueChanged += OnHealthChanged;
+    }
+
+    private void OnHealthChanged(int previousValue, int newValue)
+    {
+        slider.value = newValue;
     }
 
     private float _testTimer;
@@ -83,8 +99,8 @@ public class BossBehaviour : Enemy
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void GetHitRpc(int damage)
     {
-        //stateMachine.currentState.GetHit(damage);
-        currentHealth.Value -= damage;
+        stateMachine.currentState.GetHit(damage);
+        //currentHealth.Value -= damage;
     }
 
     private void SwitchTarget()

@@ -9,6 +9,7 @@ public class AliveState_B : State_B
     public override void GetHit(int damage)
     {
         boss.currentHealth.Value -= damage;
+        boss.slider.value = boss.currentHealth.Value;
         
         Debug.Log(boss.currentHealth.Value);
 
