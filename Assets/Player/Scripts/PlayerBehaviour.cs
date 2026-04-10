@@ -7,7 +7,8 @@ public class PlayerBehaviour : NetworkBehaviour
     [Header("Variables")]
     public int maxHealth = 100;
     [HideInInspector] 
-    public NetworkVariable<int> currentHealth;
+    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class AliveState_B : State_B

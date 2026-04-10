@@ -14,7 +14,7 @@ public class HurtBox : NetworkBehaviour
         }
         else
         {
-            boss.stateMachine.currentState.GetHit(damage);
+            boss.GetHitRpc(damage);
         }
     }
 }

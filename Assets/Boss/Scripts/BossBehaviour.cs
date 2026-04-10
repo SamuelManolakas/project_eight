@@ -7,7 +7,8 @@ public class BossBehaviour : Enemy
 {
     [Header("Variables")]
     public int maxHealth;
-    public NetworkVariable<int> currentHealth;
+    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
     public float gravity;
     
@@ -76,6 +77,14 @@ public class BossBehaviour : Enemy
             _testTimer = 0f;
             SwitchTarget();
         }
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void GetHitRpc(int damage)
+    {
+        //stateMachine.currentState.GetHit(damage);
+        currentHealth.Value -= damage;
     }
 
     private void SwitchTarget()

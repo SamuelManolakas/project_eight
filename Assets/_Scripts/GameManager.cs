@@ -50,7 +50,7 @@ public class GameManager : NetworkBehaviour
         int points = 0;
         foreach(ResourcePallet pallet in m_pallets)
         {
-            points += pallet.StackedResoruces;
+            points += pallet.StackedResources;
         }
         if(points >= m_pallets.Count * 3)
         {

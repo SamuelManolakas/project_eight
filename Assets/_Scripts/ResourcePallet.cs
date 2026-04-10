@@ -15,7 +15,7 @@ public class ResourcePallet : NetworkBehaviour, IInteractable
     private ObjectType m_acceptedObjectType;
 
     private NetworkVariable<int> m_stackedResources = new(0);
-    public int StackedResoruces => m_stackedResources.Value;
+    public int StackedResources => m_stackedResources.Value;
     public event Action OnPalletFilled;
 
     [SerializeField] private ItemsAudio m_itemsAudio;
