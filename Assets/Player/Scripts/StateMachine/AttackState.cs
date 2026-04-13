@@ -4,16 +4,14 @@ using UnityEngine;
 public class AttackState : State
 {
     public AttackState(PlayerBehaviour player, State parent) : base(player , parent){}
-
+    
     public override void Enter()
     {
         if (player.IsLocalPlayer)
         {
-            player.animator.SetTrigger("attack");
+            player.hitBox.damage = player.damage;
+            player.StartCoroutine(Combo());
         }
-
-        player.hitBox.damage = player.damage;
-        player.StartCoroutine(HitBoxActivation());
     }
 
     public override void Exit()
@@ -21,16 +19,33 @@ public class AttackState : State
         player.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
-    private IEnumerator HitBoxActivation()
+    private IEnumerator Combo()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
+        player.attackBuffer = false;
         player.greatSwordModel.GetComponent<Collider>().enabled = true;
-        player.StartCoroutine(Wait());
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(1.2f);
-        player.stateMachine.Transit(player.idleState);
+        player.animator.Play("Combo1a");
+        yield return new WaitForSeconds(2f);
+        if (player.attackBuffer)
+        {
+            player.animator.Play("Combo1b");
+            player.attackBuffer  = false;
+            yield return new WaitForSeconds(2f);
+            if (player.attackBuffer)
+            {
+                player.animator.Play("Combo1c");
+                player.attackBuffer  = false;
+                yield return new WaitForSeconds(2f);
+                player.stateMachine.Transit(player.idleState);
+            }
+            else
+            {
+                player.stateMachine.Transit(player.idleState);
+            }
+        }
+        else
+        {
+            player.stateMachine.Transit(player.idleState);
+        }
     }
 }

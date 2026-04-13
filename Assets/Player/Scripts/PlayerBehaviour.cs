@@ -42,6 +42,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public HitBox hitBox;
     [HideInInspector] 
     public HurtBox hurtBox;
+    [HideInInspector] 
+    public bool attackBuffer;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -101,6 +103,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         stateMachine.currentState.OnAttack();
+        attackBuffer = true;
     }
     
     public void OnJump(InputAction.CallbackContext context)

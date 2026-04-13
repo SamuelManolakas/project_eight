@@ -11,7 +11,7 @@ public class MovementState : State
 
     public override void Exit()
     {
-        
+        player.animator.SetFloat("speed", 0);
     }
 
     public override void ContinuousAction()

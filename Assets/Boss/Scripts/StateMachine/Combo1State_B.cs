@@ -9,11 +9,12 @@ public class Combo1State_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.StartCoroutine(Combo());
+        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
     }
 
     public override void Exit()
     {
-        
+        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
     
     private IEnumerator Combo()
