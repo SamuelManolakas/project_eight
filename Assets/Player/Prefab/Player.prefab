@@ -2989,6 +2989,7 @@ MonoBehaviour:
   m_interactionDetector: {fileID: 6711439868172442985}
   greatSwordModel: {fileID: 8913009396241726531}
   slider: {fileID: 0}
+  hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}

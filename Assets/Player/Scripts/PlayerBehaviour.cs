@@ -26,7 +26,8 @@ public class PlayerBehaviour : NetworkBehaviour
     [SerializeField]
     private InteractionDetector m_interactionDetector;
     public GameObject greatSwordModel;
-    public Slider slider;
+    //public Slider slider;
+    public GameObject hudPrefab;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -131,9 +132,10 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    public void GetHitRpc(int damage)
+    //[Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void GetHit(int damage)
     {
+        if(!IsServer) return;
         stateMachine.currentState.GetHit(damage);
     }
     
@@ -148,13 +150,26 @@ public class PlayerBehaviour : NetworkBehaviour
             m_animationEvents.OnInteract += HandleInteractAction;
             m_animationEvents.OnAnimationDone += HandleAnimationDone;
             m_animationEvents.OnChop += HandleChopAction;
+            
+            Instantiate(hudPrefab);
         }
+
+        currentHealth.OnValueChanged += OnHealthChanged;
         
-        slider = GameObject.FindGameObjectWithTag("PlayerUI").GetComponent<Slider>();
-        slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+        //slider = GameObject.FindGameObjectWithTag("PlayerUI").GetComponent<Slider>();
+        //slider.maxValue = maxHealth;
+        //slider.value = maxHealth;
     }
-    
+
+    private void OnHealthChanged(int previousValue, int newValue)
+    {
+        if (IsOwner)
+        {
+            HUDManager.Instance.SetMaxHealth(maxHealth);
+            HUDManager.Instance.SetHealth(currentHealth.Value);
+        }
+    }
+
     private void HandleChopAction()
     {
         if(m_heldObjectType.Value is ObjectType.Axe or ObjectType.PickAxe)
@@ -279,6 +294,8 @@ public class PlayerBehaviour : NetworkBehaviour
             m_animationEvents.OnChop -= HandleChopAction;
         }
         base.OnNetworkDespawn();
+        
+        currentHealth.OnValueChanged += OnHealthChanged;
     }
     
     [Rpc(SendTo.Server)]

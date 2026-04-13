@@ -14,7 +14,6 @@ public class AttackState_B : State_B
 
     public override void Exit()
     {
-        boss.animator.SetFloat("speed", 0);
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
@@ -26,7 +25,7 @@ public class AttackState_B : State_B
     }
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(1.2f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }

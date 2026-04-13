@@ -10,7 +10,7 @@ public class HurtBox : NetworkBehaviour
     {
         if (player)
         {
-            player.GetHitRpc(damage);
+            player.GetHit(damage);
         }
         else
         {
