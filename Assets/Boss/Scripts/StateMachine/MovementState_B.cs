@@ -23,7 +23,7 @@ public class MovementState_B : State_B
         
         Vector3 finalMove = move * boss.speed;
         
-        if (Vector2.Distance(boss.transform.position, boss.currentTarget.transform.position) > 2f)
+        if (Vector2.Distance(boss.transform.position, boss.currentTarget.transform.position) > 5f)
         {
             boss.controller.Move(finalMove * Time.deltaTime);
             boss.animator.SetFloat("speed", move.magnitude);

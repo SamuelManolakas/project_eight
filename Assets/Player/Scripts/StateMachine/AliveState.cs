@@ -13,6 +13,5 @@ public class AliveState : State
             return;
         }
         player.currentHealth.Value -= damage;
-        //player.slider.value = player.currentHealth.Value;
     }
 }

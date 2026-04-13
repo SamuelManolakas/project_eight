@@ -10,8 +10,6 @@ public abstract class Enemy : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
-        //player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
-        //GameObject.FindWithTag("TargetLockCamera").GetComponent<CinemachineCamera>().LookAt = transform;
         base.OnNetworkSpawn();
     }
     

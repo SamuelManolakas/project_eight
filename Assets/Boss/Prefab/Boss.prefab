@@ -1048,10 +1048,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.14
-  m_Height: 1.22
+  m_Radius: 0.17
+  m_Height: 1.37
   m_Direction: 1
-  m_Center: {x: -0.00016484212, y: 0.98, z: 0.000000018854397}
+  m_Center: {x: -0.00016484212, y: 0.95, z: 0.000000018854397}
 --- !u!1 &4935078600148079338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,6 +1663,37 @@ Transform:
   - {fileID: 4432104834816574504}
   m_Father: {fileID: 1058332816490679211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7538627920195289002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8242477299134199959}
+  m_Layer: 0
+  m_Name: LockOnTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8242477299134199959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7538627920195289002}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.006, y: -0.486, z: 0.071}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8796926961650866662}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7603232689893720345
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,11 +2086,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8420993391195381665}
   - {fileID: 2847696183123333305}
+  - {fileID: 8242477299134199959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &8598183757852200340
@@ -2215,6 +2247,16 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   hitBox: {fileID: 0}
   hurtBox: {fileID: 0}
+  attackState:
+    boss: {fileID: 0}
+    level: 0
+  combo1State:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &5942188228963186110
 MonoBehaviour:
   m_ObjectHideFlags: 0

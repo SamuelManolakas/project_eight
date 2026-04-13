@@ -26,7 +26,6 @@ public class PlayerBehaviour : NetworkBehaviour
     [SerializeField]
     private InteractionDetector m_interactionDetector;
     public GameObject greatSwordModel;
-    //public Slider slider;
     public GameObject hudPrefab;
     
     [HideInInspector] 
@@ -132,7 +131,6 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
-    //[Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void GetHit(int damage)
     {
         if(!IsServer) return;
@@ -155,10 +153,6 @@ public class PlayerBehaviour : NetworkBehaviour
         }
 
         currentHealth.OnValueChanged += OnHealthChanged;
-        
-        //slider = GameObject.FindGameObjectWithTag("PlayerUI").GetComponent<Slider>();
-        //slider.maxValue = maxHealth;
-        //slider.value = maxHealth;
     }
 
     private void OnHealthChanged(int previousValue, int newValue)

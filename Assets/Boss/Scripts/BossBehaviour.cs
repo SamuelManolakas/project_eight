@@ -41,6 +41,7 @@ public class BossBehaviour : Enemy
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
     public AttackState_B attackState = null;
+    public Combo1State_B combo1State = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -51,6 +52,7 @@ public class BossBehaviour : Enemy
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
         attackState = new AttackState_B(this, aliveState);
+        combo1State = new Combo1State_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
@@ -93,6 +95,7 @@ public class BossBehaviour : Enemy
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         
+        // switching targets test
         _testTimer += Time.deltaTime;
         if (_testTimer > 10f)
         {

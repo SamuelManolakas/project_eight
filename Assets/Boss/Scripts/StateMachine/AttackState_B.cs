@@ -7,22 +7,16 @@ public class AttackState_B : State_B
 
     public override void Enter()
     {
-        boss.animator.SetTrigger("attack");
         boss.hitBox.damage = boss.damage;
-        boss.StartCoroutine(HitBoxActivation());
+        boss.stateMachine.Transit(boss.combo1State);
+        //boss.StartCoroutine(Wait());
     }
 
     public override void Exit()
     {
-        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        
     }
-
-    private IEnumerator HitBoxActivation()
-    {
-        yield return new WaitForSeconds(0.4f);
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
-        boss.StartCoroutine(Wait());
-    }
+    
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(1.2f);
