@@ -1,0 +1,4 @@
+If your sword reference looks pink inside of Blender, this is due to being on an older version of Blender. 
+
+
+Download the exact version of course by selecting the Blender 3.3 "Download Blender 3.3" in this downloads folder. 
