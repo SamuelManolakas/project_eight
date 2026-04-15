@@ -1,26 +1,37 @@
 using System;
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BossBehaviour : NetworkBehaviour
+public class BossBehaviour : Enemy
 {
     [Header("Variables")]
     public int maxHealth;
-    [HideInInspector] public int currentHealth;
+    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
+    public int damage;
+    public float gravity;
     
     [Header("Components")]
     public Animator animator;
     public AnimationEvents m_animationEvents;
+    public GameObject greatSwordModel;
+    public Slider slider;
     
     [HideInInspector]
     public Rigidbody rigidbody;
     [HideInInspector]
-    public PlayerBehaviour player;
-    [HideInInspector]
     public StateMachine_B stateMachine = null;
     [HideInInspector]
     public CharacterController controller;
+    [HideInInspector] 
+    public Vector3 velocity;
+    [HideInInspector] 
+    public HitBox hitBox;
+    [HideInInspector] 
+    public HurtBox hurtBox;
     
     public RootState_B rootState = null;
     public AliveState_B aliveState = null;
@@ -29,6 +40,8 @@ public class BossBehaviour : NetworkBehaviour
     public Phase1State phase1State = null;
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
+    public AttackState_B attackState = null;
+    public Combo1State_B combo1State = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -38,6 +51,8 @@ public class BossBehaviour : NetworkBehaviour
         phase1State = new Phase1State(this, aliveState);
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
+        attackState = new AttackState_B(this, aliveState);
+        combo1State = new Combo1State_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
@@ -48,24 +63,66 @@ public class BossBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-    }
-    
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
+        currentHealth.Value = maxHealth;
         
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
-    }
-    
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
+        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hurtBox = GetComponent<HurtBox>();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
+
+        currentHealth.OnValueChanged += OnHealthChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        currentHealth.OnValueChanged -= OnHealthChanged;
+    }
+
+    private void OnHealthChanged(int previousValue, int newValue)
+    {
+        slider.value = newValue;
+    }
+
+    private float _testTimer;
     private void Update()
     {
         ContinuousAction();
+        
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+        
+        // switching targets test
+        _testTimer += Time.deltaTime;
+        if (_testTimer > 10f)
+        {
+            _testTimer = 0f;
+            SwitchTarget();
+        }
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void GetHitRpc(int damage)
+    {
+        stateMachine.currentState.GetHit(damage);
+    }
+
+    private void SwitchTarget()
+    {
+        if (players.Count > 0)
+        {
+            if (currentTarget == players[0] && players.Count > 1)
+            {
+                currentTarget = players[1];
+            }
+            else
+            {
+                currentTarget = players[0];
+            }
+        }
     }
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}

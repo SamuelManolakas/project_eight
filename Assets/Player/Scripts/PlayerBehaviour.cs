@@ -1,30 +1,49 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour
 {
     [Header("Variables")]
     public int maxHealth = 100;
     [HideInInspector] 
-    public int currentHealth;
+    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
+    public float sprintSpeed;
+    public float jumpHeight;
+    public float gravity;
+    public float dodgeDistance;
+    public int damage;
+    
+    public NetworkVariable<int> health;
     
     [Header("Components")]
-    public Rigidbody rigidbody;
     public Animator animator;
     [SerializeField]
     private AnimationEvents m_animationEvents;
     [SerializeField]
     private InteractionDetector m_interactionDetector;
-    [SerializeField]
-    private GameObject _greatSwordModel;
+    public GameObject greatSwordModel;
+    public GameObject hudPrefab;
+    
     [HideInInspector] 
     public Transform cameraTransform;
     [HideInInspector] 
     public CharacterController controller;
     [HideInInspector] 
     public Vector2 moveInput;
+    [HideInInspector] 
+    public Vector3 velocity;
+    [HideInInspector] 
+    public float initialSpeed;
+    [HideInInspector] 
+    public HitBox hitBox;
+    [HideInInspector] 
+    public HurtBox hurtBox;
+    [HideInInspector] 
+    public bool attackBuffer;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -38,6 +57,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public SpawnState spawnState = null;
     public IdleState idleState = null;
     public MovementState movementState = null;
+    public DodgeState dodgeState = null;
+    public JumpState jumpState = null;
+    public AttackState attackState = null;
+    public JumpAttackState jumpAttackState = null;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -46,23 +69,54 @@ public class PlayerBehaviour : NetworkBehaviour
         spawnState = new SpawnState(this, rootState);
         idleState = new IdleState(this, aliveState);
         movementState = new MovementState(this, aliveState);
+        dodgeState = new DodgeState(this, aliveState);
+        jumpState = new JumpState(this, aliveState);
+        attackState = new AttackState(this, aliveState);
+        jumpAttackState = new JumpAttackState(this, attackState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
         
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
+        initialSpeed = speed;
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth.Value = maxHealth;
+        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hurtBox = GetComponent<HurtBox>();
     }
     
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        Debug.Log(moveInput);
+        stateMachine.currentState.OnMove();
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnDodge();
+    }
+    
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnAttack();
+        attackBuffer = true;
+    }
+    
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && controller.isGrounded)
+        {
+            stateMachine.currentState.OnJump();   
+        }
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        stateMachine.currentState.OnSprint();
     }
 
     private void Update()
@@ -72,10 +126,19 @@ public class PlayerBehaviour : NetworkBehaviour
             return;
         }
         
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+        
         ContinuousAction();
     }
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
+    
+    public void GetHit(int damage)
+    {
+        if(!IsServer) return;
+        stateMachine.currentState.GetHit(damage);
+    }
     
     public override void OnNetworkSpawn()
     {
@@ -88,9 +151,22 @@ public class PlayerBehaviour : NetworkBehaviour
             m_animationEvents.OnInteract += HandleInteractAction;
             m_animationEvents.OnAnimationDone += HandleAnimationDone;
             m_animationEvents.OnChop += HandleChopAction;
+            
+            Instantiate(hudPrefab);
+        }
+
+        currentHealth.OnValueChanged += OnHealthChanged;
+    }
+
+    private void OnHealthChanged(int previousValue, int newValue)
+    {
+        if (IsOwner)
+        {
+            HUDManager.Instance.SetMaxHealth(maxHealth);
+            HUDManager.Instance.SetHealth(currentHealth.Value);
         }
     }
-    
+
     private void HandleChopAction()
     {
         if(m_heldObjectType.Value is ObjectType.Axe or ObjectType.PickAxe)
@@ -126,7 +202,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
     {
-        _greatSwordModel.SetActive(newValue == ObjectType.Axe);
+        greatSwordModel.SetActive(newValue == ObjectType.Axe);
     }
     
     private void HandleAnimationDone()
@@ -215,6 +291,8 @@ public class PlayerBehaviour : NetworkBehaviour
             m_animationEvents.OnChop -= HandleChopAction;
         }
         base.OnNetworkDespawn();
+        
+        currentHealth.OnValueChanged += OnHealthChanged;
     }
     
     [Rpc(SendTo.Server)]

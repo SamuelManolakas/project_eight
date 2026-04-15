@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - CameraFollow
+  - FreeLookCamera
+  - TargetLockCamera
+  - CameraAnimator
+  - Enemy
+  - PlayerUI
   layers:
   - Default
   - TransparentFX
@@ -13,10 +18,10 @@ TagManager:
   - Water
   - UI
   - Interactable
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Player
+  - EnemyHitbox
+  - PlayerHitbox
   - 
   - 
   - 

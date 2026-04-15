@@ -7,13 +7,13 @@ public class SpawnState : State
 
     public override void Enter()
     {
-        Debug.Log("Entered SpawnState");
+        
         player.StartCoroutine(Wait());
     }
 
     public override void Exit()
     {
-        Debug.Log("Exit SpawnState");
+        
     }
 
     private IEnumerator Wait()
