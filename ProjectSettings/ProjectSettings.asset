@@ -924,11 +924,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 218afd75-4d1c-45e4-8fdb-8ffda2f96d4d
+  cloudProjectId: fb41b8f3-69d7-438d-a2d5-f94319aa6ae2
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Project_Eight 2026-04-23_10-43-09
-  organizationId: n3sts
+  projectName: Project_Eight
+  organizationId: samuel-manolakas
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

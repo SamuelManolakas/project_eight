@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.Cinemachine;
+using Cinemachine;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEditor;
@@ -43,7 +43,7 @@ public class TargetLockHandler : NetworkBehaviour
     public void OnTargetLocked(InputAction.CallbackContext context)
     {
         animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
-        targetLockCamera.GetComponent<CinemachineCamera>().LookAt = currentTarget;
+        targetLockCamera.GetComponent<CinemachineVirtualCamera>().LookAt = currentTarget;
         TargetLock(!activeTarget);
         //SwitchCams();
         if (shouldSwitch)
@@ -61,11 +61,11 @@ public class TargetLockHandler : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         freeLookCamera = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        freeLookCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
+        freeLookCamera.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         
         targetLockCamera = GameObject.FindGameObjectWithTag("TargetLockCamera");
-        targetLockCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
-        targetLockCamera.GetComponent<CinemachineCamera>().LookAt = currentTarget.transform;
+        targetLockCamera.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+        targetLockCamera.GetComponent<CinemachineVirtualCamera>().LookAt = currentTarget.transform;
         
         animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
         base.OnNetworkSpawn();
@@ -232,7 +232,7 @@ public class TargetLockHandler : NetworkBehaviour
 
         if (currentTarget != null)
         {
-            CinemachineGroupFraming cinemachineLockCamGroupFraming = targetLockCamera.GetComponent<CinemachineGroupFraming>();
+            CinemachineGroupComposer cinemachineLockCamGroupFraming = targetLockCamera.GetComponent<CinemachineGroupComposer>();
             //cinemachineLockCamGroupFraming.Damping = 1;
             //targetMe.SetTargetPos(currentTarget);
         }
@@ -241,26 +241,26 @@ public class TargetLockHandler : NetworkBehaviour
     private void SwitchCams()
     {
         Debug.Log("SwitchCams");
-        CinemachineInputAxisController axisControllerFreeLook =
-            freeLookCamera.GetComponent<CinemachineInputAxisController>();
-        CinemachineCamera cinemachineFreeLookCamera = freeLookCamera.GetComponent<CinemachineCamera>();
-        CinemachineCamera cinemachineLockCamera = targetLockCamera.GetComponent<CinemachineCamera>();
-        CinemachineGroupFraming cinemachineLockCameraGroupFraming = targetLockCamera.GetComponent<CinemachineGroupFraming>();
+        //CinemachineInputAxisController axisControllerFreeLook =
+        //    freeLookCamera.GetComponent<CinemachineInputAxisController>();
+        CinemachineVirtualCamera cinemachineFreeLookCamera = freeLookCamera.GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera cinemachineLockCamera = targetLockCamera.GetComponent<CinemachineVirtualCamera>();
+        CinemachineGroupComposer cinemachineLockCameraGroupFraming = targetLockCamera.GetComponent<CinemachineGroupComposer>();
 
-        if (axisControllerFreeLook != null)
-        {
-            axisControllerFreeLook.enabled = !activeTarget;
-        }
+        //if (axisControllerFreeLook != null)
+        //{
+        //    axisControllerFreeLook.enabled = !activeTarget;
+        //}
 
         if (activeTarget)
         {
-            cinemachineLockCamera.ForceCameraPosition(cinemachineFreeLookCamera.State.GetFinalPosition(), cinemachineFreeLookCamera.State.GetFinalOrientation());
+            cinemachineLockCamera.ForceCameraPosition(cinemachineFreeLookCamera.State.FinalPosition, cinemachineFreeLookCamera.State.FinalOrientation);
             animator.Play("TargetLockCamera");
         }
         else
         {
             //cinemachineLockCameraGroupFraming.Damping = 0;
-            cinemachineFreeLookCamera.ForceCameraPosition(cinemachineLockCamera.State.GetFinalPosition(), cinemachineLockCamera.State.GetFinalOrientation());
+            cinemachineFreeLookCamera.ForceCameraPosition(cinemachineLockCamera.State.FinalPosition, cinemachineLockCamera.State.FinalOrientation);
             animator.Play("FreeLookCamera");
         }
     }
@@ -272,8 +272,8 @@ public class TargetLockHandler : NetworkBehaviour
 
     public GameObject GetActiveCamera()
     {
-        if(targetLockCamera.GetComponent<CinemachineCamera>().IsLive) return targetLockCamera;
-        if(freeLookCamera.GetComponent<CinemachineCamera>().IsLive) return freeLookCamera;
+        if(targetLockCamera.GetComponent<CinemachineVirtualCamera>().enabled) return targetLockCamera;
+        if(freeLookCamera.GetComponent<CinemachineVirtualCamera>().enabled) return freeLookCamera;
         
         return null;
     }

@@ -1,4 +1,4 @@
-using Unity.Cinemachine;
+using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,10 +38,10 @@ public class TargetLockHandler2 : NetworkBehaviour
         if (IsOwner == false)
             return;
         freeLookCamera = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        freeLookCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
+        freeLookCamera.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         
         targetLockCamera = GameObject.FindGameObjectWithTag("TargetLockCamera");
-        targetLockCamera.GetComponent<CinemachineCamera>().Follow = player.transform;
+        targetLockCamera.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         
         animator = GameObject.FindGameObjectWithTag("CameraAnimator").GetComponent<Animator>();   
     }
@@ -50,20 +50,20 @@ public class TargetLockHandler2 : NetworkBehaviour
     {
         if (IsOwner && freeLookCamera != null)
         {
-            CinemachineCamera cinemachineFreeLookCamera = freeLookCamera.GetComponent<CinemachineCamera>();
-            CinemachineCamera cinemachineLockCamera = targetLockCamera.GetComponent<CinemachineCamera>();
+            CinemachineVirtualCamera cinemachineFreeLookCamera = freeLookCamera.GetComponent<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera cinemachineLockCamera = targetLockCamera.GetComponent<CinemachineVirtualCamera>();
 
             if (_shouldSwitch == 0)
             {
-                cinemachineLockCamera.ForceCameraPosition(cinemachineFreeLookCamera.State.GetFinalPosition(),
-                    cinemachineFreeLookCamera.State.GetFinalOrientation());
+                cinemachineLockCamera.ForceCameraPosition(cinemachineFreeLookCamera.State.FinalPosition,
+                    cinemachineFreeLookCamera.State.FinalOrientation);
                 animator.Play("TargetLockCamera");
                 _shouldSwitch = 1;
             }
             else if (_shouldSwitch == 1)
             {
-                cinemachineFreeLookCamera.ForceCameraPosition(cinemachineLockCamera.State.GetFinalPosition(),
-                    cinemachineLockCamera.State.GetFinalOrientation());
+                cinemachineFreeLookCamera.ForceCameraPosition(cinemachineLockCamera.State.FinalPosition,
+                    cinemachineLockCamera.State.FinalOrientation);
                 animator.Play("FreeLookCamera");
                 _shouldSwitch = 0;
             }

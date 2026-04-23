@@ -2,15 +2,26 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - CameraAnimator
+  - CameraFollow
+  - FreeLookCamera
+  - PlayerUI
+  - TargetLockCamera
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Outline
   - Water
   - UI
+  - Interactable
+  - Enemy
+  - Player
+  - EnemyHitBox
+  - PlayerHitbox
   - 
   - 
   - 
@@ -31,12 +42,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - NoShadow
   m_SortingLayers:
   - name: Default
     uniqueID: 0
@@ -50,27 +56,3 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 

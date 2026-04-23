@@ -1459,7 +1459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3429055907092015506
 Transform:
   m_ObjectHideFlags: 0
@@ -1535,14 +1535,14 @@ MonoBehaviour:
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: -797153096
-    DestinationState: -408399304
+    DestinationState: 1589861120
     TransitionDuration: 0.25
     TriggerNameHash: 1203776827
     TransitionIndex: 1
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 1725252402
-    DestinationState: -408399304
+    DestinationState: 1589861120
     TransitionDuration: 0.25
     TriggerNameHash: 1203776827
     TransitionIndex: 1
@@ -2727,8 +2727,8 @@ GameObject:
   - component: {fileID: 2059343138943505529}
   - component: {fileID: 2722297990731148367}
   - component: {fileID: 191098058858177352}
-  - component: {fileID: 3917236963508724287}
   - component: {fileID: 643189266240285211}
+  - component: {fileID: -6139133373245788428}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -2888,9 +2888,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
   currentHealth:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   speed: 5
   sprintSpeed: 12
@@ -2899,14 +2896,11 @@ MonoBehaviour:
   dodgeDistance: 3
   damage: 3
   health:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
-  animator: {fileID: 3880043672479756790}
-  m_animationEvents: {fileID: 3849310627495071829}
+  animator: {fileID: 2176307596309061044}
+  m_animationEvents: {fileID: 7568813376646770772}
   m_interactionDetector: {fileID: 6711439868172442985}
-  greatSwordModel: {fileID: 151022882020336041}
+  greatSwordModel: {fileID: 8913009396241726531}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
@@ -3024,7 +3018,7 @@ MonoBehaviour:
     m_ActionName: 'Gameplay/Sprint[/Keyboard/shift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3917236963508724287}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TargetLockHandler2, Assembly-CSharp
         m_MethodName: OnTargetLock
         m_Mode: 0
@@ -3043,25 +3037,6 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &3917236963508724287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca4314d9aa8b94459a60eacce4703eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 2722297990731148367}
-  animator: {fileID: 0}
-  enemyDetectionRange: 5
-  currentTarget: {fileID: 0}
-  freeLookCamera: {fileID: 0}
-  targetLockCamera: {fileID: 0}
 --- !u!114 &643189266240285211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3077,6 +3052,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 2722297990731148367}
   boss: {fileID: 0}
+--- !u!114 &-6139133373245788428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c65efd2707bd4478d87a654977b342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
+  ShowTopMostFoldoutHeaderGroup: 1
+  m_camera: {fileID: 0}
 --- !u!1 &5208269392553450837
 GameObject:
   m_ObjectHideFlags: 0
@@ -3725,7 +3714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2140186265654411758
 Transform:
   m_ObjectHideFlags: 0
