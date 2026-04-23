@@ -155,6 +155,9 @@ public class PlayerBehaviour : NetworkBehaviour
             Instantiate(hudPrefab);
         }
 
+        if (IsOwner == false)
+            return;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
         currentHealth.OnValueChanged += OnHealthChanged;
     }
 

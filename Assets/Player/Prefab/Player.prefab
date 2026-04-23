@@ -2728,7 +2728,6 @@ GameObject:
   - component: {fileID: 2722297990731148367}
   - component: {fileID: 191098058858177352}
   - component: {fileID: 643189266240285211}
-  - component: {fileID: -6139133373245788428}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3032,6 +3031,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: cce10d21-5e1e-45c7-ba68-d00ccbd20007
     m_ActionName: 'Gameplay/TargetLock[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CameraFollow, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eeae7ddb-2def-42d1-9b52-7ca7a08c3a99
+    m_ActionName: 'Gameplay/Look[/Mouse/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -3052,20 +3067,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 2722297990731148367}
   boss: {fileID: 0}
---- !u!114 &-6139133373245788428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42c65efd2707bd4478d87a654977b342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  ShowTopMostFoldoutHeaderGroup: 1
-  m_camera: {fileID: 0}
 --- !u!1 &5208269392553450837
 GameObject:
   m_ObjectHideFlags: 0
