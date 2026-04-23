@@ -1,5 +1,5 @@
 using System;
-using Unity.Cinemachine;
+using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;

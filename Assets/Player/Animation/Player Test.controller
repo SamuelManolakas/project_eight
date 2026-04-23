@@ -153,7 +153,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 65465198afb978d48a3ad970355cfd4f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2f91d5d9c0401fc4bb4d728cff341ae4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -166,7 +166,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HumanM@Attack2H01
+  m_Name: Combo1a
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -181,7 +181,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 3094330708855449807, guid: a3b2bd75dc433e742844e9c7e0ecb01e, type: 3}
+  m_Motion: {fileID: 7400000, guid: bba7ca4ae8e11004e8ab33837cb5be0f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -209,7 +209,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 3094330708855449807, guid: 6deac83e30d8acd4cbb8c7d8a11545bd, type: 3}
+  m_Motion: {fileID: 7400000, guid: ddc8763ce89bd3a46a57d45d1111b30e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
