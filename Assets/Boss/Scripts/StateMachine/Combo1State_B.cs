@@ -19,15 +19,12 @@ public class Combo1State_B : State_B
     
     private IEnumerator Combo()
     {
-        boss.animator.speed = 1;
-        boss.animator.SetTrigger("Combo1a");
-        yield return new WaitForSeconds(1.6f);
-        boss.animator.speed = 0.5f;
-        boss.animator.Play("Combo1b");
-        yield return new WaitForSeconds(1.6f);
-        boss.animator.speed = 3;
-        boss.animator.Play("Combo1c");
-        //yield return new WaitForSeconds(1.6f);
+        boss.animator.Play("Sweep");
+        yield return new WaitForSeconds(2.5f);
+        boss.animator.Play("Shoot");
+        yield return new WaitForSeconds(2.5f);
+        boss.animator.Play("Strike");
+        yield return new WaitForSeconds(2.5f);
         
         boss.stateMachine.Transit(boss.movementState);
     }
