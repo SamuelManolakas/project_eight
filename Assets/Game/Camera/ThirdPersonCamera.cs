@@ -53,6 +53,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private float   _pitch;        // vertical angle
     private float   _targetDist;   // desired distance (lerped)
     private Vector3 _followPos;    // smoothed follow position
+    private bool    _cursorLocked; // current lock state
 
     // ---------------------------------------------------------------
     private void Awake()
@@ -71,8 +72,15 @@ public class ThirdPersonCamera : MonoBehaviour
         _yaw   = angles.y;
         _pitch = angles.x;
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible   = false;
+        //SetCursorLocked(true);
+    }
+
+    // ---------------------------------------------------------------
+    private void SetCursorLocked(bool locked)
+    {
+        _cursorLocked    = locked;
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible   = !locked;
     }
 
     private void OnEnable()
@@ -101,6 +109,13 @@ public class ThirdPersonCamera : MonoBehaviour
     // ---------------------------------------------------------------
     private void HandleInput()
     {
+        // --- Toggle cursor lock with Escape ---
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            SetCursorLocked(!_cursorLocked);
+
+        // Only orbit when the cursor is locked
+        if (!_cursorLocked) return;
+
         // --- Look ---
         if (lookAction != null)
         {
@@ -162,19 +177,4 @@ public class ThirdPersonCamera : MonoBehaviour
         return desired;
     }
 
-    // ---------------------------------------------------------------
-    // Unlock cursor when the application loses focus (optional quality-of-life)
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        //if (hasFocus)
-        //{
-        //    Cursor.lockState = CursorLockMode.Locked;
-        //    Cursor.visible   = false;
-        //}
-        //else
-        //{
-        //    Cursor.lockState = CursorLockMode.None;
-        //    Cursor.visible   = true;
-        //}
-    }
 }

@@ -1647,7 +1647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72314dc2c62e92f4c9a9f9c59ad2bcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCamera
-  ShowTopMostFoldoutHeaderGroup: 1
   target: {fileID: 0}
   lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   zoomAction: {fileID: 0}
