@@ -42,6 +42,8 @@ public class BossBehaviour : Enemy
     public MovementState_B movementState = null;
     public AttackState_B attackState = null;
     public Combo1State_B combo1State = null;
+    public GrabState_B grabState = null;
+    public ChargeState_B chargeState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -53,6 +55,8 @@ public class BossBehaviour : Enemy
         movementState = new MovementState_B(this, aliveState);
         attackState = new AttackState_B(this, aliveState);
         combo1State = new Combo1State_B(this, aliveState);
+        grabState = new GrabState_B(this, aliveState);
+        chargeState = new ChargeState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
