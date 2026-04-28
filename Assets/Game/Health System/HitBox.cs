@@ -9,6 +9,5 @@ public class HitBox : MonoBehaviour
     {
         if(other.TryGetComponent(out HurtBox hurtBox))
             hurtBox.GetHit(damage); 
-        GetComponent<Collider>().enabled = false;
     }
 }

@@ -19,6 +19,9 @@ public class BossBehaviour : Enemy
     public AnimationEvents m_animationEvents;
     public GameObject greatSwordModel;
     public Slider slider;
+    public GameObject upperBody;
+    public GameObject lowerBody;
+    public Collider grabCollider;
     
     [HideInInspector]
     public Rigidbody rigidbody;
@@ -40,7 +43,6 @@ public class BossBehaviour : Enemy
     public Phase1State phase1State = null;
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
-    public AttackState_B attackState = null;
     public Combo1State_B combo1State = null;
     public GrabState_B grabState = null;
     public ChargeState_B chargeState = null;
@@ -53,7 +55,6 @@ public class BossBehaviour : Enemy
         phase1State = new Phase1State(this, aliveState);
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
-        attackState = new AttackState_B(this, aliveState);
         combo1State = new Combo1State_B(this, aliveState);
         grabState = new GrabState_B(this, aliveState);
         chargeState = new ChargeState_B(this, aliveState);

@@ -7,7 +7,6 @@ public class GrabState_B : State_B
 
     public override void Enter()
     {
-        boss.hitBox.damage = boss.damage;
         boss.animator.Play("Grab");
         boss.StartCoroutine(Wait());
     }
@@ -19,7 +18,11 @@ public class GrabState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(5.958f);
+        yield return new WaitForSeconds(1);
+        boss.grabCollider.enabled = true;
+        yield return new WaitForSeconds(2);
+        boss.grabCollider.enabled = false;
+        yield return new WaitForSeconds(2.958f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }

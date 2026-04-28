@@ -61,6 +61,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public JumpState jumpState = null;
     public AttackState attackState = null;
     public JumpAttackState jumpAttackState = null;
+    public GrabbedState grabbedState = null;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -73,6 +74,7 @@ public class PlayerBehaviour : NetworkBehaviour
         jumpState = new JumpState(this, aliveState);
         attackState = new AttackState(this, aliveState);
         jumpAttackState = new JumpAttackState(this, attackState);
+        grabbedState = new GrabbedState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);

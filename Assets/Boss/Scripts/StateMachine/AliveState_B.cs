@@ -11,11 +11,6 @@ public class AliveState_B : State_B
         boss.currentHealth.Value -= damage;
         boss.slider.value = boss.currentHealth.Value;
 
-        if (boss.currentHealth.Value <= boss.maxHealth / 2)
-        {
-            boss.stateMachine.Transit(boss.phase2State);
-        }
-
         if (boss.currentHealth.Value <= 0)
         {
             boss.stateMachine.Transit(boss.deadState);

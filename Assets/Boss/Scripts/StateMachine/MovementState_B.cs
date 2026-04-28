@@ -23,7 +23,7 @@ public class MovementState_B : State_B
         
         Vector3 finalMove = move * boss.speed;
         
-        if (Vector2.Distance(boss.transform.position, boss.currentTarget.transform.position) > 5f)
+        if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 5f)
         {
             boss.controller.Move(finalMove * Time.deltaTime);
             boss.animator.SetFloat("speed", move.magnitude);
@@ -31,13 +31,14 @@ public class MovementState_B : State_B
         else
         {
             boss.animator.SetFloat("speed", 0);
-            boss.stateMachine.Transit(boss.attackState);
+            boss.stateMachine.Transit(boss.grabState);
         }
         
         if (move.sqrMagnitude > 0.001f)
         {
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            boss.transform.rotation = Quaternion.Slerp(boss.transform.rotation, toRotation, Time.deltaTime * 10f);
+            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime);
+            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
         }
     }
 }
