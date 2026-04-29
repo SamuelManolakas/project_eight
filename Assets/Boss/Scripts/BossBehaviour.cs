@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ public class BossBehaviour : Enemy
     public GameObject upperBody;
     public GameObject lowerBody;
     public Collider grabCollider;
+    public ChargeHitBox chargeHitBox;
     
     [HideInInspector]
     public Rigidbody rigidbody;
@@ -46,6 +48,7 @@ public class BossBehaviour : Enemy
     public Combo1State_B combo1State = null;
     public GrabState_B grabState = null;
     public ChargeState_B chargeState = null;
+    public StunnedState_B stunnedState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -58,12 +61,20 @@ public class BossBehaviour : Enemy
         combo1State = new Combo1State_B(this, aliveState);
         grabState = new GrabState_B(this, aliveState);
         chargeState = new ChargeState_B(this, aliveState);
+        stunnedState = new StunnedState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
         
         rigidbody = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
+        
+        chargeHitBox.OnHitWall += TransitionToStunnedState;
+    }
+
+    private void OnDestroy()
+    {
+        chargeHitBox.OnHitWall -= TransitionToStunnedState;
     }
 
     private void Start()
@@ -79,6 +90,7 @@ public class BossBehaviour : Enemy
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
 
+        
         currentHealth.OnValueChanged += OnHealthChanged;
     }
 
@@ -131,4 +143,9 @@ public class BossBehaviour : Enemy
     }
     
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
+
+    private void TransitionToStunnedState(Collider other)
+    {
+        stateMachine.Transit(stunnedState);
+    }
 }
