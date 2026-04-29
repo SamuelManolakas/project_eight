@@ -305,5 +305,11 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         DropCurrentItem();
     }
+
+    public void TransitToStunnedState(Vector3 position)
+    {
+        stateMachine.Transit(grabbedState);
+        controller.Move((position - transform.position) / 2);
+    }
 }
 

@@ -9,8 +9,7 @@ public class CannonGrab : MonoBehaviour
         {
             Debug.Log("Grabbed!");
             other.TryGetComponent(out PlayerBehaviour player);
-            player.stateMachine.Transit(player.grabbedState);
-            other.transform.position = new Vector3(transform.position.x, other.transform.position.y, transform.position.z);
+            player.TransitToStunnedState(transform.position);
         }
     }
 }

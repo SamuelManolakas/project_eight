@@ -31,7 +31,7 @@ public class MovementState_B : State_B
         else
         {
             boss.animator.SetFloat("speed", 0);
-            boss.stateMachine.Transit(boss.chargeState);
+            boss.stateMachine.Transit(boss.grabState);
         }
         
         if (move.sqrMagnitude > 0.001f)
