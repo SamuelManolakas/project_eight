@@ -7,6 +7,7 @@ public class JumpState : State
 
     public override void Enter()
     {
+        player.animator.Play("Jump");
         player.velocity.y = Mathf.Sqrt(player.jumpHeight * -2f * player.gravity);
     }
     public override void Exit()

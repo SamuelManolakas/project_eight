@@ -8,6 +8,7 @@ public class DodgeState : State
     private Vector3 _dodgeDirection;
     public override void Enter()
     {
+        player.animator.Play("Dodge");
         _dodgeDirection = player.controller.velocity.normalized;
 
         if (_dodgeDirection.sqrMagnitude == 0)
@@ -35,7 +36,7 @@ public class DodgeState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
         player.stateMachine.Transit(player.idleState);
     }
 }
