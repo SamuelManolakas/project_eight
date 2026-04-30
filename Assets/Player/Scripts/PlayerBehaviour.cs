@@ -144,8 +144,6 @@ public class PlayerBehaviour : NetworkBehaviour
         velocity.y += gravity * Time.deltaTime;
         
         ContinuousAction();
-
-        Debug.Log(controller.isGrounded);
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}

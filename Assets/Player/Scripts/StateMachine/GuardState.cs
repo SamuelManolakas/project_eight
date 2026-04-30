@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GuardState : State
@@ -16,6 +17,6 @@ public class GuardState : State
 
     public override void GetHit(int damage)
     {
-        
+
     }
 }
