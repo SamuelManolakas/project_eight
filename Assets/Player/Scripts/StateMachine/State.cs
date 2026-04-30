@@ -20,4 +20,5 @@ public abstract class State
     public virtual void OnJump(){parent.OnJump();}
     public virtual void OnDodge(){parent.OnDodge();}
     public virtual void OnSprint(){parent.OnSprint();}
+    public virtual void OnGuard(){parent.OnGuard();}
 }

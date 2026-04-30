@@ -31,12 +31,16 @@ public class DodgeState : State
 
     public override void ContinuousAction()
     {
-        player.controller.Move(_dodgeDirection * (player.dodgeDistance * Time.deltaTime));
+        player.controller.Move((_dodgeDirection * player.dodgeDistance + player.velocity) * Time.deltaTime);
     }
 
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(1f);
         player.stateMachine.Transit(player.idleState);
+    }
+
+    public override void OnJump()
+    {
     }
 }

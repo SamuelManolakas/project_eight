@@ -2083,13 +2083,6 @@ MonoBehaviour:
   TransitionStateInfoList:
   - IsCrossFadeExit: 0
     Layer: 0
-    OriginatingState: -797153096
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: 1203776827
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
     OriginatingState: 2081823275
     DestinationState: 1589861120
     TransitionDuration: 0.25
@@ -4033,7 +4026,7 @@ CapsuleCollider:
   m_Radius: 0.73
   m_Height: 2.45
   m_Direction: 1
-  m_Center: {x: 0, y: 0.21, z: 0}
+  m_Center: {x: 0, y: 0.27, z: 0}
 --- !u!114 &3342748956598431269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4046,7 +4039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 860196082
+  GlobalObjectIdHash: 1366874158
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -4280,6 +4273,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: eeae7ddb-2def-42d1-9b52-7ca7a08c3a99
     m_ActionName: 'Gameplay/Look[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnGuard
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e1c75432-0731-4720-85ad-4d12b8d5793a
+    m_ActionName: 'Gameplay/Guard[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -7015,13 +7024,6 @@ MonoBehaviour:
   AuthorityMode: 0
   m_Animator: {fileID: 3250792148600151201}
   TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -797153096
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: 1203776827
-    TransitionIndex: 1
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 2081823275

@@ -40,4 +40,9 @@ public class IdleState : State
     {
         player.stateMachine.Transit(player.dodgeState);
     }
+    
+    public override void OnGuard()
+    {
+        player.stateMachine.Transit(player.guardState);
+    }
 }

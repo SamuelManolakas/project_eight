@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,6 +63,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public AttackState attackState = null;
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
+    public GuardState guardState = null;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -75,6 +77,7 @@ public class PlayerBehaviour : NetworkBehaviour
         attackState = new AttackState(this, aliveState);
         jumpAttackState = new JumpAttackState(this, attackState);
         grabbedState = new GrabbedState(this, aliveState);
+        guardState = new GuardState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -121,19 +124,30 @@ public class PlayerBehaviour : NetworkBehaviour
         stateMachine.currentState.OnSprint();
     }
 
+    public void OnGuard(InputAction.CallbackContext context)
+    {
+        if (context.performed && controller.isGrounded)
+            stateMachine.currentState.OnGuard();
+        else if (context.canceled)
+        {
+            stateMachine.Transit(idleState);
+        }
+    }
+
     private void Update()
     {
         if(IsOwner == false)
         {
             return;
         }
-        
+
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
         
         ContinuousAction();
+
+        Debug.Log(controller.isGrounded);
     }
-    
+
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
     public void GetHit(int damage)

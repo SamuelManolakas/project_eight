@@ -28,7 +28,7 @@ public class JumpState : State
 
         Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
 
-        player.controller.Move(move * (player.speed * Time.deltaTime));
+        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
         player.animator.SetFloat("speed", move.magnitude);
 
         if (move.sqrMagnitude > 0.001f)
