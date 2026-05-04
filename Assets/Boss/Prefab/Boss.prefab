@@ -3427,6 +3427,7 @@ MonoBehaviour:
   lowerBody: {fileID: 9002604188187217005}
   grabCollider: {fileID: 4645787844872167210}
   chargeHitBox: {fileID: 2472744839003169689}
+  bullet: {fileID: 8402825751137152869, guid: b0fded859a71e5348988b9b37d813eed, type: 3}
   rigidbody: {fileID: 0}
   stateMachine: {fileID: 0}
   controller: {fileID: 0}

@@ -34,7 +34,7 @@ public class ChargeState_B : State_B
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = true;
         charge = true;
         
-        yield return new WaitForSeconds(1.667f);
+        yield return new WaitForSeconds(7.667f);
         
         charge = false;
         if (boss.stateMachine.currentState == boss.stunnedState)
