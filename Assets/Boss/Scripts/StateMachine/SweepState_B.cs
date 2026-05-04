@@ -7,6 +7,7 @@ public class SweepState_B : State_B
 
     public override void Enter()
     {
+        boss.hitBox.damage = boss.damage;
         boss.animator.Play("Sweep");
         boss.StartCoroutine(Wait());
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
@@ -36,7 +37,9 @@ public class SweepState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3);
+        boss.hitBox.damage = 0;
+        yield return new WaitForSeconds(1f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }

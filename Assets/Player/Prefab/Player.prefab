@@ -2080,14 +2080,7 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 3880043672479756790}
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 2081823275
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: 1203776827
-    TransitionIndex: 1
+  TransitionStateInfoList: []
   AnimatorParameterEntries:
     ParameterEntries:
     - name: speed
@@ -4039,7 +4032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -6006,10 +5999,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.28895876
-  m_Height: 1.2409369
+  m_Radius: 0.30218002
+  m_Height: 1.3710028
   m_Direction: 1
-  m_Center: {x: 0.038862146, y: -0.21116567, z: 0.03149729}
+  m_Center: {x: 0, y: 0, z: 0.031497277}
 --- !u!114 &3973151249636192896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7023,14 +7016,7 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 3250792148600151201}
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 2081823275
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: 1203776827
-    TransitionIndex: 1
+  TransitionStateInfoList: []
   AnimatorParameterEntries:
     ParameterEntries:
     - name: speed

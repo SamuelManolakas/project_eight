@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 6043143159066366788}
   - component: {fileID: 5258452726200749967}
   - component: {fileID: 5304038831723741658}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: LowerBodyR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 9136274931570104651}
   - component: {fileID: 5059766780343578654}
   - component: {fileID: 1594707603882592482}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: TracksL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 1059929218787660842}
   - component: {fileID: 8595385500514656948}
   - component: {fileID: 166347834808106603}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2110,7 +2110,7 @@ GameObject:
   - component: {fileID: 6899465509591767909}
   - component: {fileID: 5061753088636131238}
   - component: {fileID: 6976813843570716523}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Plow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2290,7 +2290,7 @@ GameObject:
   - component: {fileID: 8330530282809534621}
   - component: {fileID: 1479704973628753780}
   - component: {fileID: 5466126057199882089}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: LowerBodyL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2741,7 +2741,7 @@ GameObject:
   - component: {fileID: 471464820968031701}
   - component: {fileID: 5320726319999384038}
   - component: {fileID: 6603365879687389463}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: TracksR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3551,7 +3551,8 @@ GameObject:
   - component: {fileID: 7586595431078470376}
   - component: {fileID: 8080173262840315582}
   - component: {fileID: 2472744839003169689}
-  m_Layer: 9
+  - component: {fileID: 6824883006675350650}
+  m_Layer: 7
   m_Name: LowerBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3623,3 +3624,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChargeHitBox
   damage: 0
+--- !u!54 &6824883006675350650
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9002604188187217005}
+  serializedVersion: 5
+  m_Mass: 0.0000001
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

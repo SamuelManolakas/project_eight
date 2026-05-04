@@ -12,6 +12,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
         NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
+    public int maxStamina;
+    [HideInInspector] 
+    public NetworkVariable<float> stamina = new NetworkVariable<float>(0, 
+    NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float sprintSpeed;
     public float jumpHeight;
     public float gravity;
@@ -85,6 +89,7 @@ public class PlayerBehaviour : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         initialSpeed = speed;
+        stamina.Value = maxStamina;
     }
 
     private void Start()
@@ -142,6 +147,11 @@ public class PlayerBehaviour : NetworkBehaviour
         }
 
         velocity.y += gravity * Time.deltaTime;
+
+        if (stamina.Value < maxStamina)
+        {
+            stamina.Value += Time.deltaTime / 2;
+        }
         
         ContinuousAction();
     }
@@ -173,6 +183,7 @@ public class PlayerBehaviour : NetworkBehaviour
             return;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
         currentHealth.OnValueChanged += OnHealthChanged;
+        stamina.OnValueChanged += OnStaminaChanged;
     }
 
     private void OnHealthChanged(int previousValue, int newValue)
@@ -181,6 +192,15 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             HUDManager.Instance.SetMaxHealth(maxHealth);
             HUDManager.Instance.SetHealth(currentHealth.Value);
+        }
+    }
+
+    private void OnStaminaChanged(float previousValue, float newValue)
+    {
+        if (IsOwner)
+        {
+            HUDManager.Instance.SetMaxStamina(maxStamina);
+            HUDManager.Instance.SetStamina(stamina.Value);
         }
     }
 
@@ -309,7 +329,8 @@ public class PlayerBehaviour : NetworkBehaviour
         }
         base.OnNetworkDespawn();
         
-        currentHealth.OnValueChanged += OnHealthChanged;
+        currentHealth.OnValueChanged -= OnHealthChanged;
+        stamina.OnValueChanged -= OnStaminaChanged;
     }
     
     [Rpc(SendTo.Server)]
@@ -321,7 +342,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public void TransitToStunnedState(Vector3 position)
     {
         stateMachine.Transit(grabbedState);
-        controller.Move((position - transform.position) / 2);
+        controller.Move((position - transform.position));
     }
 }
 

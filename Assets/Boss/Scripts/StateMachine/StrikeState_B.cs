@@ -7,6 +7,7 @@ public class StrikeState_B : State_B
 
     public override void Enter()
     {
+        boss.hitBox.damage = boss.damage;
         boss.animator.Play("Strike");
         boss.StartCoroutine(Wait());
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
@@ -36,7 +37,9 @@ public class StrikeState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3.0f);
+        boss.hitBox.damage = 0;
+        yield return new WaitForSeconds(0.5f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }
