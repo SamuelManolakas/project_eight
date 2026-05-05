@@ -2,6 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour
@@ -150,7 +151,12 @@ public class PlayerBehaviour : NetworkBehaviour
 
         if (stamina.Value < maxStamina)
         {
-            stamina.Value += Time.deltaTime / 2;
+            stamina.Value += Time.deltaTime;
+        }
+
+        if (stamina.Value < 0)
+        {
+            stamina.Value = 0.1f;
         }
         
         ContinuousAction();
@@ -331,6 +337,8 @@ public class PlayerBehaviour : NetworkBehaviour
         
         currentHealth.OnValueChanged -= OnHealthChanged;
         stamina.OnValueChanged -= OnStaminaChanged;
+
+        SceneManager.LoadScene(0);
     }
     
     [Rpc(SendTo.Server)]
@@ -341,6 +349,7 @@ public class PlayerBehaviour : NetworkBehaviour
 
     public void TransitToStunnedState(Vector3 position)
     {
+        position.y = transform.position.y;
         stateMachine.Transit(grabbedState);
         controller.Move((position - transform.position));
     }

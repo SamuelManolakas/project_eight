@@ -8,6 +8,7 @@ public class JumpAttackState : State
     private Vector3 _jumpDirection;
     public override void Enter()
     {
+        player.stamina.Value -= 2f;
         player.animator.Play("Combo1a");
         _jumpDirection = player.controller.velocity;
     }

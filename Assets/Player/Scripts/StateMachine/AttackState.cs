@@ -7,6 +7,7 @@ public class AttackState : State
     
     public override void Enter()
     {
+        player.stamina.Value -= 2f;
         if (player.IsLocalPlayer)
         {
             player.hitBox.damage = player.damage;
@@ -29,11 +30,13 @@ public class AttackState : State
         if (player.attackBuffer)
         {
             player.animator.Play("Combo1b");
+            player.stamina.Value -= 2f;
             player.attackBuffer  = false;
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
                 player.animator.Play("Combo1c");
+                player.stamina.Value -= 2f;
                 player.attackBuffer  = false;
                 yield return new WaitForSeconds(1f);
                 player.stateMachine.Transit(player.idleState);

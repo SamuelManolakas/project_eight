@@ -6,7 +6,7 @@ public class MovementState : State
     
     public override void Enter()
     {
-        
+        player.animator.Play("Run");
     }
 
     public override void Exit()
@@ -29,6 +29,11 @@ public class MovementState : State
 
         player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
         player.animator.SetFloat("speed", move.magnitude);
+
+        if (player.speed == player.sprintSpeed)
+        {
+            player.stamina.Value -= Time.deltaTime * 3;
+        }
 
         if (move.sqrMagnitude > 0.001f)
         {

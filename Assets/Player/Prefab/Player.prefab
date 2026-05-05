@@ -4104,14 +4104,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
+  maxHealth: 29
   currentHealth:
     m_InternalValue: 0
   speed: 5
-  sprintSpeed: 12
+  maxStamina: 15
+  stamina:
+    m_InternalValue: 0
+  sprintSpeed: 8
   jumpHeight: 2
   gravity: -15
-  dodgeDistance: 3
+  dodgeDistance: 6
   damage: 3
   health:
     m_InternalValue: 0

@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51340333eede89149aa0bda59c18fcbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet_B
-  damage: 10
-  speed: 30
-  direction: {x: -13.573165, y: -5.6662855, z: 2.0352}
+  damage: 5
+  speed: 25
+  direction: {x: -5.5357475, y: -2.7422466, z: 1.4182014}
   rigidbody: {fileID: 0}

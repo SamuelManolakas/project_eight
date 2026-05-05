@@ -9,7 +9,7 @@ public class DodgeState : State
     private float _iFrames;
     public override void Enter()
     {
-        player.stamina.Value -= 10;
+        player.stamina.Value -= 3;
         player.animator.Play("Dodge");
         _dodgeDirection = player.controller.velocity.normalized;
 
