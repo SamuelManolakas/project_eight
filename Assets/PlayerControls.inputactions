@@ -181,8 +181,30 @@
                 },
                 {
                     "name": "",
+                    "id": "ebb40cd0-10f5-41e8-acbc-53534ee5a673",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fb8e82a3-e8c5-4fe9-b72c-4ff9f9b39491",
                     "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67e89fff-b95e-4f5e-91aa-14d0369bd580",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -203,8 +225,30 @@
                 },
                 {
                     "name": "",
+                    "id": "c5a8b831-362c-4ecb-aa68-94cceab94094",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "21e57cd9-6ede-4bdf-aeab-aa7b517aec41",
                     "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TargetLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a2435d1-3795-4ff3-9381-676ab55cb249",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -224,9 +268,20 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
+                    "name": "2D Vector",
                     "id": "adf155fb-d29d-4704-92ad-33756f0f2f7f",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Guard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7315262e-c91c-4496-b5d0-e7186725e7c1",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
