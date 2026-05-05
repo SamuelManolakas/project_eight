@@ -17,10 +17,6 @@ public class GuardState : State
 
     public override void GetHit(int damage)
     {
-        player.stamina.Value -= 4f;
-        if (player.stamina.Value <= 0)
-        {
-            player.currentHealth.Value -= damage / 2;
-        }
+        
     }
 }

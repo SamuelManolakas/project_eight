@@ -32,7 +32,7 @@ public class MovementState : State
 
         if (player.speed == player.sprintSpeed)
         {
-            player.stamina.Value -= Time.deltaTime * 3;
+            
         }
 
         if (move.sqrMagnitude > 0.001f)

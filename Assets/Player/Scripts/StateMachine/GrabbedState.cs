@@ -8,6 +8,8 @@ public class GrabbedState : State
     bool grabbed = false;
     public override void Enter()
     {
+        if(!player.IsOwner)return;
+        
         player.animator.Play("LayingDown");
         player.StartCoroutine(Wait());
         grabbed = false;

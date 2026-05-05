@@ -13,7 +13,7 @@ public class AliveState : State
             return;
         }
 
-        if (player.currentHealth.Value > 0)
+        if (player.currentHealth.Value >= 0)
         {
             player.currentHealth.Value -= damage;
         }

@@ -7,8 +7,7 @@ public class AttackState : State
     
     public override void Enter()
     {
-        player.stamina.Value -= 2f;
-        if (player.IsLocalPlayer)
+        if (player.IsOwner)
         {
             player.hitBox.damage = player.damage;
             player.StartCoroutine(Combo());
@@ -26,18 +25,19 @@ public class AttackState : State
         player.attackBuffer = false;
         player.greatSwordModel.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");
+        
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
         {
             player.animator.Play("Combo1b");
-            player.stamina.Value -= 2f;
             player.attackBuffer  = false;
+            
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
                 player.animator.Play("Combo1c");
-                player.stamina.Value -= 2f;
                 player.attackBuffer  = false;
+                
                 yield return new WaitForSeconds(1f);
                 player.stateMachine.Transit(player.idleState);
             }

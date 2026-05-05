@@ -7,7 +7,7 @@ public class DeadState : State
 
     public override void Enter()
     {
-        player.animator.Play("KockedBack");
+        player.animator.Play("KnockedBack");
         player.StartCoroutine(Wait());
     }
     public override void Exit(){}
