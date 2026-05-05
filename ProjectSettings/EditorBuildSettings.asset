@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TestingScenes/MultiplayerTest.unity
     guid: f636fc08fc278cf449a6fb708975d34f
   - enabled: 1
+    path: Assets/Scenes/GameScenes/Level01.unity
+    guid: 4b9b9837cb039914f9b54dd89a503a9b
+  - enabled: 0
     path: Assets/Scenes/TestingScenes/Speltest.unity
     guid: a834ab1080d43044fb436303773d52bf
   m_configObjects:
