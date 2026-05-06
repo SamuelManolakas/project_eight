@@ -154,12 +154,6 @@ public class PlayerBehaviour : NetworkBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         ContinuousAction();
-        
-        //death check because death check in hit function does not work
-        if (currentHealth.Value <= 0)
-        {
-            stateMachine.Transit(deadState);
-        }
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
@@ -336,11 +330,18 @@ public class PlayerBehaviour : NetworkBehaviour
         DropCurrentItem();
     }
 
-    public void TransitToStunnedState(Vector3 position)
+    [ClientRpc]
+    public void TransitToDeadStateClientRpc()
+    {
+        stateMachine.Transit(deadState);
+    }
+    
+    [ClientRpc]
+    public void TransitToStunnedStateClientRpc(Vector3 position)
     {
         position.y = transform.position.y;
+        transform.position = position;
         stateMachine.Transit(grabbedState);
-        controller.Move((position - transform.position));
     }
 }
 

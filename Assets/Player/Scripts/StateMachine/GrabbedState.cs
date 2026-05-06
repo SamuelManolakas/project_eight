@@ -8,8 +8,6 @@ public class GrabbedState : State
     bool grabbed = false;
     public override void Enter()
     {
-        if(!player.IsOwner)return;
-        
         player.animator.Play("LayingDown");
         player.StartCoroutine(Wait());
         grabbed = false;
@@ -37,6 +35,7 @@ public class GrabbedState : State
         //Temporary damage solution
         player.GetHit(10);
         //knock back from the explosion
+        
         grabbed = true;
     }
 }

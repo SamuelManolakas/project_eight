@@ -16,10 +16,9 @@ public class AliveState : State
         if (player.currentHealth.Value >= 0)
         {
             player.currentHealth.Value -= damage;
-        }
-        else
-        {
-            player.stateMachine.Transit(player.deadState);
+            
+            if (player.currentHealth.Value <= 0)
+                player.TransitToDeadStateClientRpc();
         }
     }
 }

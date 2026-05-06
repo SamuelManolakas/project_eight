@@ -114,6 +114,8 @@ public class BossBehaviour : Enemy
     private float _testTimer;
     private void Update()
     {
+        if (!IsServer) return;
+        
         ContinuousAction();
         
         velocity.y += gravity * Time.deltaTime;
