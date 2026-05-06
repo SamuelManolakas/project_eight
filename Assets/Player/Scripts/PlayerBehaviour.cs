@@ -10,9 +10,13 @@ public class PlayerBehaviour : NetworkBehaviour
 {
     [Header("Variables")]
     public int maxHealth = 100;
+    public float maxStamina;
     [HideInInspector] 
     public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
-        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    [HideInInspector] 
+    public NetworkVariable<float> currentStamina = new NetworkVariable<float>(0, 
+        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;
@@ -93,16 +97,23 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         hitBox = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
+
+        if (IsOwner)
+        {
+            currentStamina.Value = maxStamina;
+            currentHealth.Value = maxHealth;
+        }
         
         if (!IsServer)
         {
             return;
         }
-        currentHealth.Value = maxHealth;
+        
     }
     
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(!IsOwner) return;
         moveInput = context.ReadValue<Vector2>();
         stateMachine.currentState.OnMove();
     }
@@ -122,6 +133,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     public void OnJump(InputAction.CallbackContext context)
     {
+        if(!IsOwner) return;
         if (context.performed && controller.isGrounded)
         {
             stateMachine.currentState.OnJump();   
@@ -138,7 +150,7 @@ public class PlayerBehaviour : NetworkBehaviour
         if(!IsOwner) return;
         if (context.performed && controller.isGrounded)
             stateMachine.currentState.OnGuard();
-        else if (context.canceled)
+        else if (context.canceled && currentHealth.Value > 0)
         {
             stateMachine.Transit(idleState);
         }
@@ -154,13 +166,23 @@ public class PlayerBehaviour : NetworkBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         ContinuousAction();
+        
+        if (currentStamina.Value <= maxStamina)
+        {
+            currentStamina.Value += Time.deltaTime;   
+        }
+
+        if (currentStamina.Value < 0)
+        {
+            currentStamina.Value = 0.1f;
+        }
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
-    public void GetHit(int damage)
+    [ClientRpc]
+    public void GetHitClientRpc(int damage)
     {
-        if(!IsServer) return;
         stateMachine.currentState.GetHit(damage);
     }
     
@@ -183,6 +205,7 @@ public class PlayerBehaviour : NetworkBehaviour
             return;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
         currentHealth.OnValueChanged += OnHealthChanged;
+        currentStamina.OnValueChanged += OnStaminaChanged;
     }
 
     private void OnHealthChanged(int previousValue, int newValue)
@@ -191,6 +214,15 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             HUDManager.Instance.SetMaxHealth(maxHealth);
             HUDManager.Instance.SetHealth(currentHealth.Value);
+        }
+    }
+
+    private void OnStaminaChanged(float previousValue, float newValue)
+    {
+        if (IsOwner)
+        {
+            HUDManager.Instance.SetMaxStamina(maxStamina);
+            HUDManager.Instance.SetStamina(currentStamina.Value);
         }
     }
 
@@ -320,6 +352,7 @@ public class PlayerBehaviour : NetworkBehaviour
         base.OnNetworkDespawn();
         
         currentHealth.OnValueChanged -= OnHealthChanged;
+        currentStamina.OnValueChanged -= OnStaminaChanged;
 
         SceneManager.LoadScene(0);
     }

@@ -17,6 +17,13 @@ public class GuardState : State
 
     public override void GetHit(int damage)
     {
+        player.currentStamina.Value -= 4;
+        Debug.Log("I got hit while guarding!");
         
+        //if (player.currentStamina.Value <= 0)
+        //{
+        //    player.currentHealth.Value -= damage;
+        //    player.TransitToStunnedStateClientRpc(player.transform.position);
+        //}
     }
 }

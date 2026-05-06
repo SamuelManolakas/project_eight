@@ -8,16 +8,16 @@ public class Bullet_B : MonoBehaviour
      [HideInInspector]
      public Vector3 direction;
      [HideInInspector]
-     public Rigidbody rigidbody;
+     public Rigidbody _rigidbody;
 
      private void Start()
      {
-          rigidbody = GetComponent<Rigidbody>();
+          _rigidbody = GetComponent<Rigidbody>();
      }
 
      private void Update()
      {
-          rigidbody.linearVelocity = direction.normalized * speed;
+          _rigidbody.linearVelocity = direction.normalized * speed;
      }
 
      private void OnTriggerEnter(Collider other)

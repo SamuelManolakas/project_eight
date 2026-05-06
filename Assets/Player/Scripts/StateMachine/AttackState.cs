@@ -12,6 +12,8 @@ public class AttackState : State
             player.hitBox.damage = player.damage;
             player.StartCoroutine(Combo());
         }
+        
+        player.currentStamina.Value -= 4;
     }
 
     public override void Exit()
@@ -22,6 +24,8 @@ public class AttackState : State
     private IEnumerator Combo()
     {
         yield return new WaitForSeconds(0.2f);
+        
+        
         player.attackBuffer = false;
         player.greatSwordModel.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");

@@ -33,7 +33,7 @@ public class GrabbedState : State
     {
         yield return new WaitForSeconds(2.5f);
         //Temporary damage solution
-        player.GetHit(10);
+        player.GetHitClientRpc(10);
         //knock back from the explosion
         
         grabbed = true;

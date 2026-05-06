@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1454,7 +1454,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 29
+  maxStamina: 15
   currentHealth:
+    m_InternalValue: 0
+  currentStamina:
     m_InternalValue: 0
   speed: 5
   sprintSpeed: 8
@@ -2588,53 +2591,13 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 1
   m_Animator: {fileID: 3250792148600151201}
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 2081823275
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: -1853988196
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1748754976
-    DestinationState: 1589861120
-    TransitionDuration: 0.25
-    TriggerNameHash: -1853988196
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1589861120
-    DestinationState: -943060294
-    TransitionDuration: 0.25
-    TriggerNameHash: 142029606
-    TransitionIndex: 0
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -943060294
-    DestinationState: -1328727508
-    TransitionDuration: 0.25
-    TriggerNameHash: 2138047408
-    TransitionIndex: 1
+  TransitionStateInfoList: []
   AnimatorParameterEntries:
     ParameterEntries:
     - name: speed
       NameHash: 254213878
       Synchronize: 1
       ParameterType: 1
-    - name: combo1a
-      NameHash: -1853988196
-      Synchronize: 1
-      ParameterType: 9
-    - name: combo1b
-      NameHash: 142029606
-      Synchronize: 1
-      ParameterType: 9
-    - name: combo1c
-      NameHash: 2138047408
-      Synchronize: 1
-      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!114 &6765378648764348767
 MonoBehaviour:

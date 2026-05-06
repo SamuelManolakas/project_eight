@@ -741,6 +741,18 @@ PrefabInstance:
       propertyPath: gravity
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 620242184
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2821339365
+      objectReference: {fileID: 0}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1417735494

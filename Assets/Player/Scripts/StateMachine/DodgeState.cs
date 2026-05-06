@@ -17,6 +17,8 @@ public class DodgeState : State
         }
         
         player.StartCoroutine(Wait());
+        
+        player.currentStamina.Value -= 4;
     }
 
     public override void Exit()
@@ -36,7 +38,7 @@ public class DodgeState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
         player.stateMachine.Transit(player.idleState);
     }
 
