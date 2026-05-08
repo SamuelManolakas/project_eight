@@ -8,10 +8,12 @@ public class AliveState : State
 
     public override void GetHit(int damage)
     {
+        if (!player.IsServer) return;
+        
         if (player.currentHealth.Value >= 0)
         {
-            //player.currentHealth.Value -= damage;
-            
+            player.currentHealth.Value -= damage;
+                 
             if (player.currentHealth.Value <= 0)
                 player.TransitToDeadStateClientRpc();
         }

@@ -27,7 +27,7 @@ public class BossBehaviour : Enemy
     public GameObject bullet;
     
     [HideInInspector]
-    public Rigidbody rigidbody;
+    public Rigidbody _rigidbody;
     [HideInInspector]
     public StateMachine_B stateMachine = null;
     [HideInInspector]
@@ -73,13 +73,13 @@ public class BossBehaviour : Enemy
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
         
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         
         chargeHitBox.OnHitWall += TransitionToStunnedState;
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         chargeHitBox.OnHitWall -= TransitionToStunnedState;
     }

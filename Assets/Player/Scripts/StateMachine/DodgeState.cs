@@ -17,8 +17,6 @@ public class DodgeState : State
         }
         
         player.StartCoroutine(Wait());
-        
-        player.currentStamina.Value -= 4;
     }
 
     public override void Exit()

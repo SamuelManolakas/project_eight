@@ -12,8 +12,6 @@ public class AttackState : State
             player.hitBox.damage = player.damage;
             player.StartCoroutine(Combo());
         }
-        
-        player.currentStamina.Value -= 4;
     }
 
     public override void Exit()
