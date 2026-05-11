@@ -6,6 +6,7 @@ public class HUDManager : MonoBehaviour
     public static HUDManager Instance;
 
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider staminaSlider;
 
     private void Awake()
     {
@@ -21,5 +22,16 @@ public class HUDManager : MonoBehaviour
     public void SetHealth(int health)
     {
         healthSlider.value = health;
+    }
+    
+    public void SetMaxStamina(float max)
+    {
+        staminaSlider.maxValue = max;
+        staminaSlider.value = max;
+    }
+
+    public void SetStamina(float stamina)
+    {
+        staminaSlider.value = stamina;
     }
 }

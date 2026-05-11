@@ -8,10 +8,9 @@ public class AliveState : State
 
     public override void GetHit(int damage)
     {
-        if (!player.IsServer)
+        if (player.health.Health >= 0)
         {
-            return;
+            player.health.TakeDamage(damage);
         }
-        player.currentHealth.Value -= damage;
     }
 }

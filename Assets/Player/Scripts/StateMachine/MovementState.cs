@@ -6,7 +6,7 @@ public class MovementState : State
     
     public override void Enter()
     {
-        
+        player.animator.Play("Run");
     }
 
     public override void Exit()
@@ -27,8 +27,13 @@ public class MovementState : State
 
         Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
 
-        player.controller.Move(move * (player.speed * Time.deltaTime));
+        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
         player.animator.SetFloat("speed", move.magnitude);
+
+        if (player.speed == player.sprintSpeed)
+        {
+            
+        }
 
         if (move.sqrMagnitude > 0.001f)
         {
@@ -59,5 +64,10 @@ public class MovementState : State
     public override void OnSprint()
     {
         player.speed = player.sprintSpeed;
+    }
+
+    public override void OnGuard()
+    {
+        player.stateMachine.Transit(player.guardState);
     }
 }

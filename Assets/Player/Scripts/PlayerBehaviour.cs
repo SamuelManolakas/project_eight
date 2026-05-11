@@ -1,15 +1,15 @@
+using System;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour
 {
     [Header("Variables")]
-    public int maxHealth = 100;
     [HideInInspector] 
-    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
-        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;
@@ -17,12 +17,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public float dodgeDistance;
     public int damage;
     
-    public NetworkVariable<int> health;
-    
     [Header("Components")]
     public Animator animator;
-    [SerializeField]
-    private AnimationEvents m_animationEvents;
+    //[SerializeField]
+    //private AnimationEvents m_animationEvents;
     [SerializeField]
     private InteractionDetector m_interactionDetector;
     public GameObject greatSwordModel;
@@ -44,6 +42,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public HurtBox hurtBox;
     [HideInInspector] 
     public bool attackBuffer;
+    [HideInInspector]
+    public PlayerHealth health;
+    [HideInInspector]
+    public PlayerStamina stamina;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -62,6 +64,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public AttackState attackState = null;
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
+    public GuardState guardState = null;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -75,6 +78,7 @@ public class PlayerBehaviour : NetworkBehaviour
         attackState = new AttackState(this, aliveState);
         jumpAttackState = new JumpAttackState(this, attackState);
         grabbedState = new GrabbedState(this, aliveState);
+        guardState = new GuardState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -82,34 +86,47 @@ public class PlayerBehaviour : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         initialSpeed = speed;
+        stamina = GetComponent<PlayerStamina>();
+        health = GetComponent<PlayerHealth>();
     }
 
     private void Start()
     {
-        currentHealth.Value = maxHealth;
         hitBox = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
     }
     
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(!IsOwner) return;
         moveInput = context.ReadValue<Vector2>();
         stateMachine.currentState.OnMove();
     }
 
     public void OnDodge(InputAction.CallbackContext context)
     {
-        stateMachine.currentState.OnDodge();
+        if(!IsOwner) return;
+        
+        if (stamina.TryUseStamina(10))
+        {
+            stateMachine.currentState.OnDodge();
+        }
     }
     
     public void OnAttack(InputAction.CallbackContext context)
     {
-        stateMachine.currentState.OnAttack();
-        attackBuffer = true;
+        if(!IsOwner) return;
+
+        if (stamina.TryUseStamina(15))
+        {
+            stateMachine.currentState.OnAttack();
+            attackBuffer = true;
+        }
     }
     
     public void OnJump(InputAction.CallbackContext context)
     {
+        if(!IsOwner) return;
         if (context.performed && controller.isGrounded)
         {
             stateMachine.currentState.OnJump();   
@@ -121,24 +138,31 @@ public class PlayerBehaviour : NetworkBehaviour
         stateMachine.currentState.OnSprint();
     }
 
+    public void OnGuard(InputAction.CallbackContext context)
+    {
+        if(!IsOwner) return;
+        if (context.performed && controller.isGrounded)
+            stateMachine.currentState.OnGuard();
+        else if (context.canceled && health.Health > 0)
+        {
+            stateMachine.Transit(idleState);
+        }
+    }
+
     private void Update()
     {
-        if(IsOwner == false)
-        {
-            return;
-        }
+        if(!IsOwner) return;
         
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-        
         ContinuousAction();
     }
-    
+
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
     public void GetHit(int damage)
     {
         if(!IsServer) return;
+        
         stateMachine.currentState.GetHit(damage);
     }
     
@@ -150,28 +174,27 @@ public class PlayerBehaviour : NetworkBehaviour
         HandleItemOnJoin();
         if (IsOwner)
         {
-            m_animationEvents.OnInteract += HandleInteractAction;
-            m_animationEvents.OnAnimationDone += HandleAnimationDone;
-            m_animationEvents.OnChop += HandleChopAction;
+            //m_animationEvents.OnInteract += HandleInteractAction;
+            //m_animationEvents.OnAnimationDone += HandleAnimationDone;
+            //m_animationEvents.OnChop += HandleChopAction;
             
             Instantiate(hudPrefab);
         }
 
-        if (IsOwner == false)
-            return;
+        if (!IsOwner) return;
+        
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
-        currentHealth.OnValueChanged += OnHealthChanged;
+        stamina._stamina.OnValueChanged += OnStaminaChanged;
     }
-
-    private void OnHealthChanged(int previousValue, int newValue)
+    
+    private void OnStaminaChanged(float previousValue, float newValue)
     {
         if (IsOwner)
         {
-            HUDManager.Instance.SetMaxHealth(maxHealth);
-            HUDManager.Instance.SetHealth(currentHealth.Value);
+            HUDManager.Instance.SetMaxStamina(stamina.maxStamina);
+            HUDManager.Instance.SetStamina(stamina._stamina.Value);
         }
     }
-
     private void HandleChopAction()
     {
         if(m_heldObjectType.Value is ObjectType.Axe or ObjectType.PickAxe)
@@ -291,19 +314,35 @@ public class PlayerBehaviour : NetworkBehaviour
         if (IsOwner)
         {
             RequestDropServerRpc();
-            m_animationEvents.OnInteract -= HandleInteractAction;
-            m_animationEvents.OnAnimationDone -= HandleAnimationDone;
-            m_animationEvents.OnChop -= HandleChopAction;
+            //m_animationEvents.OnInteract -= HandleInteractAction;
+            //m_animationEvents.OnAnimationDone -= HandleAnimationDone;
+            //m_animationEvents.OnChop -= HandleChopAction;
         }
         base.OnNetworkDespawn();
         
-        currentHealth.OnValueChanged += OnHealthChanged;
+        stamina._stamina.OnValueChanged -= OnStaminaChanged;
+
+        SceneManager.LoadScene(0);
     }
     
     [Rpc(SendTo.Server)]
     private void RequestDropServerRpc()
     {
         DropCurrentItem();
+    }
+
+    [ClientRpc]
+    public void TransitToDeadStateClientRpc()
+    {
+        stateMachine.Transit(deadState);
+    }
+    
+    [ClientRpc]
+    public void TransitToStunnedStateClientRpc(Vector3 position)
+    {
+        position.y = transform.position.y;
+        transform.position = position;
+        stateMachine.Transit(grabbedState);
     }
 }
 

@@ -8,10 +8,8 @@ public class JumpAttackState : State
     private Vector3 _jumpDirection;
     public override void Enter()
     {
-        player.animator.SetTrigger("attack");
+        player.animator.Play("Combo1a");
         _jumpDirection = player.controller.velocity;
-        
-        player.StartCoroutine(Wait());
     }
 
     public override void Exit()
@@ -23,13 +21,11 @@ public class JumpAttackState : State
     {
         if (!player.controller.isGrounded)
         {
-            player.controller.Move(_jumpDirection.normalized * (player.speed * Time.deltaTime));
+            player.controller.Move((_jumpDirection.normalized * player.speed + player.velocity) * Time.deltaTime);
         }
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(1.6f);
-        player.stateMachine.Transit(player.idleState);
+        else
+        {
+            player.stateMachine.Transit(player.movementState);
+        }
     }
 }

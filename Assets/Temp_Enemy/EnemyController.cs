@@ -11,8 +11,7 @@ public class EnemyController : NetworkBehaviour
     private Animator m_animator;
     [SerializeField]
     private AnimationEvents m_animationEvents;
-
-    private bool m_isInteracting, m_isChopping;
+    
     [SerializeField]
     private GameObject _greatSwordModel;
     
@@ -40,7 +39,6 @@ public class EnemyController : NetworkBehaviour
         if (IsOwner)
         {
             m_animationEvents.OnInteract += HandleInteractAction;
-            m_animationEvents.OnAnimationDone += HandleAnimationDone;
             m_animationEvents.OnChop += HandleChopAction;
         }
         player = GameObject.FindWithTag("Player");
@@ -82,12 +80,6 @@ public class EnemyController : NetworkBehaviour
     private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
     {
         _greatSwordModel.SetActive(newValue == ObjectType.Axe);
-    }
-
-    private void HandleAnimationDone()
-    {
-        m_isInteracting = false;
-        m_isChopping = false;
     }
 
     private void HandleInteractAction()
@@ -162,7 +154,6 @@ public class EnemyController : NetworkBehaviour
         {
             RequestDropServerRpc();
             m_animationEvents.OnInteract -= HandleInteractAction;
-            m_animationEvents.OnAnimationDone -= HandleAnimationDone;
             m_animationEvents.OnChop -= HandleChopAction;
         }
         base.OnNetworkDespawn();

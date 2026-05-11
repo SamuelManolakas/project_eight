@@ -24,9 +24,10 @@ public class BossBehaviour : Enemy
     public GameObject lowerBody;
     public Collider grabCollider;
     public ChargeHitBox chargeHitBox;
+    public GameObject bullet;
     
     [HideInInspector]
-    public Rigidbody rigidbody;
+    public Rigidbody _rigidbody;
     [HideInInspector]
     public StateMachine_B stateMachine = null;
     [HideInInspector]
@@ -49,6 +50,9 @@ public class BossBehaviour : Enemy
     public GrabState_B grabState = null;
     public ChargeState_B chargeState = null;
     public StunnedState_B stunnedState = null;
+    public ShootState_B shootState = null;
+    public StrikeState_B strikeState = null;
+    public SweepState_B sweepState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -62,17 +66,20 @@ public class BossBehaviour : Enemy
         grabState = new GrabState_B(this, aliveState);
         chargeState = new ChargeState_B(this, aliveState);
         stunnedState = new StunnedState_B(this, aliveState);
+        shootState = new ShootState_B(this, aliveState);
+        strikeState = new StrikeState_B(this, aliveState);
+        sweepState = new SweepState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
         
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         
         chargeHitBox.OnHitWall += TransitionToStunnedState;
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         chargeHitBox.OnHitWall -= TransitionToStunnedState;
     }
@@ -107,6 +114,8 @@ public class BossBehaviour : Enemy
     private float _testTimer;
     private void Update()
     {
+        if (!IsServer) return;
+        
         ContinuousAction();
         
         velocity.y += gravity * Time.deltaTime;
@@ -129,15 +138,17 @@ public class BossBehaviour : Enemy
 
     private void SwitchTarget()
     {
+        Vector3 closestTarget = Vector3.zero;
+        
         if (players.Count > 0)
         {
-            if (currentTarget == players[0] && players.Count > 1)
+            foreach (var player in players)
             {
-                currentTarget = players[1];
-            }
-            else
-            {
-                currentTarget = players[0];
+                Vector3.Distance(transform.position, player.transform.position);
+                if (Vector3.Distance(transform.position, player.transform.position) > closestTarget.magnitude)
+                {
+                    currentTarget = player;
+                }
             }
         }
     }
@@ -147,5 +158,11 @@ public class BossBehaviour : Enemy
     private void TransitionToStunnedState(Collider other)
     {
         stateMachine.Transit(stunnedState);
+    }
+
+    public void Shoot()
+    {
+        bullet.GetComponent<Bullet_B>().direction = currentTarget.transform.position - grabCollider.transform.position;
+        Instantiate(bullet, grabCollider.transform.position, grabCollider.transform.rotation);
     }
 }

@@ -7,13 +7,12 @@ public class StunnedState_B : State_B
     
     public override void Enter()
     {
-        Debug.Log("StunnedState_B Enter");
+        boss.animator.Play("Stunned");
         boss.StartCoroutine(Wait());
     }
 
     public override void Exit()
     {
-        Debug.Log("StunnedState_B Exit");
     }
 
     public override void ContinuousAction()
@@ -22,7 +21,7 @@ public class StunnedState_B : State_B
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(4f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }
