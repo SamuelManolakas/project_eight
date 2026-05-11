@@ -19,10 +19,16 @@ public class AttackState : State
         player.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
+    public override void OnAttack()
+    {
+        
+    }
+
     private IEnumerator Combo()
     {
-        yield return new WaitForSeconds(0.2f);
+        player.stamina.TryUseStamina(15);
         
+        yield return new WaitForSeconds(0.2f);
         
         player.attackBuffer = false;
         player.greatSwordModel.GetComponent<Collider>().enabled = true;
@@ -31,12 +37,14 @@ public class AttackState : State
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
         {
+            player.stamina.TryUseStamina(15);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
             
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
+                player.stamina.TryUseStamina(15);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
                 

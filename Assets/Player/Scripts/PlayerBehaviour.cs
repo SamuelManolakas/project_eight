@@ -117,9 +117,12 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed && stamina.TryUseStamina(15))
+        if (context.performed)
         {
-            stateMachine.currentState.OnAttack();
+            if (stateMachine.currentState != attackState)
+            {
+                stateMachine.currentState.OnAttack();
+            }
             attackBuffer = true;
         }
     }
