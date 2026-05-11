@@ -9,10 +9,7 @@ using UnityEngine.UI;
 public class PlayerBehaviour : NetworkBehaviour
 {
     [Header("Variables")]
-    public int maxHealth = 100;
     [HideInInspector] 
-    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, 
-        NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;
@@ -45,9 +42,12 @@ public class PlayerBehaviour : NetworkBehaviour
     public HurtBox hurtBox;
     [HideInInspector] 
     public bool attackBuffer;
+    [HideInInspector]
+    public PlayerHealth _health;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
+    private PlayerStamina _stamina;
     
     [HideInInspector]
     public StateMachine stateMachine = null;
@@ -85,6 +85,8 @@ public class PlayerBehaviour : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         initialSpeed = speed;
+        _stamina = GetComponent<PlayerStamina>();
+        _health = GetComponent<PlayerHealth>();
     }
 
     private void Start()
@@ -96,7 +98,6 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        currentHealth.Value = maxHealth;
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -109,16 +110,22 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnDodge(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
-        stateMachine.currentState.OnDodge();
         
-        if(!IsServer) return;
+        if (_stamina.TryUseStamina(10))
+        {
+            stateMachine.currentState.OnDodge();
+        }
     }
     
     public void OnAttack(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
-        stateMachine.currentState.OnAttack();
-        attackBuffer = true;
+
+        if (_stamina.TryUseStamina(15))
+        {
+            stateMachine.currentState.OnAttack();
+            attackBuffer = true;
+        }
     }
     
     public void OnJump(InputAction.CallbackContext context)
@@ -140,7 +147,7 @@ public class PlayerBehaviour : NetworkBehaviour
         if(!IsOwner) return;
         if (context.performed && controller.isGrounded)
             stateMachine.currentState.OnGuard();
-        else if (context.canceled && currentHealth.Value > 0)
+        else if (context.canceled && _health.Health > 0)
         {
             stateMachine.Transit(idleState);
         }
@@ -148,20 +155,17 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Update()
     {
-        if (IsOwner)
-        {
-            velocity.y += gravity * Time.deltaTime;
-            
-            ContinuousAction();
-        }
+        if(!IsOwner) return;
+        
+        velocity.y += gravity * Time.deltaTime;
+        ContinuousAction();
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
     
-    [ClientRpc]
-    public void GetHitClientRpc(int damage)
+    public void GetHit(int damage)
     {
-        if (!IsServer) return;
+        if(!IsServer) return;
         
         stateMachine.currentState.GetHit(damage);
     }
@@ -184,15 +188,15 @@ public class PlayerBehaviour : NetworkBehaviour
         if (!IsOwner) return;
         
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
-        currentHealth.OnValueChanged += OnHealthChanged;
+        _stamina._stamina.OnValueChanged += OnStaminaChanged;
     }
-
-    private void OnHealthChanged(int previousValue, int newValue)
+    
+    private void OnStaminaChanged(float previousValue, float newValue)
     {
         if (IsOwner)
         {
-            HUDManager.Instance.SetMaxHealth(maxHealth);
-            HUDManager.Instance.SetHealth(currentHealth.Value);
+            HUDManager.Instance.SetMaxStamina(_stamina.maxStamina);
+            HUDManager.Instance.SetStamina(_stamina._stamina.Value);
         }
     }
     private void HandleChopAction()
@@ -320,7 +324,7 @@ public class PlayerBehaviour : NetworkBehaviour
         }
         base.OnNetworkDespawn();
         
-        currentHealth.OnValueChanged -= OnHealthChanged;
+        _stamina._stamina.OnValueChanged -= OnStaminaChanged;
 
         SceneManager.LoadScene(0);
     }
