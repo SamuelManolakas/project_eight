@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1379274149302234012
 Transform:
   m_ObjectHideFlags: 0
@@ -116,13 +116,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897492142157116327}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.021794131, y: -0.043609027, z: 0.0009515526, w: 0.9988105}
+  m_LocalRotation: {x: 0.25361267, y: -0.5124318, z: 0.16156909, w: 0.80435675}
   m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7521652692402880921}
-  m_LocalEulerAnglesHint: {x: 2.5, y: -5, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: -65, z: 0}
 --- !u!108 &6744003160488305850
 Light:
   m_ObjectHideFlags: 0
@@ -133,8 +133,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 0.5058824, g: 0.27058825, b: 0.1764706, a: 1}
-  m_Intensity: 13.11
+  m_Color: {r: 0.6698113, g: 0.31372374, b: 0.11690103, a: 1}
+  m_Intensity: 10
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -173,10 +173,10 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -1550,7 +1550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7032589058483014368
 Transform:
   m_ObjectHideFlags: 0
