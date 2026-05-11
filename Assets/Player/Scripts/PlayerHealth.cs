@@ -82,7 +82,6 @@ public class PlayerHealth : NetworkBehaviour
     private void OnHealthChanged(int previous, int current)
     {
         // Fires on all clients — update health bar UI here
-        Debug.Log($"Health changed: {previous} → {current}");
 
         if (IsOwner)
         {

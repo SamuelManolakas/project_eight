@@ -8,7 +8,7 @@ public class PlayerStamina : NetworkBehaviour
         public float staminaRegenRate = 10f;
     
         // Owner can write directly — no ServerRpc needed
-        //[HideInInspector]
+        [HideInInspector]
         public NetworkVariable<float> _stamina = new NetworkVariable<float>(
             100f,
             NetworkVariableReadPermission.Everyone,
@@ -57,7 +57,6 @@ public class PlayerStamina : NetworkBehaviour
         private void OnStaminaChanged(float previous, float current)
         {
             // Still fires on all clients — use for UI updates
-            Debug.Log($"Stamina changed: {previous} → {current}");
         }
         
         public void ConsumeStaminaServer(float amount)
