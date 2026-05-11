@@ -8,12 +8,20 @@ public class PlayerStamina : NetworkBehaviour
         public float staminaRegenRate = 10f;
     
         // Owner can write directly — no ServerRpc needed
+        //[HideInInspector]
         public NetworkVariable<float> _stamina = new NetworkVariable<float>(
             100f,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner
         );
     
+        // Owner sets this when guarding — server reads it
+        public NetworkVariable<bool> IsGuarding = new NetworkVariable<bool>(
+            false,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner
+        );
+
         public float Stamina => _stamina.Value;
     
         public override void OnNetworkSpawn()
@@ -50,5 +58,20 @@ public class PlayerStamina : NetworkBehaviour
         {
             // Still fires on all clients — use for UI updates
             Debug.Log($"Stamina changed: {previous} → {current}");
+        }
+        
+        public void ConsumeStaminaServer(float amount)
+        {
+            if (!IsServer) return;
+
+            ConsumeStaminaClientRpc(amount);
+        }
+
+        [ClientRpc]
+        private void ConsumeStaminaClientRpc(float amount)
+        {
+            if (!IsOwner) return; // Only the owner writes the NetworkVariable
+
+            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
         }
 }

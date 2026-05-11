@@ -7,13 +7,14 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Health Settings")]
     public int maxHealth = 100;
 
-    public NetworkVariable<int> _health = new NetworkVariable<int>(
+    private NetworkVariable<int> _health = new NetworkVariable<int>(
         100,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
 
     private PlayerBehaviour player;
+    private PlayerStamina stamina;
     
     public int Health => _health.Value;
     public bool IsAlive => _health.Value > 0f;
@@ -21,6 +22,7 @@ public class PlayerHealth : NetworkBehaviour
     private void Awake()
     {
         player = GetComponent<PlayerBehaviour>();
+        stamina = GetComponent<PlayerStamina>();
     }
 
     public override void OnNetworkSpawn()
@@ -49,6 +51,12 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (!IsServer) return;
         if (!IsAlive) return;
+
+        if (stamina != null && stamina.IsGuarding.Value)
+        {
+            stamina.ConsumeStaminaServer(amount);
+            return;
+        }
 
         _health.Value = Mathf.Max(0, _health.Value - amount);
 

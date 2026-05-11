@@ -8,9 +8,9 @@ public class AliveState : State
 
     public override void GetHit(int damage)
     {
-        if (player._health.Health >= 0)
+        if (player.health.Health >= 0)
         {
-            player._health.TakeDamage(damage);
+            player.health.TakeDamage(damage);
         }
     }
 }

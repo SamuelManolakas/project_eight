@@ -8,21 +8,16 @@ public class GuardState : State
     public override void Enter()
     {
         player.animator.Play("Guard");
+
+        if (!player.IsOwner) return;
+        
+        player.stamina.IsGuarding.Value = true;
     }
 
     public override void Exit()
     {
+        if (!player.IsOwner) return;
         
-    }
-
-    public override void GetHit(int damage)
-    {
-        Debug.Log("I got hit while guarding!");
-        
-        //if (player.currentStamina.Value <= 0)
-        //{
-        //    player.currentHealth.Value -= damage;
-        //    player.TransitToStunnedStateClientRpc(player.transform.position);
-        //}
+        player.stamina.IsGuarding.Value = false;
     }
 }
