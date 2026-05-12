@@ -68,6 +68,7 @@ public class MovementState : State
 
     public override void OnGuard()
     {
-        player.stateMachine.Transit(player.guardState);
+        if (player.swordAndShield)
+            player.stateMachine.Transit(player.guardState);
     }
 }

@@ -7,16 +7,29 @@ public class HeavyAttackState : State
 
     public override void Enter()
     {
-        if (player.IsOwner)
+        if (player.swordAndShield)
         {
             player.hitBox.damage = player.damage * 2;
             player.StartCoroutine(Wait());
+        }
+        else if(player.bolter)
+        {
+            player.StartCoroutine(Aim());
         }
         
     }
 
     public override void Exit()
     {
+    }
+
+    private IEnumerator Aim()
+    {
+        player.animator.Play("Aim");
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        player.stateMachine.Transit(player.idleState);
     }
 
     private IEnumerator Wait()

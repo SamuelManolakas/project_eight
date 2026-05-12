@@ -8,8 +8,12 @@ using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour
 {
+    [Header("Weapon Choice")]
+    public bool swordAndShield;
+    public bool bolter;
+    public bool greatSword;
+    
     [Header("Variables")]
-    [HideInInspector] 
     public float speed;
     public float sprintSpeed;
     public float jumpHeight;

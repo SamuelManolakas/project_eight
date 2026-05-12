@@ -9,14 +9,22 @@ public class AttackState : State
     {
         if (player.IsOwner)
         {
-            player.hitBox.damage = player.damage;
-            player.StartCoroutine(Combo());
+            if (player.swordAndShield)
+            {
+                player.hitBox.damage = player.damage;
+                player.StartCoroutine(SwordAndShieldCombo());
+            }
+            else if(player.bolter)
+            {
+                player.StartCoroutine(Shoot());
+            }
         }
     }
 
     public override void Exit()
     {
-        player.greatSwordModel.GetComponent<Collider>().enabled = false;
+        if (player.swordAndShield)
+            player.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
     public override void OnAttack()
@@ -24,7 +32,7 @@ public class AttackState : State
         
     }
 
-    private IEnumerator Combo()
+    private IEnumerator SwordAndShieldCombo()
     {
         player.stamina.TryUseStamina(15);
         
@@ -60,5 +68,14 @@ public class AttackState : State
         {
             player.stateMachine.Transit(player.idleState);
         }
+    }
+
+    private IEnumerator Shoot()
+    {
+        player.animator.Play("Shoot");
+        
+        yield return new WaitForSeconds(0.25f);
+        
+        player.stateMachine.Transit(player.idleState);
     }
 }
