@@ -6,8 +6,7 @@ public class PlayerHealth : NetworkBehaviour
 {
     [Header("Health Settings")]
     public int maxHealth = 100;
-
-    [SerializeField]
+    
     private NetworkVariable<int> _health = new NetworkVariable<int>(
         100,
         NetworkVariableReadPermission.Everyone,

@@ -1461,6 +1461,7 @@ MonoBehaviour:
   gravity: -15
   dodgeDistance: 6
   damage: 3
+  healConsumableAmount: 4
   healAmount: 10
   animator: {fileID: 3250792148600151201}
   m_interactionDetector: {fileID: 6711439868172442985}
@@ -1634,6 +1635,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3b6058d4-85f2-46ac-beac-ff406d423f02
     m_ActionName: 'Gameplay/Heal[/Keyboard/f,/DualSenseGamepadHID/buttonWest]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnHeavyAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 91063c1f-2fc0-4a00-bd25-bcc74e30c36e
+    m_ActionName: 'Gameplay/HeavyAttack[/Mouse/rightButton,/DualSenseGamepadHID/rightTrigger]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

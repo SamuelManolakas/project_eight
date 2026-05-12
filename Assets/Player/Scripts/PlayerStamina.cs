@@ -16,6 +16,7 @@ public class PlayerStamina : NetworkBehaviour
         );
     
         // Owner sets this when guarding — server reads it
+        [HideInInspector]
         public NetworkVariable<bool> IsGuarding = new NetworkVariable<bool>(
             false,
             NetworkVariableReadPermission.Everyone,

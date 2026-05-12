@@ -12,4 +12,5 @@ public class RootState : State{
     public override void OnDodge(){}
     public override void OnSprint(){}
     public override void OnGuard(){}
+    public override void OnHeavyAttack(){}
 }

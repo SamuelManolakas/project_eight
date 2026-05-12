@@ -16,6 +16,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public float gravity;
     public float dodgeDistance;
     public int damage;
+    public int healConsumableAmount;
     public int healAmount;
     
     [Header("Components")]
@@ -66,6 +67,9 @@ public class PlayerBehaviour : NetworkBehaviour
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
     public GuardState guardState = null;
+    public HeavyAttackState heavyAttackState = null;
+
+    private float _healCooldown;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -80,6 +84,7 @@ public class PlayerBehaviour : NetworkBehaviour
         jumpAttackState = new JumpAttackState(this, attackState);
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
+        heavyAttackState = new HeavyAttackState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -127,6 +132,19 @@ public class PlayerBehaviour : NetworkBehaviour
             attackBuffer = true;
         }
     }
+
+    public void OnHeavyAttack(InputAction.CallbackContext context)
+    {
+        if(!IsOwner) return;
+
+        if (context.performed)
+        {
+            if (stateMachine.currentState != heavyAttackState)
+            {
+                stateMachine.currentState.OnHeavyAttack();
+            }
+        }
+    }
     
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -156,9 +174,11 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnHeal(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
-        if (context.performed && health.Health > 0)
+        if (context.performed && health.Health > 0 && healConsumableAmount > 0)
         {
+            _healCooldown = 0.6f;
             health.Heal(healAmount);
+            healConsumableAmount--;
         }
     }
 
@@ -168,6 +188,11 @@ public class PlayerBehaviour : NetworkBehaviour
         
         velocity.y += gravity * Time.deltaTime;
         ContinuousAction();
+
+        if (_healCooldown >= 0)
+        {
+            _healCooldown -= Time.deltaTime;
+        }
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
