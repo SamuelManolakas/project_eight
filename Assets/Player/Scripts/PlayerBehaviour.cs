@@ -155,7 +155,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(!IsServer) return;
+        if(!IsOwner) return;
         if (context.performed && health.Health > 0)
         {
             health.Heal(healAmount);

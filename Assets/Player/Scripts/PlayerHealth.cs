@@ -67,9 +67,27 @@ public class PlayerHealth : NetworkBehaviour
 
     public void Heal(int amount)
     {
-        if (!IsServer) return;
         if (!IsAlive) return;
-        
+
+        if (IsServer)
+        {
+            ApplyHeal(amount);
+        }
+        else if (IsOwner)
+        {
+            HealServerRpc(amount);
+        }
+    }
+
+    [ServerRpc]
+    private void HealServerRpc(int amount)
+    {
+        if (!IsAlive) return;
+        ApplyHeal(amount);
+    }
+
+    private void ApplyHeal(int amount)
+    {
         _health.Value = Mathf.Min(maxHealth, _health.Value + amount);
     }
 
