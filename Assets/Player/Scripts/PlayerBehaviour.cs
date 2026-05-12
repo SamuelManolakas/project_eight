@@ -16,6 +16,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public float gravity;
     public float dodgeDistance;
     public int damage;
+    public int healAmount;
     
     [Header("Components")]
     public Animator animator;
@@ -149,6 +150,15 @@ public class PlayerBehaviour : NetworkBehaviour
         else if (context.canceled && health.Health > 0)
         {
             stateMachine.Transit(idleState);
+        }
+    }
+    
+    public void OnHeal(InputAction.CallbackContext context)
+    {
+        if(!IsServer) return;
+        if (context.performed && health.Health > 0)
+        {
+            health.Heal(healAmount);
         }
     }
 

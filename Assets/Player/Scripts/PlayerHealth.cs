@@ -7,6 +7,7 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Health Settings")]
     public int maxHealth = 100;
 
+    [SerializeField]
     private NetworkVariable<int> _health = new NetworkVariable<int>(
         100,
         NetworkVariableReadPermission.Everyone,
@@ -62,6 +63,14 @@ public class PlayerHealth : NetworkBehaviour
 
         if (!IsAlive)
             HandleDeath();
+    }
+
+    public void Heal(int amount)
+    {
+        if (!IsServer) return;
+        if (!IsAlive) return;
+        
+        _health.Value = Mathf.Min(maxHealth, _health.Value + amount);
     }
 
     private void HandleDeath()

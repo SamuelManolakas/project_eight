@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 860196082
+  GlobalObjectIdHash: 1366874158
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1461,6 +1461,7 @@ MonoBehaviour:
   gravity: -15
   dodgeDistance: 6
   damage: 3
+  healAmount: 10
   animator: {fileID: 3250792148600151201}
   m_interactionDetector: {fileID: 6711439868172442985}
   greatSwordModel: {fileID: 7477735064126553414}
@@ -1473,7 +1474,8 @@ MonoBehaviour:
   hitBox: {fileID: 0}
   hurtBox: {fileID: 0}
   attackBuffer: 0
-  _health: {fileID: 0}
+  health: {fileID: 0}
+  stamina: {fileID: 0}
   stateMachine: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
@@ -1581,19 +1583,7 @@ MonoBehaviour:
     m_ActionId: d6c09574-d5f9-40c9-b656-a62bfcee16a9
     m_ActionName: 'Gameplay/Sprint[/Keyboard/shift]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TargetLockHandler2, Assembly-CSharp
-        m_MethodName: OnTargetLock
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: cce10d21-5e1e-45c7-ba68-d00ccbd20007
     m_ActionName: 'Gameplay/TargetLock[/Keyboard/q]'
   - m_PersistentCalls:
@@ -1628,6 +1618,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e1c75432-0731-4720-85ad-4d12b8d5793a
     m_ActionName: 'Gameplay/Guard[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnHeal
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3b6058d4-85f2-46ac-beac-ff406d423f02
+    m_ActionName: 'Gameplay/Heal[/Keyboard/f,/DualSenseGamepadHID/buttonWest]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -1665,6 +1671,8 @@ MonoBehaviour:
   staminaRegenRate: 10
   _stamina:
     m_InternalValue: 100
+  IsGuarding:
+    m_InternalValue: 0
 --- !u!114 &7333547590676185647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,8 +1687,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
-  _health:
-    m_InternalValue: 100
 --- !u!1 &5264789525127992762
 GameObject:
   m_ObjectHideFlags: 0
