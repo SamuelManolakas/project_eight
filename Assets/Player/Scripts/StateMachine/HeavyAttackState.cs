@@ -58,15 +58,14 @@ public class HeavyAttackState : State
 
     public override void OnAttack()
     {
-        if(_timer <= 0)
+        if(_timer <= 0 && player.ammo > 0)
             player.StartCoroutine(Shoot());
-        
-        
     }
 
     private IEnumerator Shoot()
     {
         _timer = player.fireRate;
+        player.ammo--;
         player.animator.Play("Shoot");
         player.playerShoot.Shoot();
         

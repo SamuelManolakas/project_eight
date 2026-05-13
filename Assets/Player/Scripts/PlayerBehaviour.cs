@@ -22,6 +22,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public int damage;
     public int healConsumableAmount;
     public int healAmount;
+    public int maxAmmo;
+    [HideInInspector] public int ammo;
     public float fireRate;
     
     [Header("Components")]
@@ -75,6 +77,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public GrabbedState grabbedState = null;
     public GuardState guardState = null;
     public HeavyAttackState heavyAttackState = null;
+    public ReloadState reloadState = null;
 
     private float _healCooldown;
     
@@ -92,6 +95,7 @@ public class PlayerBehaviour : NetworkBehaviour
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
         heavyAttackState = new HeavyAttackState(this, aliveState);
+        reloadState = new ReloadState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -108,6 +112,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         hitBox = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
+        ammo = maxAmmo;
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -191,6 +196,16 @@ public class PlayerBehaviour : NetworkBehaviour
             _healCooldown = 0.6f;
             health.Heal(healAmount);
             healConsumableAmount--;
+        }
+    }
+    
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if(!IsOwner) return;
+        
+        if (context.performed && bolter)
+        {
+            stateMachine.Transit(reloadState);
         }
     }
 
