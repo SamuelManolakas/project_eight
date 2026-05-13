@@ -14,7 +14,7 @@ public class PlayerShoot : NetworkBehaviour
 
     // Client → Server: ask the server to spawn a bullet
     [ServerRpc]
-    public void RequestShootServerRpc(Vector3 position, Vector3 direction)
+    private void RequestShootServerRpc(Vector3 position, Vector3 direction)
     {
         GameObject bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(direction));
 

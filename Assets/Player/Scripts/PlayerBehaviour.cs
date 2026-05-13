@@ -22,6 +22,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public int damage;
     public int healConsumableAmount;
     public int healAmount;
+    public float fireRate;
     
     [Header("Components")]
     public Animator animator;

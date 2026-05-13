@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class HeavyAttackState : State
 {
     public HeavyAttackState(PlayerBehaviour player, State parent) : base(player , parent){}
 
+    private float _timer;
+    
     public override void Enter()
     {
         if (player.swordAndShield)
@@ -27,7 +30,7 @@ public class HeavyAttackState : State
     {
         player.animator.Play("Aim");
         
-        // add aim logi here
+        // add aim logic here
         
     }
 
@@ -41,19 +44,29 @@ public class HeavyAttackState : State
         if (player.bolter)
         {
             Quaternion toRotation = Quaternion.LookRotation(Camera.main.transform.forward,Vector3.up);
+            
+            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+            
             toRotation.x = 0;
             toRotation.z = 0;
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+            
+            if (_timer >= 0)
+                _timer -= Time.deltaTime;
         }
     }
 
     public override void OnAttack()
     {
-        player.StartCoroutine(Shoot());
+        if(_timer <= 0)
+            player.StartCoroutine(Shoot());
+        
+        
     }
 
     private IEnumerator Shoot()
     {
+        _timer = player.fireRate;
         player.animator.Play("Shoot");
         player.playerShoot.Shoot();
         

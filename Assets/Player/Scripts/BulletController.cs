@@ -36,7 +36,8 @@ public class BulletController : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // TODO: Apply damage here (e.g., other.GetComponent<Health>()?.TakeDamage(10))
+        if(other.TryGetComponent(out HurtBox hurtBox))
+            hurtBox.GetHit(10); 
 
         DestroyBullet();
     }

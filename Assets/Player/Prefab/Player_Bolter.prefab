@@ -1493,6 +1493,7 @@ MonoBehaviour:
   damage: 3
   healConsumableAmount: 4
   healAmount: 10
+  fireRate: 0.9
   animator: {fileID: 2600101153406213727}
   m_interactionDetector: {fileID: 6711439868172442985}
   greatSwordModel: {fileID: 1770209623156031967}
