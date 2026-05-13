@@ -1177,7 +1177,7 @@ MonoBehaviour:
   maxDistance: 12
   zoomSensitivity: 2
   zoomSmoothing: 8
-  targetOffset: {x: 0, y: 1.6, z: 0}
+  targetOffset: {x: 0.6, y: 1.6, z: 2.5}
   followSmoothing: 10
   enableCollision: 0
   collisionRadius: 0.2

@@ -12,6 +12,7 @@ using UnityEngine.InputSystem;
 ///       - "Look"   (Value, Vector2) bound to Mouse/Delta
 ///       - "Zoom"   (Value, float)   bound to Mouse/Scroll Y  [optional]
 ///       - "LockOn" (Button)         bound to your preferred key/button
+///       - "Aim"    (Button)         bound to RMB / Left Trigger / etc.
 ///  4. Assign the InputActionReferences in the Inspector.
 ///  5. Optionally assign a 'lockOnTarget' in the Inspector, or set it at
 ///     runtime via SetLockOnTarget().
@@ -20,12 +21,13 @@ public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("Target")]
     [Tooltip("The transform the camera orbits and follows (your player).")]
-    [SerializeField] public Transform target;
+    public Transform target;
 
     [Header("Input Actions")]
     [SerializeField] private InputActionReference lookAction;
     [SerializeField] private InputActionReference zoomAction;   // optional scroll zoom
     [SerializeField] private InputActionReference lockOnAction; // toggle lock-on
+    [SerializeField] private InputActionReference aimAction;    // hold to aim (e.g. RMB / LT)
 
     [Header("Orbit Settings")]
     [SerializeField] private float horizontalSensitivity = 0.2f;
@@ -59,6 +61,16 @@ public class ThirdPersonCamera : MonoBehaviour
     [Tooltip("How quickly the camera rotates to face the lock-on target.")]
     [SerializeField] private float lockOnRotationSpeed = 8f;
 
+    [Header("Aim (Over-Shoulder)")]
+    [Tooltip("Distance from the pivot while aiming.")]
+    [SerializeField] private float aimDistance = 2f;
+    [Tooltip("Right-shoulder offset while aiming. Increase X to push further right.")]
+    [SerializeField] private Vector3 aimShoulderOffset = new Vector3(0.6f, 0f, 0f);
+    [Tooltip("Pivot height offset while aiming (relative to targetOffset.y).")]
+    [SerializeField] private float aimHeightOffset = 0.1f;
+    [Tooltip("How fast the camera transitions in and out of aim mode.")]
+    [SerializeField] private float aimTransitionSpeed = 10f;
+
     // Runtime state
     private float   _yaw;
     private float   _pitch;
@@ -66,6 +78,10 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 _followPos;
     private bool    _cursorLocked;
     private bool    _isLockedOn;
+    private bool    _isAiming;
+    private float   _currentAimBlend;      // 0 = normal, 1 = fully aimed
+    private float   _currentAimDistance;   // lerped distance
+    private Vector3 _currentShoulderOffset; // lerped shoulder offset
 
     // ---------------------------------------------------------------
     private void Awake()
@@ -83,6 +99,9 @@ public class ThirdPersonCamera : MonoBehaviour
         _pitch = angles.x;
 
         //SetCursorLocked(true);
+
+        _currentAimDistance    = distance;
+        _currentShoulderOffset = Vector3.zero;
     }
 
     private void OnEnable()
@@ -90,6 +109,7 @@ public class ThirdPersonCamera : MonoBehaviour
         lookAction?.action.Enable();
         zoomAction?.action.Enable();
         lockOnAction?.action.Enable();
+        aimAction?.action.Enable();
     }
 
     private void OnDisable()
@@ -97,6 +117,7 @@ public class ThirdPersonCamera : MonoBehaviour
         lookAction?.action.Disable();
         zoomAction?.action.Disable();
         lockOnAction?.action.Disable();
+        aimAction?.action.Disable();
     }
 
     // ---------------------------------------------------------------
@@ -125,6 +146,9 @@ public class ThirdPersonCamera : MonoBehaviour
             else
                 SetLockOn(true);
         }
+
+        // --- Aim (hold) ---
+        _isAiming = aimAction != null && aimAction.action.IsPressed();
 
         // Only orbit with mouse when the cursor is locked and not locked on
         if (!_cursorLocked || _isLockedOn) return;
@@ -162,40 +186,52 @@ public class ThirdPersonCamera : MonoBehaviour
     // ---------------------------------------------------------------
     private void ApplyTransform()
     {
+        // Smoothly blend aim distance and shoulder offset
+        float aimTarget = _isAiming ? 1f : 0f;
+        _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
+
+        float   activeDist   = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
+        Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
+        float   activeHeight = Mathf.Lerp(0f, aimHeightOffset, _currentAimBlend);
+
+        // Shift the pivot up slightly when aiming
+        Vector3 aimPivot = _followPos + transform.up * activeHeight;
+
         if (_isLockedOn && lockOnTarget != null)
         {
-            // --- Lock-on mode ---
-            // Camera stays at its orbited position but rotates to face the lock-on target.
+            // --- Lock-on mode (with optional aim blend) ---
             Quaternion currentRotation = Quaternion.Euler(_pitch, _yaw, 0f);
-            Vector3 desiredPos = _followPos - currentRotation * Vector3.forward * distance;
+            Vector3 desiredPos = aimPivot
+                                 - currentRotation * Vector3.forward * activeDist
+                                 + currentRotation * activeOffset;
 
             if (enableCollision)
-                desiredPos = ResolveCollision(_followPos, desiredPos);
+                desiredPos = ResolveCollision(aimPivot, desiredPos);
 
             transform.position = desiredPos;
 
-            // Smoothly rotate toward the lock-on target
             Vector3    lookAtPoint = lockOnTarget.position + lockOnOffset;
             Quaternion targetRot   = Quaternion.LookRotation(lookAtPoint - transform.position);
             transform.rotation     = Quaternion.Slerp(transform.rotation, targetRot,
                                                       lockOnRotationSpeed * Time.deltaTime);
 
-            // Sync _yaw/_pitch to the smoothed rotation so there's no snap on unlock
             _yaw   = transform.eulerAngles.y;
             _pitch = transform.eulerAngles.x;
-            if (_pitch > 180f) _pitch -= 360f; // normalise to -180..180 so clamp works correctly
+            if (_pitch > 180f) _pitch -= 360f;
         }
         else
         {
-            // --- Normal orbit mode ---
+            // --- Normal / aim mode ---
             Quaternion rotation = Quaternion.Euler(_pitch, _yaw, 0f);
-            Vector3 desiredPos  = _followPos - rotation * Vector3.forward * distance;
+            Vector3 desiredPos  = aimPivot
+                                  - rotation * Vector3.forward * activeDist
+                                  + rotation * activeOffset;
 
             if (enableCollision)
-                desiredPos = ResolveCollision(_followPos, desiredPos);
+                desiredPos = ResolveCollision(aimPivot, desiredPos);
 
             transform.position = desiredPos;
-            transform.LookAt(_followPos);
+            transform.LookAt(aimPivot);
         }
     }
 
@@ -240,4 +276,13 @@ public class ThirdPersonCamera : MonoBehaviour
         if (newTarget == null)
             SetLockOn(false);
     }
+
+    /// <summary>
+    /// Drive aim mode from code instead of (or in addition to) the input action.
+    /// Useful if your weapon system manages its own state.
+    /// </summary>
+    public void SetAiming(bool active) => _isAiming = active;
+
+    /// <summary>Returns true while the camera is in aim mode.</summary>
+    public bool IsAiming => _isAiming;
 }

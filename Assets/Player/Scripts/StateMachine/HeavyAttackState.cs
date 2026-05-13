@@ -29,9 +29,6 @@ public class HeavyAttackState : State
     private void Aim()
     {
         player.animator.Play("Aim");
-        
-        // add aim logic here
-        
     }
 
     public void ExitAim()
@@ -45,11 +42,9 @@ public class HeavyAttackState : State
         {
             Quaternion toRotation = Quaternion.LookRotation(Camera.main.transform.forward,Vector3.up);
             
-            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.playerShoot.firePoint.transform.rotation, toRotation, Time.deltaTime * 10f);
             
-            toRotation.x = 0;
-            toRotation.z = 0;
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, new Quaternion(0,toRotation.y,0, toRotation.w), Time.deltaTime * 10f);
             
             if (_timer >= 0)
                 _timer -= Time.deltaTime;

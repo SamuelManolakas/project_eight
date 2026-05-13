@@ -34,6 +34,7 @@ public class PlayerBehaviour : NetworkBehaviour
     private InteractionDetector m_interactionDetector;
     public GameObject greatSwordModel;
     public GameObject hudPrefab;
+    public Transform aimCameraOffset;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -57,6 +58,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public PlayerStamina stamina;
     [HideInInspector]
     public PlayerShoot playerShoot;
+    [HideInInspector]
+    public ThirdPersonCamera camera;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -248,7 +251,8 @@ public class PlayerBehaviour : NetworkBehaviour
 
         if (!IsOwner) return;
         
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
+        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
+        camera.target = transform;
         stamina._stamina.OnValueChanged += OnStaminaChanged;
     }
     
