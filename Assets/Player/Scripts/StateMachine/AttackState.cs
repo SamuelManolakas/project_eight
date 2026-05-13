@@ -14,10 +14,6 @@ public class AttackState : State
                 player.hitBox.damage = player.damage;
                 player.StartCoroutine(SwordAndShieldCombo());
             }
-            else if(player.bolter)
-            {
-                player.StartCoroutine(Shoot());
-            }
         }
     }
 
@@ -68,14 +64,5 @@ public class AttackState : State
         {
             player.stateMachine.Transit(player.idleState);
         }
-    }
-
-    private IEnumerator Shoot()
-    {
-        player.animator.Play("Shoot");
-        
-        yield return new WaitForSeconds(0.25f);
-        
-        player.stateMachine.Transit(player.idleState);
     }
 }

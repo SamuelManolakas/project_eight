@@ -52,6 +52,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public PlayerHealth health;
     [HideInInspector]
     public PlayerStamina stamina;
+    [HideInInspector]
+    public PlayerShoot playerShoot;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -98,6 +100,7 @@ public class PlayerBehaviour : NetworkBehaviour
         initialSpeed = speed;
         stamina = GetComponent<PlayerStamina>();
         health = GetComponent<PlayerHealth>();
+        playerShoot = GetComponent<PlayerShoot>();
     }
 
     private void Start()
@@ -147,6 +150,10 @@ public class PlayerBehaviour : NetworkBehaviour
             {
                 stateMachine.currentState.OnHeavyAttack();
             }
+        }
+        else if (context.canceled && stateMachine.currentState == heavyAttackState)
+        {
+            heavyAttackState.ExitAim();
         }
     }
     
