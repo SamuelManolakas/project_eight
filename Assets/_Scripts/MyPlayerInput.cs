@@ -13,8 +13,6 @@ public class MyPlayerInput : NetworkBehaviour
     public event Action OnInteractPressed;
 
     private Vector2 m_rawInput;
-    [SerializeField]
-    private float m_smoothTime = 0.1f;
 
     private void Update()
     {

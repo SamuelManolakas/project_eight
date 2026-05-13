@@ -8,18 +8,9 @@ public class AliveState : State
 
     public override void GetHit(int damage)
     {
-        if (!player.IsServer)
+        if (player.health.Health >= 0)
         {
-            return;
-        }
-
-        if (player.currentHealth.Value > 0)
-        {
-            player.currentHealth.Value -= damage;
-        }
-        else
-        {
-            player.stateMachine.Transit(player.deadState);
+            player.health.TakeDamage(damage);
         }
     }
 }

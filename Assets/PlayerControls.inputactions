@@ -34,6 +34,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "HeavyAttack",
+                    "type": "Button",
+                    "id": "91063c1f-2fc0-4a00-bd25-bcc74e30c36e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Dodge",
                     "type": "Button",
                     "id": "9be48847-8575-48a9-8829-937902628c74",
@@ -73,6 +82,15 @@
                     "name": "Guard",
                     "type": "Button",
                     "id": "e1c75432-0731-4720-85ad-4d12b8d5793a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Heal",
+                    "type": "Button",
+                    "id": "3b6058d4-85f2-46ac-beac-ff406d423f02",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -182,7 +200,7 @@
                 {
                     "name": "",
                     "id": "ebb40cd0-10f5-41e8-acbc-53534ee5a673",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -204,7 +222,7 @@
                 {
                     "name": "",
                     "id": "67e89fff-b95e-4f5e-91aa-14d0369bd580",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -237,7 +255,7 @@
                 {
                     "name": "",
                     "id": "21e57cd9-6ede-4bdf-aeab-aa7b517aec41",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -270,7 +288,7 @@
                 {
                     "name": "2D Vector",
                     "id": "adf155fb-d29d-4704-92ad-33756f0f2f7f",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -281,11 +299,55 @@
                 {
                     "name": "",
                     "id": "7315262e-c91c-4496-b5d0-e7186725e7c1",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Guard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdef105e-d88a-490b-bd83-978ae703ec06",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7026ab4a-0e59-469e-bc0d-3d4973816269",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08347137-e332-4106-af0f-74862a9c1d5a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b753df98-0b7a-4e65-ada4-1bbedce7907e",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

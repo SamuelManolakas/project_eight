@@ -33,8 +33,12 @@ public class GrabbedState : State
     {
         yield return new WaitForSeconds(2.5f);
         //Temporary damage solution
-        player.GetHit(10);
+        if (player.health.Health >= 0)
+        {
+            player.health.TakeDamage(10);
+        }
         //knock back from the explosion
+        
         grabbed = true;
     }
 }

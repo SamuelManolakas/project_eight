@@ -32,7 +32,7 @@ public class MovementState : State
 
         if (player.speed == player.sprintSpeed)
         {
-            player.stamina.Value -= Time.deltaTime * 3;
+            
         }
 
         if (move.sqrMagnitude > 0.001f)
@@ -48,7 +48,8 @@ public class MovementState : State
 
     public override void OnAttack()
     {
-        player.stateMachine.Transit(player.attackState);
+        if(player.swordAndShield || player.greatSword)
+            player.stateMachine.Transit(player.attackState);
     }
 
     public override void OnJump()
@@ -68,6 +69,12 @@ public class MovementState : State
 
     public override void OnGuard()
     {
-        player.stateMachine.Transit(player.guardState);
+        if (player.swordAndShield)
+            player.stateMachine.Transit(player.guardState);
+    }
+
+    public override void OnHeavyAttack()
+    {
+        player.stateMachine.Transit(player.heavyAttackState);
     }
 }

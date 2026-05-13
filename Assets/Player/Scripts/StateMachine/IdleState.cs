@@ -31,6 +31,11 @@ public class IdleState : State
         player.stateMachine.Transit(player.attackState);
     }
 
+    public override void OnHeavyAttack()
+    {
+        player.stateMachine.Transit(player.heavyAttackState);
+    }
+
     public override void OnJump()
     {
         player.stateMachine.Transit(player.jumpState);

@@ -24,7 +24,7 @@ public class HUDManager : MonoBehaviour
         healthSlider.value = health;
     }
     
-    public void SetMaxStamina(int max)
+    public void SetMaxStamina(float max)
     {
         staminaSlider.maxValue = max;
         staminaSlider.value = max;

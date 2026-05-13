@@ -7,37 +7,51 @@ public class AttackState : State
     
     public override void Enter()
     {
-        player.stamina.Value -= 2f;
-        if (player.IsLocalPlayer)
+        if (player.IsOwner)
         {
-            player.hitBox.damage = player.damage;
-            player.StartCoroutine(Combo());
+            if (player.swordAndShield)
+            {
+                player.hitBox.damage = player.damage;
+                player.StartCoroutine(SwordAndShieldCombo());
+            }
         }
     }
 
     public override void Exit()
     {
-        player.greatSwordModel.GetComponent<Collider>().enabled = false;
+        if (player.swordAndShield)
+            player.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
-    private IEnumerator Combo()
+    public override void OnAttack()
     {
+        
+    }
+
+    private IEnumerator SwordAndShieldCombo()
+    {
+        player.stamina.TryUseStamina(15);
+        
         yield return new WaitForSeconds(0.2f);
+        
         player.attackBuffer = false;
         player.greatSwordModel.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");
+        
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
         {
+            player.stamina.TryUseStamina(15);
             player.animator.Play("Combo1b");
-            player.stamina.Value -= 2f;
             player.attackBuffer  = false;
+            
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
+                player.stamina.TryUseStamina(15);
                 player.animator.Play("Combo1c");
-                player.stamina.Value -= 2f;
                 player.attackBuffer  = false;
+                
                 yield return new WaitForSeconds(1f);
                 player.stateMachine.Transit(player.idleState);
             }

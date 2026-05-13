@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HurtBox : NetworkBehaviour
 {
-    public PlayerBehaviour player;
+    public PlayerHealth player;
     public BossBehaviour boss;
     
     public void GetHit(int damage)

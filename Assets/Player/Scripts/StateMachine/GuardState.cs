@@ -8,19 +8,16 @@ public class GuardState : State
     public override void Enter()
     {
         player.animator.Play("Guard");
+
+        if (!player.IsOwner) return;
+        
+        player.stamina.IsGuarding.Value = true;
     }
 
     public override void Exit()
     {
+        if (!player.IsOwner) return;
         
-    }
-
-    public override void GetHit(int damage)
-    {
-        player.stamina.Value -= 4f;
-        if (player.stamina.Value <= 0)
-        {
-            player.currentHealth.Value -= damage / 2;
-        }
+        player.stamina.IsGuarding.Value = false;
     }
 }

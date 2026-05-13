@@ -1,15 +1,15 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CannonGrab : MonoBehaviour
+public class CannonGrab : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Grabbed!");
             other.TryGetComponent(out PlayerBehaviour player);
-            player.TransitToStunnedState(transform.position);
+            player.TransitToStunnedStateClientRpc(transform.position);
         }
     }
 }
