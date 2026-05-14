@@ -1803,6 +1803,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPrefab: {fileID: 775290615496694872, guid: 6c6169c9298595f40bb7845e0c40ca5a, type: 3}
   firePoint: {fileID: 5758443044898977333}
+  damage: 5
 --- !u!1 &5146331886742341556
 GameObject:
   m_ObjectHideFlags: 0
