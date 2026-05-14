@@ -75,11 +75,11 @@ public class PlayerBehaviour : NetworkBehaviour
     public MovementState movementState = null;
     public DodgeState dodgeState = null;
     public JumpState jumpState = null;
-    public AttackState attackState = null;
+    public PrimaryAttackState primaryAttackState = null;
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
     public GuardState guardState = null;
-    public HeavyAttackState heavyAttackState = null;
+    public SecondaryAttackState secondaryAttackState = null;
     public ReloadState reloadState = null;
 
     private float _healCooldown;
@@ -93,11 +93,11 @@ public class PlayerBehaviour : NetworkBehaviour
         movementState = new MovementState(this, aliveState);
         dodgeState = new DodgeState(this, aliveState);
         jumpState = new JumpState(this, aliveState);
-        attackState = new AttackState(this, aliveState);
-        jumpAttackState = new JumpAttackState(this, attackState);
+        primaryAttackState = new PrimaryAttackState(this, aliveState);
+        jumpAttackState = new JumpAttackState(this, primaryAttackState);
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
-        heavyAttackState = new HeavyAttackState(this, aliveState);
+        secondaryAttackState = new SecondaryAttackState(this, aliveState);
         reloadState = new ReloadState(this, aliveState);
         
         stateMachine = new StateMachine();
@@ -135,34 +135,34 @@ public class PlayerBehaviour : NetworkBehaviour
         }
     }
     
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
 
         if (context.performed)
         {
-            if (stateMachine.currentState != attackState)
+            if (stateMachine.currentState != primaryAttackState)
             {
-                stateMachine.currentState.OnAttack();
+                stateMachine.currentState.OnPrimaryAttack();
             }
             attackBuffer = true;
         }
     }
 
-    public void OnHeavyAttack(InputAction.CallbackContext context)
+    public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
 
         if (context.performed)
         {
-            if (stateMachine.currentState != heavyAttackState)
+            if (stateMachine.currentState != secondaryAttackState)
             {
-                stateMachine.currentState.OnHeavyAttack();
+                stateMachine.currentState.OnSecondaryAttack();
             }
         }
-        else if (context.canceled && stateMachine.currentState == heavyAttackState)
+        else if (context.canceled && stateMachine.currentState == secondaryAttackState)
         {
-            heavyAttackState.ExitAim();
+            secondaryAttackState.ExitAim();
         }
     }
     

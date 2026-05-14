@@ -1300,7 +1300,7 @@ GameObject:
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
   m_Layer: 8
-  m_Name: Player
+  m_Name: Player_SwordAndShield
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1466,10 +1466,14 @@ MonoBehaviour:
   damage: 3
   healConsumableAmount: 4
   healAmount: 10
+  maxAmmo: 0
+  ammo: 0
+  fireRate: 0
   animator: {fileID: 3250792148600151201}
   m_interactionDetector: {fileID: 6711439868172442985}
   greatSwordModel: {fileID: 7477735064126553414}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
+  aimCameraOffset: {fileID: 0}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}
@@ -1480,6 +1484,8 @@ MonoBehaviour:
   attackBuffer: 0
   health: {fileID: 0}
   stamina: {fileID: 0}
+  playerShoot: {fileID: 0}
+  camera: {fileID: 0}
   stateMachine: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
@@ -1542,7 +1548,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2722297990731148367}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
-        m_MethodName: OnAttack
+        m_MethodName: OnPrimaryAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1642,7 +1648,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2722297990731148367}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
-        m_MethodName: OnHeavyAttack
+        m_MethodName: OnSecondaryAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1654,6 +1660,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 91063c1f-2fc0-4a00-bd25-bcc74e30c36e
     m_ActionName: 'Gameplay/HeavyAttack[/Mouse/rightButton,/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 60f823ac-c4b8-484d-9631-6ea4b14fd384
+    m_ActionName: 'Gameplay/Reload[/Keyboard/r]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

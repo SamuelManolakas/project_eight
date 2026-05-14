@@ -23,6 +23,9 @@ public class ThirdPersonCamera : MonoBehaviour
     [Tooltip("The transform the camera orbits and follows (your player).")]
     public Transform target;
 
+    [Header("Ranged player settings")] 
+    public bool isRanged;
+
     [Header("Input Actions")]
     [SerializeField] private InputActionReference lookAction;
     [SerializeField] private InputActionReference zoomAction;   // optional scroll zoom
@@ -186,16 +189,16 @@ public class ThirdPersonCamera : MonoBehaviour
     // ---------------------------------------------------------------
     private void ApplyTransform()
     {
-        // Smoothly blend aim distance and shoulder offset
-        float aimTarget = _isAiming ? 1f : 0f;
-        _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
+            // Smoothly blend aim distance and shoulder offset
+            float aimTarget = _isAiming ? 1f : 0f;
+            _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
 
-        float   activeDist   = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
-        Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
-        float   activeHeight = Mathf.Lerp(0f, aimHeightOffset, _currentAimBlend);
+            float activeDist = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
+            Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
+            float activeHeight = Mathf.Lerp(0f, aimHeightOffset, _currentAimBlend);
 
-        // Shift the pivot up slightly when aiming
-        Vector3 aimPivot = _followPos + transform.up * activeHeight;
+            // Shift the pivot up slightly when aiming
+            Vector3 aimPivot = _followPos + transform.up * activeHeight;
 
         if (_isLockedOn && lockOnTarget != null)
         {

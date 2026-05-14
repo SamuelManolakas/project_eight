@@ -784,7 +784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -26.1
+      value: 3.16
       objectReference: {fileID: 0}
     - target: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   m_multiplayerUI: {fileID: 0}
   _sessionUI: {fileID: 73344836}
-  m_playerPrefab: {fileID: 5125210286697788315, guid: 66af35232c56b0d40b86f4d15bdea80f, type: 3}
+  m_playerPrefab: {fileID: 5125210286697788315, guid: 653d1cec21779b741b3ae946f0775120, type: 3}
   m_enemyPrefab: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
   m_pallets: []
 --- !u!1 &1425260202

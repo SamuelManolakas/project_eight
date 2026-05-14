@@ -2,9 +2,9 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class HeavyAttackState : State
+public class SecondaryAttackState : State
 {
-    public HeavyAttackState(PlayerBehaviour player, State parent) : base(player , parent){}
+    public SecondaryAttackState(PlayerBehaviour player, State parent) : base(player , parent){}
 
     private float _timer;
     
@@ -51,7 +51,7 @@ public class HeavyAttackState : State
         }
     }
 
-    public override void OnAttack()
+    public override void OnPrimaryAttack()
     {
         if(_timer <= 0 && player.ammo > 0)
             player.StartCoroutine(Shoot());

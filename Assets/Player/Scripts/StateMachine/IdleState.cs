@@ -26,15 +26,15 @@ public class IdleState : State
         }
     }
 
-    public override void OnAttack()
+    public override void OnPrimaryAttack()
     {
         if(player.swordAndShield || player.greatSword)
-            player.stateMachine.Transit(player.attackState);
+            player.stateMachine.Transit(player.primaryAttackState);
     }
 
-    public override void OnHeavyAttack()
+    public override void OnSecondaryAttack()
     {
-        player.stateMachine.Transit(player.heavyAttackState);
+        player.stateMachine.Transit(player.secondaryAttackState);
     }
 
     public override void OnJump()

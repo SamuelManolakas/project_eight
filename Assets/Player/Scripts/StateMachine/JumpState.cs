@@ -57,7 +57,7 @@ public class JumpState : State
         }
     }
 
-    public override void OnAttack()
+    public override void OnPrimaryAttack()
     {
         if (player.swordAndShield)
             player.stateMachine.Transit(player.jumpAttackState);

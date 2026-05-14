@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class AttackState : State
+public class PrimaryAttackState : State
 {
-    public AttackState(PlayerBehaviour player, State parent) : base(player , parent){}
+    public PrimaryAttackState(PlayerBehaviour player, State parent) : base(player , parent){}
     
     public override void Enter()
     {
@@ -23,7 +23,7 @@ public class AttackState : State
             player.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
 
-    public override void OnAttack()
+    public override void OnPrimaryAttack()
     {
         
     }
