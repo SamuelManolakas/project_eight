@@ -115,6 +115,7 @@ public class BossBehaviour : Enemy
     private void Update()
     {
         if (!IsServer) return;
+        if(currentHealth.Value <= 0) return;
         
         ContinuousAction();
         
