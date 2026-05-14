@@ -11,7 +11,7 @@ public class PrimaryAttackState : State
         {
             if (player.swordAndShield)
             {
-                player.hitBox.damage = player.damage;
+                player.hitBox.damage = player.primaryAttackDamage;
                 player.StartCoroutine(SwordAndShieldCombo());
             }
         }
@@ -20,7 +20,7 @@ public class PrimaryAttackState : State
     public override void Exit()
     {
         if (player.swordAndShield)
-            player.greatSwordModel.GetComponent<Collider>().enabled = false;
+            player.weapon.GetComponent<Collider>().enabled = false;
     }
 
     public override void OnPrimaryAttack()
@@ -30,25 +30,25 @@ public class PrimaryAttackState : State
 
     private IEnumerator SwordAndShieldCombo()
     {
-        player.stamina.TryUseStamina(15);
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
         
         yield return new WaitForSeconds(0.2f);
         
         player.attackBuffer = false;
-        player.greatSwordModel.GetComponent<Collider>().enabled = true;
+        player.weapon.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");
         
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
         {
-            player.stamina.TryUseStamina(15);
+            player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
             
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
-                player.stamina.TryUseStamina(15);
+                player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
                 

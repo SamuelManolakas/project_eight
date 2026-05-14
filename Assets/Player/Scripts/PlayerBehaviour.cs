@@ -19,12 +19,17 @@ public class PlayerBehaviour : NetworkBehaviour
     public float jumpHeight;
     public float gravity;
     public float dodgeDistance;
-    public int damage;
+    public int primaryAttackDamage;
+    public int secondaryAttackDamage;
     public int healConsumableAmount;
     public int healAmount;
     public int maxAmmo;
     [HideInInspector] public int ammo;
     public float fireRate;
+    public float primaryAttackStaminaCost;
+    public float secondaryAttackStaminaCost;
+    public float dodgeStaminaCost;
+    public float sprintStaminaCost;
     
     [Header("Components")]
     public Animator animator;
@@ -32,9 +37,8 @@ public class PlayerBehaviour : NetworkBehaviour
     //private AnimationEvents m_animationEvents;
     [SerializeField]
     private InteractionDetector m_interactionDetector;
-    public GameObject greatSwordModel;
+    public GameObject weapon;
     public GameObject hudPrefab;
-    public Transform aimCameraOffset;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -113,7 +117,7 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hitBox = weapon.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
         ammo = maxAmmo;
     }
@@ -129,7 +133,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
         
-        if (context.performed && stamina.TryUseStamina(10))
+        if (context.performed && stamina.TryUseStamina(dodgeStaminaCost))
         {
             stateMachine.currentState.OnDodge();
         }
@@ -299,7 +303,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
     {
-        greatSwordModel.SetActive(newValue == ObjectType.Axe);
+        weapon.SetActive(newValue == ObjectType.Axe);
     }
     
     private void HandleAnimationDone()

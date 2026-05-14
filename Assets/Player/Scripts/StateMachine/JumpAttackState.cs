@@ -9,12 +9,15 @@ public class JumpAttackState : State
     public override void Enter()
     {
         player.animator.Play("Combo1a");
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+        player.hitBox.damage = player.primaryAttackDamage;
+        player.weapon.GetComponent<Collider>().enabled = true;
         _jumpDirection = player.controller.velocity;
     }
 
     public override void Exit()
     {
-        
+        player.weapon.GetComponent<Collider>().enabled = false;
     }
 
     public override void ContinuousAction()

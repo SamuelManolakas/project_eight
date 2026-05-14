@@ -32,7 +32,7 @@ public class MovementState : State
 
         if (player.speed == player.sprintSpeed)
         {
-            
+            player.stamina.TryUseStamina(player.sprintStaminaCost);
         }
 
         if (move.sqrMagnitude > 0.001f)
@@ -64,7 +64,14 @@ public class MovementState : State
 
     public override void OnSprint()
     {
-        player.speed = player.sprintSpeed;
+        if (player.speed == player.sprintSpeed)
+        {
+            player.speed = player.initialSpeed;
+        }
+        else
+        {
+            player.speed = player.sprintSpeed;
+        }
     }
 
     public override void OnGuard()
