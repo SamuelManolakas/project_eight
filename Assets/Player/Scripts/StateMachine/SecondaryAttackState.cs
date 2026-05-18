@@ -13,7 +13,12 @@ public class SecondaryAttackState : State
         if (player.swordAndShield)
         {
             player.hitBox.damage = player.secondaryAttackDamage;
-            player.StartCoroutine(Wait());
+            player.StartCoroutine(SwordAndShieldCombo());
+        }
+        else if(player.greatSword)
+        {
+            player.hitBox.damage = player.secondaryAttackDamage;
+            player.StartCoroutine(GreatSwordCombo());
         }
         else if(player.bolter)
         {
@@ -24,7 +29,7 @@ public class SecondaryAttackState : State
 
     public override void Exit()
     {
-        if (player.swordAndShield)
+        if (player.swordAndShield || player.greatSword)
             player.weapon.GetComponent<Collider>().enabled = false;
     }
 
@@ -71,7 +76,7 @@ public class SecondaryAttackState : State
         Aim();
     }
 
-    private IEnumerator Wait()
+    private IEnumerator SwordAndShieldCombo()
     {
         player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
@@ -79,5 +84,10 @@ public class SecondaryAttackState : State
         
         yield return new WaitForSeconds(1.75f);
         player.stateMachine.Transit(player.idleState);
+    }
+    
+    private IEnumerator GreatSwordCombo()
+    {
+        yield return new WaitForSeconds(0.2f);
     }
 }

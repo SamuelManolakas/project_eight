@@ -187,11 +187,14 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnGuard(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
-        if (context.performed && controller.isGrounded)
-            stateMachine.currentState.OnGuard();
-        else if (context.canceled && health.Health > 0)
+        if (swordAndShield || greatSword)
         {
-            stateMachine.Transit(idleState);
+            if (context.performed && controller.isGrounded)
+                stateMachine.currentState.OnGuard();
+            else if (context.canceled && health.Health > 0)
+            {
+                stateMachine.Transit(idleState);
+            }
         }
     }
     
@@ -257,6 +260,10 @@ public class PlayerBehaviour : NetworkBehaviour
         
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
         camera.target = transform;
+        if (bolter)
+        {
+            camera.isRanged = true;
+        }
         stamina._stamina.OnValueChanged += OnStaminaChanged;
     }
     

@@ -151,7 +151,8 @@ public class ThirdPersonCamera : MonoBehaviour
         }
 
         // --- Aim (hold) ---
-        _isAiming = aimAction != null && aimAction.action.IsPressed();
+        if(isRanged)
+            _isAiming = aimAction != null && aimAction.action.IsPressed();
 
         // Only orbit with mouse when the cursor is locked and not locked on
         if (!_cursorLocked || _isLockedOn) return;
@@ -189,16 +190,16 @@ public class ThirdPersonCamera : MonoBehaviour
     // ---------------------------------------------------------------
     private void ApplyTransform()
     {
-            // Smoothly blend aim distance and shoulder offset
-            float aimTarget = _isAiming ? 1f : 0f;
-            _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
+        // Smoothly blend aim distance and shoulder offset
+        float aimTarget = _isAiming ? 1f : 0f;
+        _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
 
-            float activeDist = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
-            Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
-            float activeHeight = Mathf.Lerp(0f, aimHeightOffset, _currentAimBlend);
+        float activeDist = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
+        Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
+        float activeHeight = Mathf.Lerp(0f, aimHeightOffset, _currentAimBlend);
 
-            // Shift the pivot up slightly when aiming
-            Vector3 aimPivot = _followPos + transform.up * activeHeight;
+        // Shift the pivot up slightly when aiming
+        Vector3 aimPivot = _followPos + transform.up * activeHeight;
 
         if (_isLockedOn && lockOnTarget != null)
         {

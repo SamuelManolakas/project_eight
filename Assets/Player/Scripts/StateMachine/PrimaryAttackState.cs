@@ -14,6 +14,11 @@ public class PrimaryAttackState : State
                 player.hitBox.damage = player.primaryAttackDamage;
                 player.StartCoroutine(SwordAndShieldCombo());
             }
+            else if(player.greatSword)
+            {
+                player.hitBox.damage = player.primaryAttackDamage;
+                player.StartCoroutine(GreatSwordCombo());
+            }
         }
     }
 
@@ -64,5 +69,10 @@ public class PrimaryAttackState : State
         {
             player.stateMachine.Transit(player.idleState);
         }
+    }
+
+    private IEnumerator GreatSwordCombo()
+    {
+        yield return new WaitForSeconds(0.2f);
     }
 }
