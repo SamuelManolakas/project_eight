@@ -1522,17 +1522,21 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -15
   dodgeDistance: 6
-  damage: 3
+  primaryAttackDamage: 0
+  secondaryAttackDamage: 0
   healConsumableAmount: 4
   healAmount: 10
   maxAmmo: 5
   ammo: 0
   fireRate: 0.9
+  primaryAttackStaminaCost: 0
+  secondaryAttackStaminaCost: 0
+  dodgeStaminaCost: 10
+  sprintStaminaCost: 0.1
   animator: {fileID: 2600101153406213727}
   m_interactionDetector: {fileID: 6711439868172442985}
-  greatSwordModel: {fileID: 1770209623156031967}
+  weapon: {fileID: 1770209623156031967}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
-  aimCameraOffset: {fileID: 7088817526782125522}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}
