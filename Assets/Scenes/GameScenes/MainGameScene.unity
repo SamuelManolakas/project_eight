@@ -875,6 +875,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6025399964527917409, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6025399964527917409, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.48e-42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530668517713519548, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530668517713519548, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.323e-42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744003160488305850, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 3.4645567e+12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744003160488305850, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 9.173836e-31
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744003160488305850, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 4.071562e+24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744003160488305850, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 6.1085766e-13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083753920543668170, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083753920543668170, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.48e-42
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083753920543668170, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8415097894566492275, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.48e-42
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1165,8 +1213,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCamera
   target: {fileID: 0}
+  isRanged: 0
   lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   zoomAction: {fileID: 0}
+  lockOnAction: {fileID: 0}
+  aimAction: {fileID: 0}
   horizontalSensitivity: 0.2
   verticalSensitivity: 0.2
   minPitch: -30
@@ -1183,6 +1234,13 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 2147485439
+  lockOnTarget: {fileID: 0}
+  lockOnOffset: {x: 0, y: 1, z: 0}
+  lockOnRotationSpeed: 8
+  aimDistance: 2
+  aimShoulderOffset: {x: 0.6, y: 0, z: 0}
+  aimHeightOffset: 0.1
+  aimTransitionSpeed: 10
 --- !u!114 &1425260209
 MonoBehaviour:
   m_ObjectHideFlags: 0
