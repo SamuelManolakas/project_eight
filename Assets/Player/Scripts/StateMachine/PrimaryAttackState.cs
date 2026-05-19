@@ -36,6 +36,7 @@ public class PrimaryAttackState : State
     private IEnumerator SwordAndShieldCombo()
     {
         player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+        player.ClearHitTargets();
         
         yield return new WaitForSeconds(0.2f);
         
@@ -46,6 +47,7 @@ public class PrimaryAttackState : State
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
         {
+            player.ClearHitTargets();
             player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
@@ -53,6 +55,7 @@ public class PrimaryAttackState : State
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
             {
+                player.ClearHitTargets();
                 player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
@@ -73,6 +76,17 @@ public class PrimaryAttackState : State
 
     private IEnumerator GreatSwordCombo()
     {
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+        player.ClearHitTargets();
+        
         yield return new WaitForSeconds(0.2f);
+        
+        player.attackBuffer = false;
+        player.weapon.GetComponent<Collider>().enabled = true;
+        player.animator.Play("Combo1a");
+        
+        yield return new WaitForSeconds(3f);
+        
+        player.stateMachine.Transit(player.idleState);
     }
 }

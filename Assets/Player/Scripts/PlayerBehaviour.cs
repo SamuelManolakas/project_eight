@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -166,7 +167,10 @@ public class PlayerBehaviour : NetworkBehaviour
         }
         else if (context.canceled && stateMachine.currentState == secondaryAttackState)
         {
-            secondaryAttackState.ExitAim();
+            if (bolter)
+            {
+                secondaryAttackState.ExitAim();
+            }
         }
     }
     
@@ -181,7 +185,8 @@ public class PlayerBehaviour : NetworkBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        stateMachine.currentState.OnSprint();
+        if(context.performed)
+            stateMachine.currentState.OnSprint();
     }
 
     public void OnGuard(InputAction.CallbackContext context)
@@ -423,6 +428,11 @@ public class PlayerBehaviour : NetworkBehaviour
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
+    }
+
+    public void ClearHitTargets()
+    {
+        hitBox.hitTargets.Clear();
     }
 }
 

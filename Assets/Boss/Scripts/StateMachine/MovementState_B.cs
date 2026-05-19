@@ -74,7 +74,7 @@ public class MovementState_B : State_B
 
     private void RangedAttack()
     {
-        int attack = Random.Range(5, 10);
+        int attack = Random.Range(0, 10);
 
         switch (attack)
         {

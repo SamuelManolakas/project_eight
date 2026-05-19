@@ -40,6 +40,7 @@ public class SecondaryAttackState : State
 
     public void ExitAim()
     {
+        
         player.stateMachine.Transit(player.idleState);
     }
 
@@ -88,6 +89,12 @@ public class SecondaryAttackState : State
     
     private IEnumerator GreatSwordCombo()
     {
-        yield return new WaitForSeconds(0.2f);
+        player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
+        player.animator.Play("HeavyAttack");
+        player.weapon.GetComponent<Collider>().enabled = true;
+        
+        yield return new WaitForSeconds(1.75f);
+        
+        player.stateMachine.Transit(player.idleState);
     }
 }
