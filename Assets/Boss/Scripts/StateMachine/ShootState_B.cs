@@ -35,6 +35,7 @@ public class ShootState_B : State_B
 
     private IEnumerator Wait()
     {
+        boss.animator.Play("Shoot");
         yield return new WaitForSeconds(1.5f);
         boss.Shoot();
         yield return new WaitForSeconds(2.5f);
