@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1463,8 +1463,8 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -15
   dodgeDistance: 6
-  primaryAttackDamage: 0
-  secondaryAttackDamage: 0
+  primaryAttackDamage: 5
+  secondaryAttackDamage: 8
   healConsumableAmount: 4
   healAmount: 10
   maxAmmo: 0

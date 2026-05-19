@@ -87,6 +87,8 @@ public class PrimaryAttackState : State
         
         yield return new WaitForSeconds(3f);
         
+        Debug.Log(player.hitBox.hitTargets.Count);
+        
         player.stateMachine.Transit(player.idleState);
     }
 }

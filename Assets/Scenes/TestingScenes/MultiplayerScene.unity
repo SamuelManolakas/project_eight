@@ -880,6 +880,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+--- !u!4 &1357132612 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+  m_PrefabInstance: {fileID: 1106059112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1414127768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1186,7 +1191,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 2147485439
-  lockOnTarget: {fileID: 0}
+  lockOnTarget: {fileID: 1357132612}
   lockOnOffset: {x: 0, y: 1, z: 0}
   lockOnRotationSpeed: 8
   aimDistance: 2

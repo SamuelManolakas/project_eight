@@ -2523,7 +2523,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6878016120522857306}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
   m_Controller: {fileID: 9100000, guid: 41dc726b4e7664d4abd795dc4b9d5b36, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -2531,7 +2531,17 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bone_Spine.001'\n\tTransform 'Bone_Foot.R'\n\tTransform
+    'Bone_Thigh.L'\n\tTransform 'Bone_UpperArm.R'\n\tTransform 'Bone_Calf.R'\n\tTransform
+    'Bone_Spine.001'\n\tTransform 'Bone_LowerArm.R'\n\tTransform 'Bone_Foot.L'\n\tTransform
+    'Bone_UpperArm.L'\n\tTransform 'Bone_Thigh.R'\n\tand more ...\n\tFrom animation
+    clip 'Bolter_Idle'\n\tFrom animation clip 'Bolter_Run'\n\tFrom animation clip
+    'Bolter_Shoot'\n\tFrom animation clip 'Bolter_Jump'\n\tFrom animation clip 'Bolter_Dodge_Roll'\n\tFrom
+    animation clip 'ShortSword_Guard01'\n\tFrom animation clip 'KnockedBack'\n\tFrom
+    animation clip 'KnockedDown'\n\tFrom animation clip 'Bolter_Aim'\n\tFrom animation
+    clip 'Bolter_Return'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

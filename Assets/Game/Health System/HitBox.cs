@@ -12,6 +12,8 @@ public class HitBox : MonoBehaviour
     {
         if(hitTargets.Contains(other)) return;
 
+        Debug.Log(hitTargets.Count);
+        
         if (other.TryGetComponent(out HurtBox hurtBox))
         {
             hurtBox.GetHit(damage); 
