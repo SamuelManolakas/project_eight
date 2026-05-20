@@ -12,6 +12,7 @@ public class MovementState : State
     public override void Exit()
     {
         player.animator.SetFloat("speed", 0);
+        player.animator.SetLayerWeight(1, 0);
     }
 
     public override void ContinuousAction()
@@ -28,17 +29,33 @@ public class MovementState : State
         Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
 
         player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
-        player.animator.SetFloat("speed", move.magnitude);
 
         if (player.speed == player.sprintSpeed)
         {
             player.stamina.TryUseStamina(player.sprintStaminaCost);
         }
-
+        
         if (move.sqrMagnitude > 0.001f)
         {
-            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+            if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
+            {
+                Vector3 bossDirection = player.camera.lockOnTarget.position - player.transform.position;
+                
+                Quaternion toRotation = Quaternion.LookRotation(bossDirection.normalized, Vector3.up);
+                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+                
+                player.animator.SetFloat("speed", 0);
+                player.animator.SetLayerWeight(1, move.magnitude);
+            }
+            else
+            {
+                Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+                
+                player.animator.SetFloat("speed", move.magnitude);
+                
+                player.animator.SetLayerWeight(1, 0);
+            }
         }
         else
         {

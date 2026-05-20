@@ -11,8 +11,6 @@ public class HitBox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(hitTargets.Contains(other)) return;
-
-        Debug.Log(hitTargets.Count);
         
         if (other.TryGetComponent(out HurtBox hurtBox))
         {

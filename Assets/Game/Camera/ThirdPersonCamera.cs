@@ -58,7 +58,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     [Header("Lock-On")]
     [Tooltip("The transform the camera looks at while locked on.")]
-    [SerializeField] private Transform lockOnTarget;
+    [SerializeField] public Transform lockOnTarget;
     [Tooltip("Offset applied to the lock-on target position (e.g. chest height).")]
     [SerializeField] private Vector3 lockOnOffset = new Vector3(0f, 1f, 0f);
     [Tooltip("How quickly the camera rotates to face the lock-on target.")]
@@ -80,7 +80,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private float   _targetDist;
     private Vector3 _followPos;
     private bool    _cursorLocked;
-    private bool    _isLockedOn;
+    public bool    _isLockedOn;
     private bool    _isAiming;
     private float   _currentAimBlend;      // 0 = normal, 1 = fully aimed
     private float   _currentAimDistance;   // lerped distance
