@@ -1241,6 +1241,7 @@ MonoBehaviour:
   aimShoulderOffset: {x: 0.6, y: 0, z: 0}
   aimHeightOffset: 0.1
   aimTransitionSpeed: 10
+  _isLockedOn: 0
 --- !u!114 &1425260209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1838,71 +1839,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1895148866}
   m_CullTransparentMesh: 1
---- !u!1001 &2007633865
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.2969563
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.005294911
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -41.3331
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_Name
-      value: Player_ShortSword_Model
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 63d5d25987aa6be42a5e20ff2ea0b4e5, type: 2}
-    - target: {fileID: 5866666021909216657, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f245c6301b72e7842a8df3a5c1c2203b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1916,4 +1852,3 @@ SceneRoots:
   - {fileID: 719358565}
   - {fileID: 1840386496}
   - {fileID: 1321359604}
-  - {fileID: 2007633865}
