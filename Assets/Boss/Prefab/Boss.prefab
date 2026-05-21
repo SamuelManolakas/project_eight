@@ -62,7 +62,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -44.99999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2728378598453445502}
   m_Father: {fileID: 6716203898800012885}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8590284778561818849
@@ -1692,6 +1693,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4417558129356458266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2728378598453445502}
+  m_Layer: 0
+  m_Name: ChestFlamer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2728378598453445502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417558129356458266}
+  serializedVersion: 2
+  m_LocalRotation: {x: -1, y: -0, z: -0, w: -0.00000008940697}
+  m_LocalPosition: {x: 0, y: -0, z: -331}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 7022249157660390037}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4432016621776292814
 GameObject:
   m_ObjectHideFlags: 0
@@ -3509,6 +3541,7 @@ MonoBehaviour:
   firePoint: {fileID: 426156317104215775}
   chargeHitBox: {fileID: 2472744839003169689}
   bulletPrefab: {fileID: 8402825751137152869, guid: b0fded859a71e5348988b9b37d813eed, type: 3}
+  chestFlamer: {fileID: 4417558129356458266}
   _rigidbody: {fileID: 0}
   stateMachine: {fileID: 0}
   controller: {fileID: 0}

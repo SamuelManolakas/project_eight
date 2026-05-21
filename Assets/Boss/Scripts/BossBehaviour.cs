@@ -26,6 +26,7 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
+    public GameObject chestFlamer;
     
     [HideInInspector]
     public Rigidbody _rigidbody;
@@ -55,6 +56,7 @@ public class BossBehaviour : Enemy
     public ShootState_B shootState = null;
     public StrikeState_B strikeState = null;
     public SweepState_B sweepState = null;
+    public ChestFlamerState_B chestFlamerState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -72,6 +74,7 @@ public class BossBehaviour : Enemy
         shootState = new ShootState_B(this, aliveState);
         strikeState = new StrikeState_B(this, aliveState);
         sweepState = new SweepState_B(this, aliveState);
+        chestFlamerState = new ChestFlamerState_B(this,aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
@@ -178,6 +181,21 @@ public class BossBehaviour : Enemy
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(directionToPlayer));
         bullet.GetComponent<Bullet_B>().Initialize(directionToPlayer); 
+        bullet.GetComponent<Bullet_B>().damage = damage;
+        bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void Flamer(Vector3 direction)
+    {
+        RequestFlamerServerRpc(direction);
+    }
+
+    // Client → Server: ask the server to spawn a bullet
+    [ServerRpc]
+    private void RequestFlamerServerRpc(Vector3 directionToPlayer)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, chestFlamer.transform.position, Quaternion.LookRotation(chestFlamer.transform.forward));
+        bullet.GetComponent<Bullet_B>().Initialize(chestFlamer.transform.forward); 
         bullet.GetComponent<Bullet_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
