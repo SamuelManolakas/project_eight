@@ -23,8 +23,9 @@ public class BossBehaviour : Enemy
     public GameObject upperBody;
     public GameObject lowerBody;
     public Collider grabCollider;
+    public Transform firePoint;
     public ChargeHitBox chargeHitBox;
-    public GameObject bullet;
+    public GameObject bulletPrefab;
     
     [HideInInspector]
     public Rigidbody _rigidbody;
@@ -115,6 +116,7 @@ public class BossBehaviour : Enemy
     private void Update()
     {
         if (!IsServer) return;
+        if(currentHealth.Value <= 0) return;
         
         ContinuousAction();
         
@@ -160,9 +162,28 @@ public class BossBehaviour : Enemy
         stateMachine.Transit(stunnedState);
     }
 
+    //public void Shooting()
+    //{
+    //    bullet.GetComponent<Bullet_B>().direction = currentTarget.transform.position - grabCollider.transform.position;
+    //    Instantiate(bullet, grabCollider.transform.position, grabCollider.transform.rotation);
+    //    bullet.GetComponent<NetworkObject>().Spawn();
+    //}
+    
     public void Shoot()
     {
-        bullet.GetComponent<Bullet_B>().direction = currentTarget.transform.position - grabCollider.transform.position;
-        Instantiate(bullet, grabCollider.transform.position, grabCollider.transform.rotation);
+        RequestShootServerRpc();
+    }
+
+    // Client → Server: ask the server to spawn a bullet
+    [ServerRpc]
+    private void RequestShootServerRpc()
+    {
+        // Calculate direction toward the player at this exact moment
+        Vector3 directionToPlayer = (currentTarget.transform.position - firePoint.position).normalized;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(directionToPlayer));
+        bullet.GetComponent<Bullet_B>().Initialize(directionToPlayer); 
+        bullet.GetComponent<Bullet_B>().damage = damage;
+        bullet.GetComponent<NetworkObject>().Spawn();
     }
 }

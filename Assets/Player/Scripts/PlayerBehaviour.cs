@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -19,9 +20,17 @@ public class PlayerBehaviour : NetworkBehaviour
     public float jumpHeight;
     public float gravity;
     public float dodgeDistance;
-    public int damage;
+    public int primaryAttackDamage;
+    public int secondaryAttackDamage;
     public int healConsumableAmount;
     public int healAmount;
+    public int maxAmmo;
+    [HideInInspector] public int ammo;
+    public float fireRate;
+    public float primaryAttackStaminaCost;
+    public float secondaryAttackStaminaCost;
+    public float dodgeStaminaCost;
+    public float sprintStaminaCost;
     
     [Header("Components")]
     public Animator animator;
@@ -29,7 +38,7 @@ public class PlayerBehaviour : NetworkBehaviour
     //private AnimationEvents m_animationEvents;
     [SerializeField]
     private InteractionDetector m_interactionDetector;
-    public GameObject greatSwordModel;
+    public GameObject weapon;
     public GameObject hudPrefab;
     
     [HideInInspector] 
@@ -54,6 +63,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public PlayerStamina stamina;
     [HideInInspector]
     public PlayerShoot playerShoot;
+    [HideInInspector]
+    public ThirdPersonCamera camera;
     
     private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
@@ -69,11 +80,12 @@ public class PlayerBehaviour : NetworkBehaviour
     public MovementState movementState = null;
     public DodgeState dodgeState = null;
     public JumpState jumpState = null;
-    public AttackState attackState = null;
+    public PrimaryAttackState primaryAttackState = null;
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
     public GuardState guardState = null;
-    public HeavyAttackState heavyAttackState = null;
+    public SecondaryAttackState secondaryAttackState = null;
+    public ReloadState reloadState = null;
 
     private float _healCooldown;
     
@@ -86,11 +98,12 @@ public class PlayerBehaviour : NetworkBehaviour
         movementState = new MovementState(this, aliveState);
         dodgeState = new DodgeState(this, aliveState);
         jumpState = new JumpState(this, aliveState);
-        attackState = new AttackState(this, aliveState);
-        jumpAttackState = new JumpAttackState(this, attackState);
+        primaryAttackState = new PrimaryAttackState(this, aliveState);
+        jumpAttackState = new JumpAttackState(this, primaryAttackState);
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
-        heavyAttackState = new HeavyAttackState(this, aliveState);
+        secondaryAttackState = new SecondaryAttackState(this, aliveState);
+        reloadState = new ReloadState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -105,8 +118,9 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        hitBox = greatSwordModel.GetComponent<HitBox>();
+        hitBox = weapon.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
+        ammo = maxAmmo;
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -120,40 +134,43 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
         
-        if (context.performed && stamina.TryUseStamina(10))
+        if (context.performed && stamina.TryUseStamina(dodgeStaminaCost))
         {
             stateMachine.currentState.OnDodge();
         }
     }
     
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
 
         if (context.performed)
         {
-            if (stateMachine.currentState != attackState)
+            if (stateMachine.currentState != primaryAttackState)
             {
-                stateMachine.currentState.OnAttack();
+                stateMachine.currentState.OnPrimaryAttack();
             }
             attackBuffer = true;
         }
     }
 
-    public void OnHeavyAttack(InputAction.CallbackContext context)
+    public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
 
         if (context.performed)
         {
-            if (stateMachine.currentState != heavyAttackState)
+            if (stateMachine.currentState != secondaryAttackState)
             {
-                stateMachine.currentState.OnHeavyAttack();
+                stateMachine.currentState.OnSecondaryAttack();
             }
         }
-        else if (context.canceled && stateMachine.currentState == heavyAttackState)
+        else if (context.canceled && stateMachine.currentState == secondaryAttackState)
         {
-            heavyAttackState.ExitAim();
+            if (bolter)
+            {
+                secondaryAttackState.ExitAim();
+            }
         }
     }
     
@@ -168,17 +185,21 @@ public class PlayerBehaviour : NetworkBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        stateMachine.currentState.OnSprint();
+        if(context.performed)
+            stateMachine.currentState.OnSprint();
     }
 
     public void OnGuard(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
-        if (context.performed && controller.isGrounded)
-            stateMachine.currentState.OnGuard();
-        else if (context.canceled && health.Health > 0)
+        if (swordAndShield || greatSword)
         {
-            stateMachine.Transit(idleState);
+            if (context.performed && controller.isGrounded)
+                stateMachine.currentState.OnGuard();
+            else if (context.canceled && health.Health > 0)
+            {
+                stateMachine.Transit(idleState);
+            }
         }
     }
     
@@ -190,6 +211,16 @@ public class PlayerBehaviour : NetworkBehaviour
             _healCooldown = 0.6f;
             health.Heal(healAmount);
             healConsumableAmount--;
+        }
+    }
+    
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if(!IsOwner) return;
+        
+        if (context.performed && bolter)
+        {
+            stateMachine.Transit(reloadState);
         }
     }
 
@@ -232,7 +263,12 @@ public class PlayerBehaviour : NetworkBehaviour
 
         if (!IsOwner) return;
         
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>().target = transform;
+        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
+        camera.target = transform;
+        if (bolter)
+        {
+            camera.isRanged = true;
+        }
         stamina._stamina.OnValueChanged += OnStaminaChanged;
     }
     
@@ -279,7 +315,7 @@ public class PlayerBehaviour : NetworkBehaviour
     
     private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
     {
-        greatSwordModel.SetActive(newValue == ObjectType.Axe);
+        weapon.SetActive(newValue == ObjectType.Axe);
     }
     
     private void HandleAnimationDone()
@@ -392,6 +428,11 @@ public class PlayerBehaviour : NetworkBehaviour
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
+    }
+
+    public void ClearHitTargets()
+    {
+        hitBox.hitTargets.Clear();
     }
 }
 

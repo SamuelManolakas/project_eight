@@ -15,11 +15,11 @@ public abstract class State
     public virtual void Exit(){}
     public virtual void GetHit(int damage){parent.GetHit(damage);}
     public virtual void ContinuousAction(){parent.ContinuousAction();}
-    public virtual void OnAttack(){parent.OnAttack();}
+    public virtual void OnPrimaryAttack(){parent.OnPrimaryAttack();}
     public virtual void OnMove(){parent.OnMove();}
     public virtual void OnJump(){parent.OnJump();}
     public virtual void OnDodge(){parent.OnDodge();}
     public virtual void OnSprint(){parent.OnSprint();}
     public virtual void OnGuard(){parent.OnGuard();}
-    public virtual void OnHeavyAttack(){parent.OnHeavyAttack();}
+    public virtual void OnSecondaryAttack(){parent.OnSecondaryAttack();}
 }

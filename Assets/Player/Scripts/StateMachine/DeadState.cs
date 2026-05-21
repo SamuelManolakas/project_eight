@@ -24,7 +24,7 @@ public class DeadState : State
     public override void OnJump()
     {
     }
-    public override void OnAttack()
+    public override void OnPrimaryAttack()
     {
     }
     public override void OnMove()

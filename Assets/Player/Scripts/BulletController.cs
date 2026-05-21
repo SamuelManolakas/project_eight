@@ -8,6 +8,8 @@ public class BulletController : NetworkBehaviour
     public float lifetime = 3f;
 
     private Vector3 _direction;
+    
+    [HideInInspector] public int damage;
 
     // Called by the spawner right after instantiation (server-side)
     public void Initialize(Vector3 direction)
@@ -36,7 +38,8 @@ public class BulletController : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // TODO: Apply damage here (e.g., other.GetComponent<Health>()?.TakeDamage(10))
+        if(other.TryGetComponent(out HurtBox hurtBox))
+            hurtBox.GetHit(damage); 
 
         DestroyBullet();
     }

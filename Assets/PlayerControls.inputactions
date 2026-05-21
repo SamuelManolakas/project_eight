@@ -25,7 +25,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "PrimaryAttack",
                     "type": "Button",
                     "id": "e0739201-c645-46d3-9b8c-361b0429fd9b",
                     "expectedControlType": "",
@@ -34,7 +34,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HeavyAttack",
+                    "name": "SecondaryAttack",
                     "type": "Button",
                     "id": "91063c1f-2fc0-4a00-bd25-bcc74e30c36e",
                     "expectedControlType": "",
@@ -91,6 +91,15 @@
                     "name": "Heal",
                     "type": "Button",
                     "id": "3b6058d4-85f2-46ac-beac-ff406d423f02",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "60f823ac-c4b8-484d-9631-6ea4b14fd384",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -193,7 +202,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "PrimaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -204,7 +213,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "PrimaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -336,7 +345,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeavyAttack",
+                    "action": "SecondaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -347,7 +356,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeavyAttack",
+                    "action": "SecondaryAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c490d75f-af6a-4f9c-8b43-58b076a19652",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c986bcc1-7066-40a7-8177-e77045572328",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

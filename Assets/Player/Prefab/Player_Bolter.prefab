@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -415,7 +415,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3f5a613d4c992a24c9af69a8f51229d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -505,7 +505,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -595,7 +595,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -685,7 +685,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -775,7 +775,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: d6593b8a7940abd498faad77eeaf4cf6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -947,7 +947,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -971,6 +971,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3069768866122933724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7088817526782125522}
+  m_Layer: 0
+  m_Name: AimCameraOffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7088817526782125522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069768866122933724}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.747, y: 1.025, z: -1.302}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 820807651429821145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3124695353045529758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1068,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1283,7 +1314,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: d6593b8a7940abd498faad77eeaf4cf6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1348,6 +1379,7 @@ Transform:
   m_Children:
   - {fileID: 6068687999210389984}
   - {fileID: 2034217497068213754}
+  - {fileID: 7088817526782125522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &629659950324464260
@@ -1490,12 +1522,20 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -15
   dodgeDistance: 6
-  damage: 3
+  primaryAttackDamage: 0
+  secondaryAttackDamage: 0
   healConsumableAmount: 4
   healAmount: 10
+  maxAmmo: 5
+  ammo: 0
+  fireRate: 0.9
+  primaryAttackStaminaCost: 0
+  secondaryAttackStaminaCost: 0
+  dodgeStaminaCost: 10
+  sprintStaminaCost: 0.1
   animator: {fileID: 2600101153406213727}
   m_interactionDetector: {fileID: 6711439868172442985}
-  greatSwordModel: {fileID: 1770209623156031967}
+  weapon: {fileID: 1770209623156031967}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
@@ -1508,6 +1548,7 @@ MonoBehaviour:
   health: {fileID: 0}
   stamina: {fileID: 0}
   playerShoot: {fileID: 0}
+  camera: {fileID: 0}
   stateMachine: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
@@ -1570,7 +1611,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2722297990731148367}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
-        m_MethodName: OnAttack
+        m_MethodName: OnPrimaryAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1670,7 +1711,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2722297990731148367}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
-        m_MethodName: OnHeavyAttack
+        m_MethodName: OnSecondaryAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1682,6 +1723,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 91063c1f-2fc0-4a00-bd25-bcc74e30c36e
     m_ActionName: 'Gameplay/HeavyAttack[/Mouse/rightButton,/DualSenseGamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnReload
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 60f823ac-c4b8-484d-9631-6ea4b14fd384
+    m_ActionName: 'Gameplay/Reload[/Keyboard/r]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -1750,6 +1807,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPrefab: {fileID: 775290615496694872, guid: 6c6169c9298595f40bb7845e0c40ca5a, type: 3}
   firePoint: {fileID: 5758443044898977333}
+  damage: 5
 --- !u!1 &5146331886742341556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,7 +1874,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1971,7 +2029,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2061,7 +2119,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3f5a613d4c992a24c9af69a8f51229d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2151,7 +2209,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2241,7 +2299,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2396,7 +2454,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2465,7 +2523,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6878016120522857306}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
   m_Controller: {fileID: 9100000, guid: 41dc726b4e7664d4abd795dc4b9d5b36, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -2473,7 +2531,17 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bone_Spine.001'\n\tTransform 'Bone_Foot.R'\n\tTransform
+    'Bone_Thigh.L'\n\tTransform 'Bone_UpperArm.R'\n\tTransform 'Bone_Calf.R'\n\tTransform
+    'Bone_Spine.001'\n\tTransform 'Bone_LowerArm.R'\n\tTransform 'Bone_Foot.L'\n\tTransform
+    'Bone_UpperArm.L'\n\tTransform 'Bone_Thigh.R'\n\tand more ...\n\tFrom animation
+    clip 'Bolter_Idle'\n\tFrom animation clip 'Bolter_Run'\n\tFrom animation clip
+    'Bolter_Shoot'\n\tFrom animation clip 'Bolter_Jump'\n\tFrom animation clip 'Bolter_Dodge_Roll'\n\tFrom
+    animation clip 'ShortSword_Guard01'\n\tFrom animation clip 'KnockedBack'\n\tFrom
+    animation clip 'KnockedDown'\n\tFrom animation clip 'Bolter_Aim'\n\tFrom animation
+    clip 'Bolter_Return'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2713,7 +2781,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2868,7 +2936,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7681411027731815618, guid: c7ab7febcddc0d74693904ae99190320, type: 3}
+  - {fileID: 2100000, guid: 2e81e62387bbbd846a6e1e323b64da79, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
