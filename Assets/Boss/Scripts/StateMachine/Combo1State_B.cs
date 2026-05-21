@@ -9,20 +9,29 @@ public class Combo1State_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.StartCoroutine(Combo());
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
     }
 
     public override void Exit()
     {
+        boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
     
     private IEnumerator Combo()
     {
+        boss.hitBox.hitTargets.Clear();
         boss.animator.Play("3HitCombo");
-        yield return new WaitForSeconds(5.5f);
-        boss.hitBox.damage = 0;
+        
         yield return new WaitForSeconds(1f);
+        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+
+        yield return new WaitForSeconds(1.5f);
+        boss.hitBox.hitTargets.Clear();
+        
+        yield return new WaitForSeconds(1.3f);
+        boss.hitBox.hitTargets.Clear();
+        
+        yield return new WaitForSeconds(2.7f);
         boss.stateMachine.Transit(boss.movementState);
     }
 
@@ -34,6 +43,5 @@ public class Combo1State_B : State_B
         
         Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
         boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime);
-        
     }
 }

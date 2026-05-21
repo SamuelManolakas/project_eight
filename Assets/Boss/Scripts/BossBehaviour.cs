@@ -48,6 +48,7 @@ public class BossBehaviour : Enemy
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
     public Combo1State_B combo1State = null;
+    public Combo2State_B combo2State = null;
     public GrabState_B grabState = null;
     public ChargeState_B chargeState = null;
     public StunnedState_B stunnedState = null;
@@ -64,6 +65,7 @@ public class BossBehaviour : Enemy
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
         combo1State = new Combo1State_B(this, aliveState);
+        combo2State = new Combo2State_B(this, aliveState);
         grabState = new GrabState_B(this, aliveState);
         chargeState = new ChargeState_B(this, aliveState);
         stunnedState = new StunnedState_B(this, aliveState);
@@ -161,13 +163,6 @@ public class BossBehaviour : Enemy
     {
         stateMachine.Transit(stunnedState);
     }
-
-    //public void Shooting()
-    //{
-    //    bullet.GetComponent<Bullet_B>().direction = currentTarget.transform.position - grabCollider.transform.position;
-    //    Instantiate(bullet, grabCollider.transform.position, grabCollider.transform.rotation);
-    //    bullet.GetComponent<NetworkObject>().Spawn();
-    //}
     
     public void Shoot()
     {

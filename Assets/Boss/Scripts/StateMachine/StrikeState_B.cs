@@ -15,6 +15,7 @@ public class StrikeState_B : State_B
 
     public override void Exit()
     {
+        boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
     }
     
@@ -37,9 +38,9 @@ public class StrikeState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(3.0f);
-        boss.hitBox.damage = 0;
-        yield return new WaitForSeconds(0.5f);
+        boss.hitBox.hitTargets.Clear();
+        
+        yield return new WaitForSeconds(3.5f);
         boss.stateMachine.Transit(boss.movementState);
     }
 }
