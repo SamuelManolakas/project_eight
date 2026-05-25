@@ -76,14 +76,14 @@ public class ChestFlamerState_B : State_B
         if (_spawnTimer <= 0f)
         {
             Vector3 aimDir = AimAngleToDirection(_currentAimAngle);
-            boss.Flamer(aimDir); // <-- plug in your own spawn call here
+            boss.Flamer(aimDir, 3f); // <-- plug in your own spawn call here
             _spawnTimer = spawnInterval;
         }
 
         if (_currentAimAngle >= _sweepEndAngle)
         {
             _currentAimAngle = _sweepEndAngle;
-            boss.Flamer(AimAngleToDirection(_currentAimAngle)); // final flame
+            boss.Flamer(AimAngleToDirection(_currentAimAngle), 3f); // final flame
             _sweeping = false;
             return true;  // sweep done
         }

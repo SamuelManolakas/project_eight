@@ -7,6 +7,11 @@ public class SpinAttackState_B : State_B
     
     public Vector3 rotationSpeed = new Vector3(0f, -200f, 0f);
     public bool ignoreTimeScale = false;
+
+    private float _spawnTimer;
+    private float _spawnInterval = 0.08f;
+    
+    private bool _isSpinning = false;
     
     public override void Enter()
     {
@@ -27,8 +32,12 @@ public class SpinAttackState_B : State_B
         
         yield return new WaitForSeconds(1f);
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        _isSpinning = true;
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4.5f);
+        _isSpinning = false;
+        
+        yield return new WaitForSeconds(0.5f);
         boss.stateMachine.Transit(boss.movementState);
     }
 
@@ -38,6 +47,8 @@ public class SpinAttackState_B : State_B
         {
             return;
         }
+        
+        if(!_isSpinning) return;
         
         float delta = ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
         boss.upperBody.transform.Rotate(rotationSpeed * delta, Space.Self);
@@ -51,6 +62,19 @@ public class SpinAttackState_B : State_B
         if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
         {
             boss.controller.Move(finalMove * Time.deltaTime);
+        }
+        
+        HandFlamer();
+    }
+
+    private void HandFlamer()
+    {
+        _spawnTimer -= Time.deltaTime;
+        
+        if (_spawnTimer <= 0f)
+        {
+            boss.HandFlamer(0.5f);
+            _spawnTimer =  _spawnInterval;
         }
     }
 }

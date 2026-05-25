@@ -188,16 +188,30 @@ public class BossBehaviour : Enemy
         bullet.GetComponent<NetworkObject>().Spawn();
     }
     
-    public void Flamer(Vector3 direction)
+    public void Flamer(Vector3 direction, float timer)
     {
-        RequestFlamerServerRpc(direction);
+        RequestFlamerServerRpc(direction, timer);
     }
     
     [ServerRpc]
-    private void RequestFlamerServerRpc(Vector3 directionToPlayer)
+    private void RequestFlamerServerRpc(Vector3 directionToPlayer, float timer)
     {
         GameObject bullet = Instantiate(flamePrefab, chestFlamer.transform.position, Quaternion.LookRotation(chestFlamer.transform.forward));
-        bullet.GetComponent<Flame_B>().Initialize(directionToPlayer);
+        bullet.GetComponent<Flame_B>().Initialize(directionToPlayer, timer);
+        bullet.GetComponent<Flame_B>().damage = damage;
+        bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void HandFlamer(float timer)
+    {
+        RequestHandFlamerServerRpc(timer);
+    }
+    
+    [ServerRpc]
+    private void RequestHandFlamerServerRpc(float timer)
+    {
+        GameObject bullet = Instantiate(flamePrefab, firePoint.position, Quaternion.LookRotation(firePoint.transform.forward));
+        bullet.GetComponent<Flame_B>().Initialize(firePoint.transform.forward, timer);
         bullet.GetComponent<Flame_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }

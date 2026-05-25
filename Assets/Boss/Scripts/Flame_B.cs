@@ -13,16 +13,17 @@ public class Flame_B : NetworkBehaviour
      
      private Vector3 _direction;
      
-     private float _lifeTimer = 4f;
+     private float _lifeTimer;
 
      private void Start()
      {
           _rigidbody = GetComponent<Rigidbody>();
      }
      
-     public void Initialize(Vector3 direction)
+     public void Initialize(Vector3 direction, float timer)
      {
           _direction = direction.normalized;
+          _lifeTimer =  timer;
      }
 
      private void Update()
