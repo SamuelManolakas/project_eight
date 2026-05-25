@@ -66,14 +66,15 @@ public class NukeState_B : State_B
 
     private void OnPositionReached()
     {
-        boss.StartCoroutine(Nuke());
+        boss.StartCoroutine(NukeSequence());
     }
 
-    private IEnumerator Nuke()
+    private IEnumerator NukeSequence()
     {
         yield return new WaitForSeconds(2f);
         _isRotating = false;
         boss.animator.Play("NukeIntro");
+        if (boss.telegraphVFX) boss.telegraphVFX.SetActive(true);
         
         yield return new WaitForSeconds(2f);
         boss.animator.Play("NukeCharge");
@@ -81,9 +82,50 @@ public class NukeState_B : State_B
         yield return new WaitForSeconds(5f);
         boss.animator.Play("NukeExit");
         
-        //nuke damage logic here
+        if (boss.telegraphVFX) boss.telegraphVFX.SetActive(false);
+        if (boss.nukeVFX)      boss.nukeVFX.SetActive(true);
+
+        ExecuteNuke();
         
         yield return new WaitForSeconds(10f);
         boss.stateMachine.Transit(boss.movementState);
+    }
+
+    private void ExecuteNuke()
+    {
+        Collider[] hits = Physics.OverlapSphere(boss.transform.position, boss.nukeRadius, boss.targetLayerMask);
+
+        foreach (Collider hit in hits)
+        {
+            if (HasLineOfSight(hit.transform))
+            {
+                // Player is exposed — deal damage
+                if (hit.TryGetComponent<HurtBox>(out var health))
+                    health.GetHit(boss.nukeDamage);
+
+                Debug.Log($"{hit.name} was hit by the nuke!");
+            }
+            else
+            {
+                Debug.Log($"{hit.name} is safe behind cover!");
+            }
+        }
+    }
+    
+    private bool HasLineOfSight(Transform target)
+    {
+        Vector3 origin    = boss.transform.position;
+        Vector3 direction = (target.position - origin).normalized;
+        float   distance  = Vector3.Distance(origin, target.position);
+
+        // If the ray hits something on the occlusion layer before reaching
+        // the player, they are behind cover
+        return !Physics.Raycast(origin, direction, distance, boss.occlusionLayerMask);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
+        Gizmos.DrawSphere(boss.transform.position, boss.nukeRadius);
     }
 }

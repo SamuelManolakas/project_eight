@@ -3543,6 +3543,17 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8402825751137152869, guid: b0fded859a71e5348988b9b37d813eed, type: 3}
   flamePrefab: {fileID: 8402825751137152869, guid: a71f9cd2d9c035b4dbfdcba641a396d9, type: 3}
   chestFlamer: {fileID: 5906465670875686324}
+  nukePosition: {fileID: 0}
+  nukeRadius: 500
+  nukeDamage: 200
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  occlusionLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  telegraphVFX: {fileID: 0}
+  nukeVFX: {fileID: 0}
   _rigidbody: {fileID: 0}
   stateMachine: {fileID: 0}
   controller: {fileID: 0}

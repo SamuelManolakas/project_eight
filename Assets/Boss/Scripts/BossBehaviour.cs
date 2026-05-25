@@ -30,6 +30,16 @@ public class BossBehaviour : Enemy
     public GameObject chestFlamer;
     public Transform nukePosition;
     
+    [Header("Nuke Attack")]
+    public float nukeRadius;
+    public int nukeDamage;
+    public LayerMask targetLayerMask;       // Player layer
+    public LayerMask occlusionLayerMask;    // Pillar layer
+    
+    [Header("VFX")]
+    public GameObject telegraphVFX;         // Warning effect
+    public GameObject nukeVFX;              // Explosion effect
+    
     [HideInInspector]
     public Rigidbody _rigidbody;
     [HideInInspector]
