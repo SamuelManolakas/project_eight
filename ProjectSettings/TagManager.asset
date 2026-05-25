@@ -11,6 +11,7 @@ TagManager:
   - TargetLockCamera
   - Enemy
   - Wall
+  - Floor
   layers:
   - Default
   - TransparentFX

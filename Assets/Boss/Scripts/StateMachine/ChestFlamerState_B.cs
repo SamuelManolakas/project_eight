@@ -7,7 +7,7 @@ public class ChestFlamerState_B : State_B
     public ChestFlamerState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
 
     public float sweepAngle = 45f;       // degrees each side
-    public float sweepSpeed = 90f;       // degrees per second
+    public float sweepSpeed = 25f;       // degrees per second
     public float spawnInterval = 0.08f;  // seconds between flame spawns
 
     private float _currentAimAngle;
@@ -32,8 +32,16 @@ public class ChestFlamerState_B : State_B
         {
             return;
         }
-        
-        UpdateSweep();
+
+        if (_sweeping)
+        {
+            bool done = UpdateSweep();
+
+            if (done)
+            {
+                boss.stateMachine.Transit(boss.movementState);
+            } 
+        }
     }
 
     private IEnumerator Wait()
@@ -41,8 +49,9 @@ public class ChestFlamerState_B : State_B
         boss.animator.Play("ChestFlamer");
         yield return new WaitForSeconds(1.5f);
         BeginSweep();
-        yield return new WaitForSeconds(2.5f);
-        boss.stateMachine.Transit(boss.movementState);
+        
+        yield return new WaitForSeconds(4.5f);
+        //boss.stateMachine.Transit(boss.movementState);
     }
     
     // ---- Call this every Update() while sweeping ----
@@ -67,11 +76,7 @@ public class ChestFlamerState_B : State_B
         if (_spawnTimer <= 0f)
         {
             Vector3 aimDir = AimAngleToDirection(_currentAimAngle);
-            
-            Quaternion toRotation = Quaternion.LookRotation(aimDir, Vector3.up);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
             boss.Flamer(aimDir); // <-- plug in your own spawn call here
-            
             _spawnTimer = spawnInterval;
         }
 
@@ -97,6 +102,6 @@ public class ChestFlamerState_B : State_B
     Vector3 AimAngleToDirection(float angleDeg)
     {
         float rad = angleDeg * Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(rad), 0f, Mathf.Cos(rad)).normalized;
+        return new Vector3(Mathf.Sin(rad), -0.2f, Mathf.Cos(rad)).normalized;
     }
 }

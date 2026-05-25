@@ -875,6 +875,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4884088172120030371, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884088172120030371, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1198,6 +1206,7 @@ MonoBehaviour:
   aimShoulderOffset: {x: 0, y: 0, z: 0}
   aimHeightOffset: -0.1
   aimTransitionSpeed: 10
+  _isLockedOn: 0
 --- !u!114 &1425260209
 MonoBehaviour:
   m_ObjectHideFlags: 0

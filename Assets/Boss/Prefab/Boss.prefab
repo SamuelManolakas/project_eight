@@ -3451,7 +3451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3979267067
+  GlobalObjectIdHash: 2821339365
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3541,6 +3541,7 @@ MonoBehaviour:
   firePoint: {fileID: 426156317104215775}
   chargeHitBox: {fileID: 2472744839003169689}
   bulletPrefab: {fileID: 8402825751137152869, guid: b0fded859a71e5348988b9b37d813eed, type: 3}
+  flamePrefab: {fileID: 8402825751137152869, guid: a71f9cd2d9c035b4dbfdcba641a396d9, type: 3}
   chestFlamer: {fileID: 4417558129356458266}
   _rigidbody: {fileID: 0}
   stateMachine: {fileID: 0}

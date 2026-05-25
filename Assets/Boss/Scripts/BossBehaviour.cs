@@ -26,6 +26,7 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
+    public GameObject flamePrefab;
     public GameObject chestFlamer;
     
     [HideInInspector]
@@ -189,14 +190,13 @@ public class BossBehaviour : Enemy
     {
         RequestFlamerServerRpc(direction);
     }
-
-    // Client → Server: ask the server to spawn a bullet
+    
     [ServerRpc]
     private void RequestFlamerServerRpc(Vector3 directionToPlayer)
     {
-        GameObject bullet = Instantiate(bulletPrefab, chestFlamer.transform.position, Quaternion.LookRotation(chestFlamer.transform.forward));
-        bullet.GetComponent<Bullet_B>().Initialize(chestFlamer.transform.forward); 
-        bullet.GetComponent<Bullet_B>().damage = damage;
+        GameObject bullet = Instantiate(flamePrefab, chestFlamer.transform.position, Quaternion.LookRotation(chestFlamer.transform.forward));
+        bullet.GetComponent<Flame_B>().Initialize(directionToPlayer);
+        bullet.GetComponent<Flame_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
 }
