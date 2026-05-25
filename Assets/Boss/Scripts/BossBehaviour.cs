@@ -28,6 +28,7 @@ public class BossBehaviour : Enemy
     public GameObject bulletPrefab;
     public GameObject flamePrefab;
     public GameObject chestFlamer;
+    public Transform nukePosition;
     
     [HideInInspector]
     public Rigidbody _rigidbody;
@@ -59,6 +60,7 @@ public class BossBehaviour : Enemy
     public SweepState_B sweepState = null;
     public ChestFlamerState_B chestFlamerState = null;
     public SpinAttackState_B SpinAttackState = null;
+    public NukeState_B NukeState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -78,6 +80,7 @@ public class BossBehaviour : Enemy
         sweepState = new SweepState_B(this, aliveState);
         chestFlamerState = new ChestFlamerState_B(this,aliveState);
         SpinAttackState = new SpinAttackState_B(this, aliveState);
+        NukeState = new NukeState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);

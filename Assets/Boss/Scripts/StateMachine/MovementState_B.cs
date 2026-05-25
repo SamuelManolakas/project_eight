@@ -53,7 +53,7 @@ public class MovementState_B : State_B
 
     private void CombatWheel()
     {
-        int attack = Random.Range(9, 10);
+        int attack = Random.Range(10, 11);
 
         switch (attack)
         {
@@ -77,6 +77,9 @@ public class MovementState_B : State_B
                 break;
             case 9:
                 boss.stateMachine.Transit(boss.SpinAttackState);
+                break;
+            case 10:
+                boss.stateMachine.Transit(boss.NukeState);
                 break;
         }
     }
