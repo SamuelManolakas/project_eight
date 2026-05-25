@@ -58,6 +58,7 @@ public class BossBehaviour : Enemy
     public StrikeState_B strikeState = null;
     public SweepState_B sweepState = null;
     public ChestFlamerState_B chestFlamerState = null;
+    public SpinAttackState_B SpinAttackState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -76,6 +77,7 @@ public class BossBehaviour : Enemy
         strikeState = new StrikeState_B(this, aliveState);
         sweepState = new SweepState_B(this, aliveState);
         chestFlamerState = new ChestFlamerState_B(this,aliveState);
+        SpinAttackState = new SpinAttackState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
