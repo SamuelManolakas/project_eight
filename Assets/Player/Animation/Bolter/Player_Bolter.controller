@@ -29,7 +29,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dodge
+  m_Name: Dodge Roll Forward
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -115,7 +115,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f57a6ced5d2321e4cb751b3ffd3231fd, type: 2}
+  m_Motion: {fileID: -623603649343465320, guid: 0575ee2e9028ef349a58aedbeebf203f, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -143,7 +143,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c55645cebb0825d45be7ecad38ce7579, type: 2}
+  m_Motion: {fileID: -623603649343465320, guid: 4cbee93cd8d6cc245a3a6bc6475decd8, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -252,9 +252,9 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Strafing
-    m_StateMachine: {fileID: -7968749769755470194}
-    m_Mask: {fileID: 31900000, guid: 53e8c04234a7e58459e6db089c5f0c13, type: 2}
+    m_Name: Strafe Layer
+    m_StateMachine: {fileID: 9126857701767709748}
+    m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -284,7 +284,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a6dd3814055a04b429c5c5934bba61ac, type: 2}
+  m_Motion: {fileID: -623603649343465320, guid: 7a26dee60fae35048ab5d483187d6e0c, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -333,7 +333,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 191e17db957477d48aba81ccce2c9661, type: 2}
+  m_Motion: {fileID: -623603649343465320, guid: 3af5e8e173c403c4a89b6e8e480f6434, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -511,10 +511,10 @@ AnimatorStateMachine:
     m_Position: {x: 620, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2921595420014178614}
-    m_Position: {x: 630, y: -30, z: 0}
+    m_Position: {x: 630, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8071057028436138447}
-    m_Position: {x: 190, y: -10, z: 0}
+    m_Position: {x: -30, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -42221535530999062}
     m_Position: {x: 70, y: -110, z: 0}
@@ -543,6 +543,32 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 920, y: 130, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 4937732584365017840}
+--- !u!1102 &8196271865393181739
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Walk Forward
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -623603649343465320, guid: 44ff75bec2fc6704eb9b03da5355cddd, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &9102032040250992322
 AnimatorState:
   serializedVersion: 6
@@ -564,9 +590,31 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3962a8a55e262364ba7e31a48f9ec681, type: 2}
+  m_Motion: {fileID: -623603649343465320, guid: f738d6c534fd73d4a8764278b29b9272, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1107 &9126857701767709748
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Strafe Layer
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 8196271865393181739}
+    m_Position: {x: 340, y: 110, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 8196271865393181739}
