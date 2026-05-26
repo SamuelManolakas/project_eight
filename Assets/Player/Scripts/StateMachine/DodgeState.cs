@@ -11,7 +11,7 @@ public class DodgeState : State
         HandleAnimation();
         _dodgeDirection = player.controller.velocity.normalized;
 
-        if (_dodgeDirection.sqrMagnitude == 0)
+        if (player.moveInput == Vector2.zero)
         {
             _dodgeDirection = -player.transform.forward;
         }
@@ -21,7 +21,7 @@ public class DodgeState : State
 
     private void HandleAnimation()
     {
-        if (player.camera._isLockedOn)
+        if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
         {
             if (player.moveInput.x > 0.5f)
             {
@@ -33,17 +33,20 @@ public class DodgeState : State
             }
             else if (player.moveInput.y > 0.5f)
             {
-                player.animator.Play("Dodge Roll");
+                player.animator.Play("Dodge Roll Forward");
             }
-            else
+            else 
             {
-                // change the animation to backwards roll
-                player.animator.Play("Dodge Roll");
+                player.animator.Play("Dodge Roll Backward");
             }
+        }
+        else if (player.moveInput == Vector2.zero)
+        {
+            player.animator.Play("Dodge Roll Backward");
         }
         else
         {
-            player.animator.Play("Dodge Roll");
+            player.animator.Play("Dodge Roll Forward");
         }
     }
 

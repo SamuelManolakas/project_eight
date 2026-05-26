@@ -5,17 +5,17 @@ public class GrabbedState : State
 {
     public GrabbedState(PlayerBehaviour player, State parent) : base(player , parent){}
 
-    bool grabbed = false;
+    bool canMove;
     public override void Enter()
     {
         player.animator.Play("LayingDown");
         player.StartCoroutine(Wait());
-        grabbed = false;
+        canMove = false;
     }
 
     public override void Exit()
     {
-        grabbed = false;
+        canMove = false;
     }
 
     public override void ContinuousAction()
@@ -25,8 +25,15 @@ public class GrabbedState : State
 
     public override void OnMove()
     {
-        if (grabbed == true)
-            player.stateMachine.Transit(player.movementState);
+        if (canMove)
+            player.StartCoroutine(GetUp());
+    }
+
+    private IEnumerator GetUp()
+    {
+        player.animator.Play("Get Up");
+        yield return new WaitForSeconds(2f);
+        player.stateMachine.Transit(player.movementState);
     }
 
     private IEnumerator Wait()
@@ -39,6 +46,6 @@ public class GrabbedState : State
         }
         //knock back from the explosion
         
-        grabbed = true;
+        canMove = true;
     }
 }

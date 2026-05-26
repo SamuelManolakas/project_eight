@@ -46,6 +46,8 @@ public class MovementState : State
                 
                 player.animator.SetFloat("speed", 0);
                 player.animator.SetLayerWeight(1, move.magnitude);
+                player.animator.SetFloat("strafeX", player.moveInput.x);
+                player.animator.SetFloat("strafeZ", player.moveInput.y);
             }
             else
             {
