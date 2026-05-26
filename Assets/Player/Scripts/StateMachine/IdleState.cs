@@ -23,6 +23,7 @@ public class IdleState : State
         else if (player.moveInput.sqrMagnitude < 0.01f)
         {
             player.speed = player.initialSpeed;
+            player.controller.Move(player.velocity * Time.deltaTime);
         }
     }
 

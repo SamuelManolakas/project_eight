@@ -1091,6 +1091,14 @@ MonoBehaviour:
       NameHash: 254213878
       Synchronize: 1
       ParameterType: 1
+    - name: strafeX
+      NameHash: -508065696
+      Synchronize: 1
+      ParameterType: 1
+    - name: strafeZ
+      NameHash: 263842124
+      Synchronize: 1
+      ParameterType: 1
   AnimatorParametersExpanded: 0
 --- !u!114 &3433176283529310835
 MonoBehaviour:
@@ -1962,7 +1970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2039,6 +2047,7 @@ MonoBehaviour:
   greatSword: 0
   speed: 5
   sprintSpeed: 8
+  acceleration: 6
   jumpHeight: 2
   gravity: -15
   dodgeDistance: 6

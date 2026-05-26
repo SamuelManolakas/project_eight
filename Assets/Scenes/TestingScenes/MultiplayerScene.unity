@@ -1238,7 +1238,7 @@ MonoBehaviour:
   verticalSensitivity: 0.2
   minPitch: -30
   maxPitch: 60
-  distance: 5
+  distance: 8
   minDistance: 1.5
   maxDistance: 12
   zoomSensitivity: 2

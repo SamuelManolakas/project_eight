@@ -17,6 +17,7 @@ public class PlayerBehaviour : NetworkBehaviour
     [Header("Variables")]
     public float speed;
     public float sprintSpeed;
+    public float acceleration;
     public float jumpHeight;
     public float gravity;
     public float dodgeDistance;
@@ -99,7 +100,7 @@ public class PlayerBehaviour : NetworkBehaviour
         dodgeState = new DodgeState(this, aliveState);
         jumpState = new JumpState(this, aliveState);
         primaryAttackState = new PrimaryAttackState(this, aliveState);
-        jumpAttackState = new JumpAttackState(this, primaryAttackState);
+        jumpAttackState = new JumpAttackState(this, aliveState);
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
         secondaryAttackState = new SecondaryAttackState(this, aliveState);

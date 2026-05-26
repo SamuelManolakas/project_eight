@@ -27,8 +27,10 @@ public class MovementState : State
         camRight.Normalize();
 
         Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
+        
+        move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
 
-        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
+        
 
         if (player.speed == player.sprintSpeed)
         {
@@ -63,6 +65,17 @@ public class MovementState : State
         {
             player.stateMachine.Transit(player.idleState);
         }
+        
+        if (move.sqrMagnitude < 0.01f)
+        {
+            move = Vector3.Lerp(
+                move,
+                Vector3.zero,
+                player.acceleration * Time.deltaTime // ~5-8, slower than accel
+            );
+        }
+        
+        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
     }
 
     public override void OnPrimaryAttack()
