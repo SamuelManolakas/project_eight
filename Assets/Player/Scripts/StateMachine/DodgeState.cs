@@ -19,7 +19,7 @@ public class DodgeState : State
             _dodgeDirection = -player.transform.forward;
         }
 
-        player.animator.speed = 2f;
+        player.animator.speed = 1.3f;
         
         _isDodging = true;
         _dodgeTimer = 0f;
