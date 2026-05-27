@@ -45,6 +45,7 @@ public class PlayerBehaviour : NetworkBehaviour
     [SerializeField]
     private InteractionDetector m_interactionDetector;
     public GameObject weapon;
+    public GameObject shield;
     public GameObject hudPrefab;
     
     [HideInInspector] 
@@ -59,6 +60,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public float initialSpeed;
     [HideInInspector] 
     public HitBox hitBox;
+    [HideInInspector] 
+    public HitBox shieldHitBox;
     [HideInInspector] 
     public HurtBox hurtBox;
     [HideInInspector] 
@@ -127,6 +130,10 @@ public class PlayerBehaviour : NetworkBehaviour
     private void Start()
     {
         hitBox = weapon.GetComponent<HitBox>();
+        if (shield)
+        {
+            shieldHitBox = shield.GetComponent<HitBox>();
+        }
         hurtBox = GetComponent<HurtBox>();
         ammo = maxAmmo;
     }
@@ -440,7 +447,15 @@ public class PlayerBehaviour : NetworkBehaviour
 
     public void ClearHitTargets()
     {
-        hitBox.hitTargets.Clear();
+        if (hitBox)
+        {
+            hitBox.hitTargets.Clear();
+        }
+
+        if (shield)
+        {
+            shieldHitBox.hitTargets.Clear();
+        }
     }
 }
 

@@ -44,7 +44,7 @@ public class JumpState : State
         {
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             player.transform.rotation =
-                Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+                Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 5f);
         }
         
         if (canJump)

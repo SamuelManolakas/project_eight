@@ -597,8 +597,10 @@ GameObject:
   - component: {fileID: 1928536540492761038}
   - component: {fileID: 2784096366370509639}
   - component: {fileID: 564088626652659077}
-  m_Layer: 8
-  m_Name: Cube
+  - component: {fileID: 4541344835632963185}
+  - component: {fileID: 7320350120416505197}
+  m_Layer: 10
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -676,6 +678,40 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4541344835632963185
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133909435104971191}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.66, y: 0.82, z: 0.34}
+  m_Center: {x: -0.37, y: 0.01, z: 0}
+--- !u!114 &7320350120416505197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133909435104971191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8eed31e82d01c40ac244b6f1b56d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+  damage: 0
 --- !u!1 &2206689751160023702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,12 +2087,6 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -15
   dodgeDuration: 1
-  dodgeSpeedCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   dodgeDistance: 6
   primaryAttackDamage: 10
   secondaryAttackDamage: 20
@@ -2072,6 +2102,7 @@ MonoBehaviour:
   animator: {fileID: 8673128803003159111}
   m_interactionDetector: {fileID: 6711439868172442985}
   weapon: {fileID: 5472721737541937953}
+  shield: {fileID: 2133909435104971191}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
@@ -2079,6 +2110,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   initialSpeed: 0
   hitBox: {fileID: 0}
+  shieldHitBox: {fileID: 0}
   hurtBox: {fileID: 0}
   attackBuffer: 0
   health: {fileID: 0}
