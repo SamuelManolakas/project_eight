@@ -14,13 +14,18 @@ public class PlayerBehaviour : NetworkBehaviour
     public bool bolter;
     public bool greatSword;
     
-    [Header("Variables")]
+    [Header("Movement")]
     public float speed;
     public float sprintSpeed;
     public float acceleration;
     public float jumpHeight;
     public float gravity;
+
+    [Header("Dodge")] 
+    public float dodgeDuration;
     public float dodgeDistance;
+    
+    [Header("Combat")]
     public int primaryAttackDamage;
     public int secondaryAttackDamage;
     public int healConsumableAmount;

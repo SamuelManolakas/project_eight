@@ -5,7 +5,10 @@ public class DodgeState : State
 {
     public DodgeState(PlayerBehaviour player, State parent) : base(player, parent){}
 
+    private bool _isDodging;
+    private float _dodgeTimer;
     private Vector3 _dodgeDirection;
+    private bool _isInvincible;
     public override void Enter()
     {
         HandleAnimation();
@@ -15,10 +18,68 @@ public class DodgeState : State
         {
             _dodgeDirection = -player.transform.forward;
         }
+
+        player.animator.speed = 2f;
         
-        player.StartCoroutine(Wait());
+        _isDodging = true;
+        _dodgeTimer = 0f;
+        
+        player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
     }
 
+    public override void Exit()
+    {
+        player.animator.speed = 1f;
+    }
+
+    public override void GetHit(int damage)
+    {
+        if (_isInvincible) return;
+        
+        if (player.health.Health >= 0)
+        {
+            player.health.TakeDamage(damage);
+        }
+    }
+
+    public override void ContinuousAction()
+    {
+        if (!_isDodging) return;
+
+        _dodgeTimer += Time.deltaTime;
+        float progress = _dodgeTimer / player.dodgeDuration; // 0 → 1
+
+        float t = Mathf.Clamp01(_dodgeTimer / player.dodgeDuration);
+
+        // Ease Out Cubic: fast start, smooth stop
+        float easedT = 1f - Mathf.Pow(1f - t, 3f);
+
+        // Differentiate to get speed (derivative of ease out cubic)
+        // speed = d/dt [ 1 - (1-t)^3 ] = 3(1-t)^2
+        float speed = 3f * Mathf.Pow(1f - t, 2f) * (player.dodgeDistance / player.dodgeDuration);
+
+        if (t >= 1f)
+        {
+            _isDodging = false;
+            player.controller.Move(Vector3.zero);
+        }
+        
+        player.controller.Move((_dodgeDirection * speed + player.velocity) * Time.deltaTime);
+    }
+
+    private IEnumerator IFrameWindow(float startFraction, float endFraction)
+    {
+        yield return new WaitForSeconds(player.dodgeDuration * startFraction);
+        _isInvincible = true;
+        yield return new WaitForSeconds(player.dodgeDuration * (endFraction - startFraction));
+        _isInvincible = false;
+        player.stateMachine.Transit(player.idleState);
+    }
+
+    public override void OnJump()
+    {
+    }
+    
     private void HandleAnimation()
     {
         if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
@@ -48,30 +109,5 @@ public class DodgeState : State
         {
             player.animator.Play("Dodge Roll Forward");
         }
-    }
-
-    public override void Exit()
-    {
-        
-    }
-
-    public override void GetHit(int damage)
-    {
-        
-    }
-
-    public override void ContinuousAction()
-    {
-        player.controller.Move((_dodgeDirection * player.dodgeDistance + player.velocity) * Time.deltaTime);
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(0.6f);
-        player.stateMachine.Transit(player.idleState);
-    }
-
-    public override void OnJump()
-    {
     }
 }
