@@ -26,6 +26,19 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
+    public GameObject flamePrefab;
+    public GameObject chestFlamer;
+    public Transform nukePosition;
+    
+    [Header("Nuke Attack")]
+    public float nukeRadius;
+    public int nukeDamage;
+    public LayerMask targetLayerMask;       // Player layer
+    public LayerMask occlusionLayerMask;    // Pillar layer
+    
+    [Header("VFX")]
+    public GameObject telegraphVFX;         // Warning effect
+    public GameObject nukeVFX;              // Explosion effect
     
     [HideInInspector]
     public Rigidbody _rigidbody;
@@ -48,12 +61,16 @@ public class BossBehaviour : Enemy
     public Phase2State phase2State = null;
     public MovementState_B movementState = null;
     public Combo1State_B combo1State = null;
+    public Combo2State_B combo2State = null;
     public GrabState_B grabState = null;
     public ChargeState_B chargeState = null;
     public StunnedState_B stunnedState = null;
     public ShootState_B shootState = null;
     public StrikeState_B strikeState = null;
     public SweepState_B sweepState = null;
+    public ChestFlamerState_B chestFlamerState = null;
+    public SpinAttackState_B SpinAttackState = null;
+    public NukeState_B NukeState = null;
     
     public void Awake(){
         rootState = new RootState_B(this, null);
@@ -64,12 +81,16 @@ public class BossBehaviour : Enemy
         phase2State = new Phase2State(this, aliveState);
         movementState = new MovementState_B(this, aliveState);
         combo1State = new Combo1State_B(this, aliveState);
+        combo2State = new Combo2State_B(this, aliveState);
         grabState = new GrabState_B(this, aliveState);
         chargeState = new ChargeState_B(this, aliveState);
         stunnedState = new StunnedState_B(this, aliveState);
         shootState = new ShootState_B(this, aliveState);
         strikeState = new StrikeState_B(this, aliveState);
         sweepState = new SweepState_B(this, aliveState);
+        chestFlamerState = new ChestFlamerState_B(this,aliveState);
+        SpinAttackState = new SpinAttackState_B(this, aliveState);
+        NukeState = new NukeState_B(this, aliveState);
         
         stateMachine = new StateMachine_B();
         stateMachine.InitializeMachine(spawnState);
@@ -161,13 +182,6 @@ public class BossBehaviour : Enemy
     {
         stateMachine.Transit(stunnedState);
     }
-
-    //public void Shooting()
-    //{
-    //    bullet.GetComponent<Bullet_B>().direction = currentTarget.transform.position - grabCollider.transform.position;
-    //    Instantiate(bullet, grabCollider.transform.position, grabCollider.transform.rotation);
-    //    bullet.GetComponent<NetworkObject>().Spawn();
-    //}
     
     public void Shoot()
     {
@@ -184,6 +198,34 @@ public class BossBehaviour : Enemy
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(directionToPlayer));
         bullet.GetComponent<Bullet_B>().Initialize(directionToPlayer); 
         bullet.GetComponent<Bullet_B>().damage = damage;
+        bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void Flamer(Vector3 direction, float timer)
+    {
+        RequestFlamerServerRpc(direction, timer);
+    }
+    
+    [ServerRpc]
+    private void RequestFlamerServerRpc(Vector3 directionToPlayer, float timer)
+    {
+        GameObject bullet = Instantiate(flamePrefab, chestFlamer.transform.position, Quaternion.LookRotation(chestFlamer.transform.forward));
+        bullet.GetComponent<Flame_B>().Initialize(directionToPlayer, timer);
+        bullet.GetComponent<Flame_B>().damage = damage;
+        bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void HandFlamer(float timer)
+    {
+        RequestHandFlamerServerRpc(timer);
+    }
+    
+    [ServerRpc]
+    private void RequestHandFlamerServerRpc(float timer)
+    {
+        GameObject bullet = Instantiate(flamePrefab, firePoint.position, Quaternion.LookRotation(firePoint.transform.forward));
+        bullet.GetComponent<Flame_B>().Initialize(firePoint.transform.forward, timer);
+        bullet.GetComponent<Flame_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
 }

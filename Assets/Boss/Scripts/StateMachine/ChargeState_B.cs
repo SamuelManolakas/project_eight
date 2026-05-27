@@ -39,7 +39,7 @@ public class ChargeState_B : State_B
         charge = false;
         if (boss.stateMachine.currentState == boss.stunnedState)
         {
-            
+            // workaround for the boss to not transit to movement state if he hits a wall early
         }
         else
         {

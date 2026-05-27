@@ -59,6 +59,8 @@ public class PrimaryAttackState : State
                 player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
+
+                StartAttackLunge(1f);
                 
                 yield return new WaitForSeconds(1f);
                 player.stateMachine.Transit(player.idleState);
@@ -90,5 +92,31 @@ public class PrimaryAttackState : State
         Debug.Log(player.hitBox.hitTargets.Count);
         
         player.stateMachine.Transit(player.idleState);
+    }
+    
+    private Vector3 _attackImpulse;
+    private float _attackImpulseTimer;
+
+    private float lungeDuration = 0.5f;
+   
+
+    void StartAttackLunge(float lungeForce)
+    {
+        _attackImpulse = player.transform.forward * lungeForce;
+        _attackImpulseTimer = 0f;
+    }
+
+    Vector3 GetAttackImpulse()
+    {
+        if (_attackImpulseTimer >= lungeDuration) return Vector3.zero;
+
+        _attackImpulseTimer += Time.deltaTime;
+        return _attackImpulse ;
+    }
+
+    public override void ContinuousAction()
+    {
+        GetAttackImpulse();
+        player.controller.Move((GetAttackImpulse() * player.speed + player.velocity) * Time.deltaTime);
     }
 }

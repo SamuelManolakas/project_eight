@@ -8,7 +8,7 @@ public class DeadState : State
     public override void Enter()
     {
         player.animator.Play("KnockedBack");
-        player.StartCoroutine(Wait());
+        player.StopAllCoroutines();
     }
     public override void Exit(){}
     public override void GetHit(int damage){}
@@ -29,11 +29,5 @@ public class DeadState : State
     }
     public override void OnMove()
     {
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(0.5f);
-        player.animator.Play("LayingDown");
     }
 }

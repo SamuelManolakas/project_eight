@@ -27,8 +27,10 @@ public class MovementState : State
         camRight.Normalize();
 
         Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
+        
+        move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
 
-        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
+        
 
         if (player.speed == player.sprintSpeed)
         {
@@ -46,6 +48,8 @@ public class MovementState : State
                 
                 player.animator.SetFloat("speed", 0);
                 player.animator.SetLayerWeight(1, move.magnitude);
+                player.animator.SetFloat("strafeX", player.moveInput.x);
+                player.animator.SetFloat("strafeZ", player.moveInput.y);
             }
             else
             {
@@ -57,16 +61,34 @@ public class MovementState : State
                 player.animator.SetLayerWeight(1, 0);
             }
         }
-        else
+        else if(player.controller.velocity.magnitude < 0.001f)
         {
             player.stateMachine.Transit(player.idleState);
         }
+        
+        if (move.sqrMagnitude < 0.01f)
+        {
+            move = Vector3.Lerp(
+                move,
+                Vector3.zero,
+                player.acceleration * Time.deltaTime // ~5-8, slower than accel
+            );
+        }
+        
+        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
     }
 
     public override void OnPrimaryAttack()
     {
-        if(player.swordAndShield || player.greatSword)
-            player.stateMachine.Transit(player.primaryAttackState);
+        if (player.swordAndShield || player.greatSword)
+        {
+            if (player.speed ==  player.sprintSpeed)
+                player.stateMachine.Transit(player.runAttackState);
+            else
+            {
+                player.stateMachine.Transit(player.primaryAttackState);
+            }
+        }
     }
 
     public override void OnJump()

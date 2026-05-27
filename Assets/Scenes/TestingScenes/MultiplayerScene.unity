@@ -500,6 +500,37 @@ Transform:
   - {fileID: 224615889}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &729677339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 729677340}
+  m_Layer: 0
+  m_Name: NukePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &729677340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729677339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04, y: 0, z: 15.06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &811941458
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,6 +777,18 @@ PrefabInstance:
       propertyPath: gravity
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: nukeDamage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: nukeRadius
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: nukePosition
+      value: 
+      objectReference: {fileID: 729677340}
     - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 620242184
@@ -874,6 +917,22 @@ PrefabInstance:
     - target: {fileID: 4662184529439945767, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884088172120030371, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884088172120030371, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5724985852759360321, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380614509000372635, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1179,7 +1238,7 @@ MonoBehaviour:
   verticalSensitivity: 0.2
   minPitch: -30
   maxPitch: 60
-  distance: 5
+  distance: 8
   minDistance: 1.5
   maxDistance: 12
   zoomSensitivity: 2
@@ -1198,6 +1257,7 @@ MonoBehaviour:
   aimShoulderOffset: {x: 0, y: 0, z: 0}
   aimHeightOffset: -0.1
   aimTransitionSpeed: 10
+  _isLockedOn: 0
 --- !u!114 &1425260209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1808,3 +1868,4 @@ SceneRoots:
   - {fileID: 719358565}
   - {fileID: 1840386496}
   - {fileID: 1321359604}
+  - {fileID: 729677340}

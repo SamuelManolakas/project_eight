@@ -14,12 +14,18 @@ public class PlayerBehaviour : NetworkBehaviour
     public bool bolter;
     public bool greatSword;
     
-    [Header("Variables")]
+    [Header("Movement")]
     public float speed;
     public float sprintSpeed;
+    public float acceleration;
     public float jumpHeight;
     public float gravity;
+
+    [Header("Dodge")] 
+    public float dodgeDuration;
     public float dodgeDistance;
+    
+    [Header("Combat")]
     public int primaryAttackDamage;
     public int secondaryAttackDamage;
     public int healConsumableAmount;
@@ -86,6 +92,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public GuardState guardState = null;
     public SecondaryAttackState secondaryAttackState = null;
     public ReloadState reloadState = null;
+    public RunAttackState runAttackState = null;
 
     private float _healCooldown;
     
@@ -99,11 +106,12 @@ public class PlayerBehaviour : NetworkBehaviour
         dodgeState = new DodgeState(this, aliveState);
         jumpState = new JumpState(this, aliveState);
         primaryAttackState = new PrimaryAttackState(this, aliveState);
-        jumpAttackState = new JumpAttackState(this, primaryAttackState);
+        jumpAttackState = new JumpAttackState(this, aliveState);
         grabbedState = new GrabbedState(this, aliveState);
         guardState = new GuardState(this, aliveState);
         secondaryAttackState = new SecondaryAttackState(this, aliveState);
         reloadState = new ReloadState(this, aliveState);
+        runAttackState = new RunAttackState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);

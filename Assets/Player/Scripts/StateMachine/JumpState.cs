@@ -20,35 +20,36 @@ public class JumpState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         player.velocity.y = Mathf.Sqrt(player.jumpHeight * -2f * player.gravity);
         canJump = true;
     }
     
     public override void ContinuousAction()
     {
+        Vector3 camForward = player.cameraTransform.forward;
+        Vector3 camRight = player.cameraTransform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
+
+        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
+
+        if (move.sqrMagnitude > 0.001f)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+            player.transform.rotation =
+                Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+        }
+        
         if (canJump)
         {
-            Vector3 camForward = player.cameraTransform.forward;
-            Vector3 camRight = player.cameraTransform.right;
-
-            camForward.y = 0;
-            camRight.y = 0;
-
-            camForward.Normalize();
-            camRight.Normalize();
-
-            Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
-
-            player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
-            player.animator.SetFloat("speed", move.magnitude);
-
-            if (move.sqrMagnitude > 0.001f)
-            {
-                Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-                player.transform.rotation =
-                    Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
-            }
+            
 
             if (player.controller.isGrounded)
             {
