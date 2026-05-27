@@ -92,6 +92,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public GuardState guardState = null;
     public SecondaryAttackState secondaryAttackState = null;
     public ReloadState reloadState = null;
+    public RunAttackState runAttackState = null;
 
     private float _healCooldown;
     
@@ -110,6 +111,7 @@ public class PlayerBehaviour : NetworkBehaviour
         guardState = new GuardState(this, aliveState);
         secondaryAttackState = new SecondaryAttackState(this, aliveState);
         reloadState = new ReloadState(this, aliveState);
+        runAttackState = new RunAttackState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);

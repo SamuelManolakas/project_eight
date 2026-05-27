@@ -61,7 +61,7 @@ public class MovementState : State
                 player.animator.SetLayerWeight(1, 0);
             }
         }
-        else
+        else if(player.controller.velocity.magnitude < 0.001f)
         {
             player.stateMachine.Transit(player.idleState);
         }
@@ -80,8 +80,15 @@ public class MovementState : State
 
     public override void OnPrimaryAttack()
     {
-        if(player.swordAndShield || player.greatSword)
-            player.stateMachine.Transit(player.primaryAttackState);
+        if (player.swordAndShield || player.greatSword)
+        {
+            if (player.speed ==  player.sprintSpeed)
+                player.stateMachine.Transit(player.runAttackState);
+            else
+            {
+                player.stateMachine.Transit(player.primaryAttackState);
+            }
+        }
     }
 
     public override void OnJump()
