@@ -18,6 +18,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public float speed;
     public float sprintSpeed;
     public float acceleration;
+    public float deceleration;
     public float jumpHeight;
     public float gravity;
 
@@ -25,25 +26,25 @@ public class PlayerBehaviour : NetworkBehaviour
     public float dodgeDuration;
     public float dodgeDistance;
     
-    [Header("Combat")]
+    [Header("Damage")]
     public int primaryAttackDamage;
     public int secondaryAttackDamage;
-    public int healConsumableAmount;
-    public int healAmount;
-    public int maxAmmo;
-    [HideInInspector] public int ammo;
     public float fireRate;
+    
+    [Header("Stamina")]
     public float primaryAttackStaminaCost;
     public float secondaryAttackStaminaCost;
     public float dodgeStaminaCost;
     public float sprintStaminaCost;
     
+    [Header("Heal and Ammo")]
+    public int healConsumableAmount;
+    public int healAmount;
+    public int maxAmmo;
+    [HideInInspector] public int ammo;
+    
     [Header("Components")]
     public Animator animator;
-    //[SerializeField]
-    //private AnimationEvents m_animationEvents;
-    [SerializeField]
-    private InteractionDetector m_interactionDetector;
     public GameObject weapon;
     public GameObject shield;
     public GameObject hudPrefab;
@@ -56,6 +57,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public Vector2 moveInput;
     [HideInInspector] 
     public Vector3 velocity;
+    [HideInInspector] 
+    public Vector3 horizontalVelocity;
     [HideInInspector] 
     public float initialSpeed;
     [HideInInspector] 
@@ -264,7 +267,6 @@ public class PlayerBehaviour : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        m_interactionDetector.Initialize(IsOwner);
         m_heldObjectType.OnValueChanged += HandleHeldItemChanged;
         HandleItemOnJoin();
         if (IsOwner)
@@ -293,17 +295,6 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             HUDManager.Instance.SetMaxStamina(stamina.maxStamina);
             HUDManager.Instance.SetStamina(stamina._stamina.Value);
-        }
-    }
-    private void HandleChopAction()
-    {
-        if(m_heldObjectType.Value is ObjectType.Axe or ObjectType.PickAxe)
-        {
-            if(m_interactionDetector.ClosestInteractable is ResourceNode)
-            {
-                RequestResourceNodeInteractionServerRpc(
-                    m_interactionDetector.ClosestInteractable.NetworkObject.NetworkObjectId);
-            }
         }
     }
     
@@ -337,15 +328,6 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         //m_isInteracting = false;
         //m_isChopping = false;
-    }
-    
-    private void HandleInteractAction()
-    {
-        if(m_interactionDetector.ClosestInteractable is PickableBase)
-        {
-            RequestPickUpServerRpc(
-                m_interactionDetector.ClosestInteractable.NetworkObject.NetworkObjectId);
-        }
     }
     
     [Rpc(SendTo.Server)]

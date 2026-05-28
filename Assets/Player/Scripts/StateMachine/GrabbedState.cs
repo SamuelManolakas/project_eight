@@ -42,7 +42,7 @@ public class GrabbedState : State
         //Temporary damage solution
         if (player.health.Health >= 0)
         {
-            player.health.TakeDamage(10);
+            player.health.TakeDamage((player.health.maxHealth / 3) * 2);
         }
         //knock back from the explosion
         

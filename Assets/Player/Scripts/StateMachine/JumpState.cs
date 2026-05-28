@@ -61,6 +61,13 @@ public class JumpState : State
     public override void OnPrimaryAttack()
     {
         if (player.swordAndShield)
-            player.stateMachine.Transit(player.jumpAttackState);
+            player.StartCoroutine(WaitToTransition());
+
+    }
+
+    private IEnumerator WaitToTransition()
+    {
+        yield return new WaitForSeconds(0.25f);
+        player.stateMachine.Transit(player.jumpAttackState);
     }
 }

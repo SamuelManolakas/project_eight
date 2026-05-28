@@ -13,6 +13,7 @@ public class MovementState : State
     {
         player.animator.SetFloat("speed", 0);
         player.animator.SetLayerWeight(1, 0);
+        player.horizontalVelocity = Vector3.zero;
     }
 
     public override void ContinuousAction()
@@ -23,21 +24,34 @@ public class MovementState : State
         camForward.y = 0;
         camRight.y = 0;
 
-        camForward.Normalize();
-        camRight.Normalize();
-
-        Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
+        //camForward.Normalize();
+        //camRight.Normalize();
+        //Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
+        //
+        //move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
+        //
+        //if (player.speed == player.sprintSpeed)
+        //{
+        //    player.stamina.TryUseStamina(player.sprintStaminaCost);
+        //}
         
-        move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
+        // Target velocity this frame based on input
+        Vector3 targetVelocity = (camForward * player.moveInput.y + camRight * player.moveInput.x);
+        if (targetVelocity.magnitude > 1f) targetVelocity.Normalize();
+        targetVelocity *= player.speed;
 
-        
+        // Lerp the STORED velocity toward the target — this is what gives you smooth accel/decel
+        float lerpRate = targetVelocity.sqrMagnitude > 0.001f
+            ? player.acceleration
+            : player.deceleration; // slower bleed-off rate for the "skid" feel
 
-        if (player.speed == player.sprintSpeed)
-        {
-            player.stamina.TryUseStamina(player.sprintStaminaCost);
-        }
+        player.horizontalVelocity = Vector3.Lerp(
+            player.horizontalVelocity,
+            targetVelocity,
+            lerpRate * Time.deltaTime
+        );
         
-        if (move.sqrMagnitude > 0.001f)
+        if (player.horizontalVelocity.sqrMagnitude > 0.001f)
         {
             if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
             {
@@ -47,35 +61,26 @@ public class MovementState : State
                 player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
                 
                 player.animator.SetFloat("speed", 0);
-                player.animator.SetLayerWeight(1, move.magnitude);
+                player.animator.SetLayerWeight(1, player.horizontalVelocity.magnitude / player.speed);
                 player.animator.SetFloat("strafeX", player.moveInput.x);
                 player.animator.SetFloat("strafeZ", player.moveInput.y);
             }
             else
             {
-                Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+                Quaternion toRotation = Quaternion.LookRotation(player.horizontalVelocity.normalized, Vector3.up);
                 player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
                 
-                player.animator.SetFloat("speed", move.magnitude);
+                player.animator.SetFloat("speed", player.horizontalVelocity.magnitude / player.speed);
                 
                 player.animator.SetLayerWeight(1, 0);
             }
         }
-        else if(player.controller.velocity.magnitude < 0.001f)
+        else
         {
             player.stateMachine.Transit(player.idleState);
         }
         
-        if (move.sqrMagnitude < 0.01f)
-        {
-            move = Vector3.Lerp(
-                move,
-                Vector3.zero,
-                player.acceleration * Time.deltaTime // ~5-8, slower than accel
-            );
-        }
-        
-        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
+        player.controller.Move((player.horizontalVelocity + player.velocity) * Time.deltaTime);
     }
 
     public override void OnPrimaryAttack()

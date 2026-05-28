@@ -40,10 +40,9 @@ public class JumpAttackState : State
         }
         else
         {
-
-
             if (_fireOnce < 1)
                 player.StartCoroutine(Wait());
+            
             player.ClearHitTargets();
         }
     }
