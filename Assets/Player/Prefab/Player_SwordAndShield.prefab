@@ -2007,7 +2007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 860196082
+  GlobalObjectIdHash: 1366874158
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2105,6 +2105,8 @@ MonoBehaviour:
   weapon: {fileID: 5472721737541937953}
   shield: {fileID: 2133909435104971191}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
+  PlayerAudioScriptableObject: {fileID: 11400000, guid: b45051e28321a1b41b2e5f2baa7fd2af, type: 2}
+  audioSource: {fileID: 830765819375716342}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}

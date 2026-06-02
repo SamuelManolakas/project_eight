@@ -19,3 +19,45 @@ MonoBehaviour:
       Data3: 857619636
       Data4: 1419747395
     Path: event:/Sound/Player/Movement/Steps
+  playerRollEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playerSSLightAttackEvent:
+    Guid:
+      Data1: 723598805
+      Data2: 1282898607
+      Data3: 2029146527
+      Data4: 1002991142
+    Path: event:/Sound/Player/Weapons/S&S/Light
+  playerSSHeavyAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playerGSLightAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playerGSHeavyAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playerBolterAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

@@ -1582,6 +1582,11 @@ namespace FMOD.Studio
         }
 
         #endregion
+
+        public void stop()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public struct Bus

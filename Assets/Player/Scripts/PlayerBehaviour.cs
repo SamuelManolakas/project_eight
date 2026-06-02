@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -42,12 +43,17 @@ public class PlayerBehaviour : NetworkBehaviour
     public int healAmount;
     public int maxAmmo;
     [HideInInspector] public int ammo;
+
+    [Header("Sound")] 
+    public int isMoving;
     
     [Header("Components")]
     public Animator animator;
     public GameObject weapon;
     public GameObject shield;
     public GameObject hudPrefab;
+    public AvatarAudio PlayerAudioScriptableObject;
+    public GameObject audioSource;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -170,6 +176,8 @@ public class PlayerBehaviour : NetworkBehaviour
             }
             attackBuffer = true;
         }
+
+        
     }
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
