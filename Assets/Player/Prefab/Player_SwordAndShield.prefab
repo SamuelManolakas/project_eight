@@ -2006,7 +2006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2081,21 +2081,21 @@ MonoBehaviour:
   swordAndShield: 1
   bolter: 0
   greatSword: 0
-  speed: 5
+  speed: 6
   sprintSpeed: 8
-  acceleration: 10
-  deceleration: 6
+  acceleration: 5
+  deceleration: 5
   jumpHeight: 2
   gravity: -15
   dodgeDuration: 1
-  dodgeDistance: 6
+  dodgeDistance: 5
   primaryAttackDamage: 10
   secondaryAttackDamage: 20
   fireRate: 0
-  primaryAttackStaminaCost: 10
-  secondaryAttackStaminaCost: 20
-  dodgeStaminaCost: 30
-  sprintStaminaCost: 0.1
+  primaryAttackStaminaCost: 25
+  secondaryAttackStaminaCost: 50
+  dodgeStaminaCost: 25
+  sprintStaminaCost: 5
   healConsumableAmount: 4
   healAmount: 10
   maxAmmo: 0
