@@ -43,6 +43,10 @@ public class PrimaryAttackState : State
         player.attackBuffer = false;
         player.weapon.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
+        }
         
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer)
@@ -51,6 +55,10 @@ public class PrimaryAttackState : State
             player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
+            if (player.PlayerAudioScriptableObject != null)
+            {
+                player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
+            }
             
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer)
@@ -59,6 +67,10 @@ public class PrimaryAttackState : State
                 player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
+                if (player.PlayerAudioScriptableObject != null)
+                {
+                    player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
+                }
 
                 StartAttackLunge(1f);
                 

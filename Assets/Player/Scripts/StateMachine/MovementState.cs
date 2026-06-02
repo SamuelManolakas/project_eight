@@ -7,6 +7,13 @@ public class MovementState : State
     public override void Enter()
     {
         player.animator.Play("Run");
+
+        player.isMoving = 1;
+        
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
+        }
     }
 
     public override void Exit()
@@ -14,6 +21,13 @@ public class MovementState : State
         player.animator.SetFloat("speed", 0);
         player.animator.SetLayerWeight(1, 0);
         player.horizontalVelocity = Vector3.zero;
+        
+        player.isMoving = 0;
+        
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
+        }
     }
 
     public override void ContinuousAction()
