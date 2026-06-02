@@ -6,7 +6,7 @@ public class HurtBox : NetworkBehaviour
     public PlayerHealth player;
     public BossBehaviour boss;
     
-    public void GetHit(int damage)
+    public void GetHit(int damage, ulong attackerNetworkObjectId)
     {
         if (player)
         {
@@ -14,7 +14,7 @@ public class HurtBox : NetworkBehaviour
         }
         else
         {
-            boss.GetHitRpc(damage);
+            boss.GetHitRpc(damage, attackerNetworkObjectId);
         }
     }
 }

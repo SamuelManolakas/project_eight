@@ -10,6 +10,8 @@ public class BulletController : NetworkBehaviour
     private Vector3 _direction;
     
     [HideInInspector] public int damage;
+    [HideInInspector]
+    public ulong attackerNetworkObjectId;
 
     // Called by the spawner right after instantiation (server-side)
     public void Initialize(Vector3 direction)
@@ -39,7 +41,7 @@ public class BulletController : NetworkBehaviour
         if (!IsServer) return;
 
         if(other.TryGetComponent(out HurtBox hurtBox))
-            hurtBox.GetHit(damage); 
+            hurtBox.GetHit(damage, attackerNetworkObjectId); 
 
         DestroyBullet();
     }

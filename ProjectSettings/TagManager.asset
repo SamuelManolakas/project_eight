@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Wall
   - Floor
+  - FloorBoss
   layers:
   - Default
   - TransparentFX

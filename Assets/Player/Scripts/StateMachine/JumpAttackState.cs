@@ -12,9 +12,18 @@ public class JumpAttackState : State
         player.animator.Play("Jump Attack",2, 0);
         player.animator.SetLayerWeight(2, 1);
         player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+
+        if (player.swordAndShield)
+        {
+            player.shieldHitBox.damage = player.primaryAttackDamage;
+            player.shield.GetComponent<Collider>().enabled = true;
+        }
         
-        player.shieldHitBox.damage = player.primaryAttackDamage;
-        player.shield.GetComponent<Collider>().enabled = true;
+        if (player.greatSword)
+        {
+            player.hitBox.damage = player.primaryAttackDamage;
+            player.weapon.GetComponent<Collider>().enabled = true;
+        }
         
         _jumpDirection = player.transform.forward;
     }
@@ -22,7 +31,11 @@ public class JumpAttackState : State
     public override void Exit()
     {
         player.animator.SetLayerWeight(2, 0);
-        player.shield.GetComponent<Collider>().enabled = false;
+        
+        if (player.swordAndShield) 
+            player.shield.GetComponent<Collider>().enabled = false;
+        if (player.greatSword) 
+            player.weapon.GetComponent<Collider>().enabled = false;
 
         _fireOnce = 0;
     }
@@ -51,7 +64,7 @@ public class JumpAttackState : State
     {
         _fireOnce++;
         
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         player.stateMachine.Transit(player.movementState);
     }
 }

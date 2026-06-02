@@ -139,6 +139,7 @@ public class PlayerBehaviour : NetworkBehaviour
     private void Start()
     {
         hitBox = weapon.GetComponent<HitBox>();
+        hitBox.attackerNetworkObjectId = GetComponent<NetworkObject>().NetworkObjectId;
         if (shield)
         {
             shieldHitBox = shield.GetComponent<HitBox>();
