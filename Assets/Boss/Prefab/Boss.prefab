@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
+  attackerNetworkObjectId: 0
 --- !u!65 &8025867950595077195
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3533,6 +3534,12 @@ MonoBehaviour:
   speed: 3
   damage: 4
   gravity: -15
+  aggroEvaluationInterval: 8
+  randomSwitchChance: 0.25
+  randomTauntDuration: 4
+  staggerThreshold: 150
+  staggerWindow: 3
+  staggerCooldown: 6
   animator: {fileID: 1786571155882600704}
   m_animationEvents: {fileID: 2054388775556113775}
   greatSwordModel: {fileID: 1890145477471268160}

@@ -76,7 +76,7 @@ public class GameManager : NetworkBehaviour
         GameObject player = Instantiate(m_playerPrefab, transform);
         //GameObject enemy = Instantiate(m_enemyPrefab, transform);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
-        GameObject.FindGameObjectWithTag("Enemy").GetComponent<BossBehaviour>().players.Add(player.GetComponent<PlayerBehaviour>());
+        GameObject.FindGameObjectWithTag("Enemy").GetComponent<BossBehaviour>().players.Add(player);
         //enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
     }
 

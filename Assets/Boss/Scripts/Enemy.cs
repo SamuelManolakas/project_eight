@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Enemy : NetworkBehaviour
 {
-    public List<PlayerBehaviour> players = new List<PlayerBehaviour>();
-    public PlayerBehaviour currentTarget = null;
+    public List<GameObject> players = new List<GameObject>();
+    public GameObject currentTarget = null;
     
     public override void OnNetworkSpawn()
     {

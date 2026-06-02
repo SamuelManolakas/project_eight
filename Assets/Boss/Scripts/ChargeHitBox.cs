@@ -11,7 +11,7 @@ public class ChargeHitBox : MonoBehaviour
     {
         if (other.TryGetComponent(out HurtBox hurtBox))
         {
-            hurtBox.GetHit(damage);
+            hurtBox.GetHit(damage, 1);
         }
         
         if (other.CompareTag("Wall"))
