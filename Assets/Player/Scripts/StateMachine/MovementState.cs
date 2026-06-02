@@ -56,6 +56,7 @@ public class MovementState : State
             if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
             {
                 Vector3 bossDirection = player.camera.lockOnTarget.position - player.transform.position;
+                bossDirection.y = 0;
                 
                 Quaternion toRotation = Quaternion.LookRotation(bossDirection.normalized, Vector3.up);
                 player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);

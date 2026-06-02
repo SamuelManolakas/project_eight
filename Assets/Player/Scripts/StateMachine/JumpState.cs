@@ -60,7 +60,7 @@ public class JumpState : State
 
     public override void OnPrimaryAttack()
     {
-        if (player.swordAndShield)
+        if (player.swordAndShield || player.greatSword)
             player.StartCoroutine(WaitToTransition());
 
     }
