@@ -23,6 +23,8 @@ public class SpinAttackState_B : State_B
     {
         boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        
+        boss.StopAllCoroutines();
     }
     
     private IEnumerator Spin()

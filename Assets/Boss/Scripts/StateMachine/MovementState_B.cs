@@ -10,6 +10,7 @@ public class MovementState_B : State_B
 
     public override void Exit()
     {
+        boss.StopAllCoroutines();
     }
 
     private float _rangedAttackTimer;

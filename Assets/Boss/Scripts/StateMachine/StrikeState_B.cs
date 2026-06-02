@@ -17,6 +17,8 @@ public class StrikeState_B : State_B
     {
         boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        
+        boss.StopAllCoroutines();
     }
     
     public override void ContinuousAction()

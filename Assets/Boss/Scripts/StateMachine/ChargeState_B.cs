@@ -19,6 +19,8 @@ public class ChargeState_B : State_B
     public override void Exit()
     {
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
+        
+        boss.StopAllCoroutines();
     }
     
     private IEnumerator Wait()

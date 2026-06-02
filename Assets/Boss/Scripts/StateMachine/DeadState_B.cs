@@ -8,7 +8,11 @@ public class DeadState_B : State_B
     {
         boss.animator.Play("Death");
     }
-    public override void Exit(){}
+
+    public override void Exit()
+    {
+        boss.StopAllCoroutines();
+    }
     public override void GetHit(int damage){}
 
     public override void ContinuousAction(){}

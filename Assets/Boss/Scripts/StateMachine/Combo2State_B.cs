@@ -18,6 +18,8 @@ public class Combo2State_B : State_B
     {
         boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        
+        boss.StopAllCoroutines();
     }
     
     private IEnumerator Combo()

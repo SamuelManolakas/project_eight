@@ -17,6 +17,8 @@ public class NukeState_B : State_B
     public override void Exit()
     {
         _hasReachedPosition = false;
+        
+        boss.StopAllCoroutines();
     }
 
     public override void ContinuousAction()

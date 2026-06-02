@@ -12,6 +12,7 @@ public class SpawnState_B : State_B
 
     public override void Exit()
     {
+        boss.StopAllCoroutines();
     }
     
     private IEnumerator Wait()

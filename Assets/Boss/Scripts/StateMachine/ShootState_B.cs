@@ -14,6 +14,7 @@ public class ShootState_B : State_B
 
     public override void Exit()
     {
+        boss.StopAllCoroutines();
     }
     
     public override void ContinuousAction()
