@@ -24,7 +24,7 @@ public class DodgeState : State
         _isDodging = true;
         _dodgeTimer = 0f;
         
-        player.StartCoroutine(IFrameWindow(0.1f, player.dodgeDuration));
+        player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
     }
 
     public override void Exit()
@@ -58,10 +58,11 @@ public class DodgeState : State
         // speed = d/dt [ 1 - (1-t)^3 ] = 3(1-t)^2
         float speed = 3f * Mathf.Pow(1f - t, 2f) * (player.dodgeDistance / player.dodgeDuration);
 
-        if (t >= 1f)
+        if (t >= player.dodgeDuration - 0.2f)
         {
             _isDodging = false;
             player.controller.Move(Vector3.zero);
+            player.stateMachine.Transit(player.idleState);
         }
         
         player.controller.Move((_dodgeDirection * speed + player.velocity) * Time.deltaTime);
@@ -73,7 +74,6 @@ public class DodgeState : State
         _isInvincible = true;
         yield return new WaitForSeconds(player.dodgeDuration * (endFraction - startFraction));
         _isInvincible = false;
-        player.stateMachine.Transit(player.idleState);
     }
 
     public override void OnJump()
