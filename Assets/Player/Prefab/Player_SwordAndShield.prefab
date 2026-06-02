@@ -1922,6 +1922,7 @@ GameObject:
   - component: {fileID: 643189266240285211}
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
+  - component: {fileID: 7125158108642539077}
   m_Layer: 8
   m_Name: Player_SwordAndShield
   m_TagString: Player
@@ -2091,17 +2092,16 @@ MonoBehaviour:
   dodgeDistance: 6
   primaryAttackDamage: 10
   secondaryAttackDamage: 20
-  healConsumableAmount: 4
-  healAmount: 10
-  maxAmmo: 0
-  ammo: 0
   fireRate: 0
   primaryAttackStaminaCost: 10
   secondaryAttackStaminaCost: 20
   dodgeStaminaCost: 30
   sprintStaminaCost: 0.1
+  healConsumableAmount: 4
+  healAmount: 10
+  maxAmmo: 0
+  ammo: 0
   animator: {fileID: 8673128803003159111}
-  m_interactionDetector: {fileID: 6711439868172442985}
   weapon: {fileID: 5472721737541937953}
   shield: {fileID: 2133909435104971191}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
@@ -2350,6 +2350,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+--- !u!114 &7125158108642539077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &5472721737541937953
 GameObject:
   m_ObjectHideFlags: 0
