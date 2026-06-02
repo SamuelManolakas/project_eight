@@ -63,6 +63,7 @@ public class DodgeState : State
             _isDodging = false;
             player.controller.Move(Vector3.zero);
             player.stateMachine.Transit(player.idleState);
+            Debug.Log(" transitioning to idle state");
         }
         
         player.controller.Move((_dodgeDirection * speed + player.velocity) * Time.deltaTime);
