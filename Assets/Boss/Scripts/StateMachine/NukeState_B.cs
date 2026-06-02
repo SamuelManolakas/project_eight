@@ -101,7 +101,7 @@ public class NukeState_B : State_B
             {
                 // Player is exposed — deal damage
                 if (hit.TryGetComponent<HurtBox>(out var health))
-                    health.GetHit(boss.nukeDamage);
+                    health.GetHit(boss.nukeDamage, 1);
 
                 Debug.Log($"{hit.name} was hit by the nuke!");
             }

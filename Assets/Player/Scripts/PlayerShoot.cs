@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class PlayerShoot : NetworkBehaviour
     public GameObject bulletPrefab;   // Drag your Bullet prefab here
     public Transform firePoint; // Empty child object at gun barrel
     public int damage;
-    
+
     public void Shoot()
     {
         RequestShootServerRpc(firePoint.position, firePoint.forward);
@@ -22,6 +23,7 @@ public class PlayerShoot : NetworkBehaviour
         // Initialise direction before spawning so Update() has it immediately
         bullet.GetComponent<BulletController>().Initialize(direction);
         bullet.GetComponent<BulletController>().damage = damage;
+        bullet.GetComponent<BulletController>().attackerNetworkObjectId = GetComponent<NetworkObject>().NetworkObjectId;
 
         // Spawn over the network — all clients will now see it
         bullet.GetComponent<NetworkObject>().Spawn();
