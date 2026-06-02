@@ -44,10 +44,10 @@ public class MovementState : State
         //
         //move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
         //
-        //if (player.speed == player.sprintSpeed)
-        //{
-        //    player.stamina.TryUseStamina(player.sprintStaminaCost);
-        //}
+        if (player.speed == player.sprintSpeed)
+        {
+            player.stamina.TryUseStamina(player.sprintStaminaCost);
+        }
         
         // Target velocity this frame based on input
         Vector3 targetVelocity = (camForward * player.moveInput.y + camRight * player.moveInput.x);

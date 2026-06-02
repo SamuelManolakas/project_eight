@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
+  attackerNetworkObjectId: 0
 --- !u!65 &1454482658374996447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1143,15 +1144,18 @@ MonoBehaviour:
   primaryAttackStaminaCost: 25
   secondaryAttackStaminaCost: 50
   dodgeStaminaCost: 25
-  sprintStaminaCost: 5
+  sprintStaminaCost: 0.1
   healConsumableAmount: 4
   healAmount: 10
   maxAmmo: 0
   ammo: 0
+  isMoving: 0
   animator: {fileID: 1294663116307986526}
   weapon: {fileID: 792112579415033488}
   shield: {fileID: 0}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
+  PlayerAudioScriptableObject: {fileID: 0}
+  audioSource: {fileID: 0}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}

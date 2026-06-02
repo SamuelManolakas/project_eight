@@ -2425,6 +2425,11 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!4 &351748309 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+  m_PrefabInstance: {fileID: 1106059112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &370313389
 GameObject:
   m_ObjectHideFlags: 0
@@ -6860,7 +6865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 456640548
+      value: 1174377380
       objectReference: {fileID: 0}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: SceneMigrationSynchronization
@@ -12021,7 +12026,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   m_multiplayerUI: {fileID: 0}
   _sessionUI: {fileID: 73344836}
-  m_playerPrefab: {fileID: 5125210286697788315, guid: 653d1cec21779b741b3ae946f0775120, type: 3}
+  m_playerPrefab: {fileID: 5125210286697788315, guid: 41076b11ae828c24cb75fd0e46ffb288, type: 3}
   m_enemyPrefab: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
   m_pallets: []
 --- !u!1 &1425260202
@@ -12179,7 +12184,7 @@ MonoBehaviour:
   isRanged: 0
   lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   zoomAction: {fileID: 0}
-  lockOnAction: {fileID: 0}
+  lockOnAction: {fileID: 2089443866574708414, guid: f7b51f6a66147ca45882632c5aace099, type: 3}
   aimAction: {fileID: 0}
   horizontalSensitivity: 0.2
   verticalSensitivity: 0.2
@@ -12197,7 +12202,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 2147485439
-  lockOnTarget: {fileID: 0}
+  lockOnTarget: {fileID: 351748309}
   lockOnOffset: {x: 0, y: 1, z: 0}
   lockOnRotationSpeed: 8
   aimDistance: 2
