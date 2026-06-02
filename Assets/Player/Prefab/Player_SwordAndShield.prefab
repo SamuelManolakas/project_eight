@@ -2006,7 +2006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 860196082
+  GlobalObjectIdHash: 1366874158
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2091,17 +2091,16 @@ MonoBehaviour:
   dodgeDistance: 6
   primaryAttackDamage: 10
   secondaryAttackDamage: 20
-  healConsumableAmount: 4
-  healAmount: 10
-  maxAmmo: 0
-  ammo: 0
   fireRate: 0
   primaryAttackStaminaCost: 10
   secondaryAttackStaminaCost: 20
   dodgeStaminaCost: 30
   sprintStaminaCost: 0.1
+  healConsumableAmount: 4
+  healAmount: 10
+  maxAmmo: 0
+  ammo: 0
   animator: {fileID: 8673128803003159111}
-  m_interactionDetector: {fileID: 6711439868172442985}
   weapon: {fileID: 5472721737541937953}
   shield: {fileID: 2133909435104971191}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
