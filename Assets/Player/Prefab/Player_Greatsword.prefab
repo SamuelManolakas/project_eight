@@ -972,6 +972,7 @@ GameObject:
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
   - component: {fileID: 1856355047838497861}
+  - component: {fileID: -3694672448383204472}
   m_Layer: 8
   m_Name: Player_Greatsword
   m_TagString: Player
@@ -1433,6 +1434,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   reviveRadius: 2
   reviveDuration: 3
+--- !u!114 &-3694672448383204472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &5131898281267396600
 GameObject:
   m_ObjectHideFlags: 0

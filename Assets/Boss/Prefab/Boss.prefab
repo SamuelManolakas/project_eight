@@ -18077,7 +18077,7 @@ MonoBehaviour:
   flamePrefab: {fileID: 8402825751137152869, guid: a71f9cd2d9c035b4dbfdcba641a396d9, type: 3}
   chestFlamer: {fileID: 5906465670875686324}
   nukePosition: {fileID: 0}
-  bossAudio: {fileID: 11400000, guid: eca5ab289fbe810419f06baf6eab6fa7, type: 2}
+  bossAudioScriptableObject: {fileID: 11400000, guid: eca5ab289fbe810419f06baf6eab6fa7, type: 2}
   audioSource: {fileID: 1150551456821946020}
   nukeRadius: 500
   nukeDamage: 100
