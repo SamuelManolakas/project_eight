@@ -6,6 +6,7 @@ public class MovementState_B : State_B
 
     public override void Enter()
     {
+        boss.bossEngineSound = 1;
     }
 
     public override void Exit()

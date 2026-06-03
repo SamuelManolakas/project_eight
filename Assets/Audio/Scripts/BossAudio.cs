@@ -7,7 +7,7 @@ using FMODUnity;
 [CreateAssetMenu(menuName = "Scriptables/Audio/Enemy/Boss")]
 public class GrenadierAudio : ScriptableObject
 {
-    [SerializeField] private EventReference bossWalkEvent;
+    [SerializeField] private EventReference bossEngineEvent;
     [SerializeField] private EventReference bossSwingEvent;
     [SerializeField] private EventReference bossRangedEvent;
     [SerializeField] private EventReference bossChargeEvent;
@@ -15,7 +15,36 @@ public class GrenadierAudio : ScriptableObject
     [SerializeField] private EventReference bossDieEvent;
 
 
-    
+    private EventInstance engineInstance;
+
+    public void PlayEngineAudioPlay(GameObject feetObj, int state, int crash)
+    {
+        // 2. If the instance hasn't been created yet (or was destroyed), create it.
+        if (!engineInstance.isValid())
+        {
+            engineInstance = RuntimeManager.CreateInstance(bossEngineEvent);
+            RuntimeManager.AttachInstanceToGameObject(engineInstance, feetObj.transform, feetObj.GetComponent<Rigidbody>());
+        }
+        
+        // 4. Start or Stop based on the integer
+        if (state == 0)
+        {
+            engineInstance.setParameterByName("Boss Engine", state);
+        }
+        else if (state == 1)
+        {
+            engineInstance.setParameterByName("Boss Engine", state);
+        }
+        else if (state == 2)
+        {
+            engineInstance.setParameterByName("Boss Engine", state);
+            if (state == 3)
+            {
+                engineInstance.setParameterByName("Charge", crash);
+                engineInstance.setParameterByName("Boss Engine", state);
+            }
+        }
+    }
     public void BossSwingAudioPlay(GameObject PunchObj)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(bossSwingEvent);
@@ -42,17 +71,6 @@ public class GrenadierAudio : ScriptableObject
         
         RuntimeManager.AttachInstanceToGameObject(eventInstance, BossObj.transform, BossObj.GetComponent<Rigidbody>());
         RuntimeManager.PlayOneShot(bossDamageEvent, BossObj.transform.position);
-        
-        eventInstance.start();
-        eventInstance.release();
-    }
-    public void BossWalkAudioPlay(GameObject FeetObj)
-    {
-
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossWalkEvent);
-        
-        RuntimeManager.AttachInstanceToGameObject(eventInstance, FeetObj.transform, FeetObj.GetComponent<Rigidbody>());
-        RuntimeManager.PlayOneShot(bossWalkEvent, FeetObj.transform.position);
         
         eventInstance.start();
         eventInstance.release();

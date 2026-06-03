@@ -14,6 +14,9 @@ public class ChargeState_B : State_B
         //reminder to change the damage logic
         boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = boss.damage;
         boss.StartCoroutine(Wait());
+        
+        boss.bossEngineSound = 2;
+        boss.bossChargeCrashSound = 0;
     }
 
     public override void Exit()
@@ -21,6 +24,10 @@ public class ChargeState_B : State_B
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
         
         boss.StopAllCoroutines();
+
+        boss.bossChargeCrashSound = 1;
+        boss.bossEngineSound = 3;
+        
     }
     
     private IEnumerator Wait()
