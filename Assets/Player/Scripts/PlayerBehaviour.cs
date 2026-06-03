@@ -105,6 +105,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public SecondaryAttackState secondaryAttackState = null;
     public ReloadState reloadState = null;
     public RunAttackState runAttackState = null;
+    public DownedState downedState = null;
 
     private float _healCooldown;
     
@@ -124,6 +125,7 @@ public class PlayerBehaviour : NetworkBehaviour
         secondaryAttackState = new SecondaryAttackState(this, aliveState);
         reloadState = new ReloadState(this, aliveState);
         runAttackState = new RunAttackState(this, aliveState);
+        downedState = new DownedState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -434,6 +436,22 @@ public class PlayerBehaviour : NetworkBehaviour
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
+    }
+    
+    // In PlayerBehaviour.Awake(), add:
+    // downedState = new DownedState(this, aliveState);
+
+    [ClientRpc]
+    public void TransitToDownedStateClientRpc()
+    {
+        stateMachine.Transit(downedState);
+    }
+
+    [ClientRpc]
+    public void ReviveClientRpc()
+    {
+        stateMachine.Transit(idleState);
+        // health is already set server-side before this fires
     }
 
     public void ClearHitTargets()

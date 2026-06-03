@@ -18056,7 +18056,7 @@ MonoBehaviour:
   currentHealth:
     m_InternalValue: 0
   speed: 3
-  damage: 4
+  damage: 20
   gravity: -15
   aggroEvaluationInterval: 8
   randomSwitchChance: 0.25

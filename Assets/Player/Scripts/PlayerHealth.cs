@@ -92,17 +92,20 @@ public class PlayerHealth : NetworkBehaviour
 
     private void HandleDeath()
     {
-        // Notify all clients the player has died
-        OnDeathClientRpc();
+        OnDownedClientRpc(); // enter downed state instead
     }
 
     [ClientRpc]
-    private void OnDeathClientRpc()
+    private void OnDownedClientRpc()
     {
-        // Fires on all clients — play death animation, disable input, show UI, etc.
-        Debug.Log($"{gameObject.name} has died.");
-        
-        player.TransitToDeadStateClientRpc();
+        player.TransitToDownedStateClientRpc();
+    }
+
+    // New: called by a reviver
+    public void Revive(int healthOnRevive = 30)
+    {
+        if (!IsServer) return;
+        _health.Value = healthOnRevive;
     }
 
     private void OnHealthChanged(int previous, int current)
