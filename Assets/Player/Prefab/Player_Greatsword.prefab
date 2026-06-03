@@ -1154,8 +1154,8 @@ MonoBehaviour:
   weapon: {fileID: 792112579415033488}
   shield: {fileID: 0}
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
-  PlayerAudioScriptableObject: {fileID: 0}
-  audioSource: {fileID: 0}
+  PlayerAudioScriptableObject: {fileID: 11400000, guid: b45051e28321a1b41b2e5f2baa7fd2af, type: 2}
+  audioSource: {fileID: 8149770284343759872}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}

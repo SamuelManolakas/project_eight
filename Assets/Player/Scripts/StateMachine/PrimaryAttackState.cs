@@ -100,6 +100,7 @@ public class PrimaryAttackState : State
         player.attackBuffer = false;
         player.weapon.GetComponent<Collider>().enabled = true;
         player.animator.Play("Combo1a");
+
         
         yield return new WaitForSeconds(3f);
         
