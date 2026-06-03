@@ -21,11 +21,11 @@ MonoBehaviour:
     Path: event:/Sound/Player/Movement/Steps
   playerRollEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -109517443
+      Data2: 1171252881
+      Data3: 33365942
+      Data4: -201889313
+    Path: event:/Sound/Player/Movement/Dodge
   playerSSLightAttackEvent:
     Guid:
       Data1: 723598805
@@ -35,29 +35,29 @@ MonoBehaviour:
     Path: event:/Sound/Player/Weapons/S&S/Light
   playerSSHeavyAttackEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -2071960505
+      Data2: 1338391001
+      Data3: -46742639
+      Data4: -1308181941
+    Path: event:/Sound/Player/Weapons/S&S/Heavy
   playerGSLightAttackEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -609553638
+      Data2: 1084398006
+      Data3: -1618272325
+      Data4: -537887162
+    Path: event:/Sound/Player/Weapons/GS/Light
   playerGSHeavyAttackEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1586071096
+      Data2: 1229924411
+      Data3: -790994497
+      Data4: 1956914784
+    Path: event:/Sound/Player/Weapons/GS/Heavy
   playerBolterAttackEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1892575696
+      Data2: 1197253964
+      Data3: 1586686088
+      Data4: -822451168
+    Path: event:/Sound/Player/Weapons/BG/Pew Pew
