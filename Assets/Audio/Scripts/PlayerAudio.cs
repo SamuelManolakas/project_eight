@@ -75,4 +75,44 @@ public class AvatarAudio : ScriptableObject
         eventInstance.start();
         eventInstance.release();
     }
+    
+    public void PlaySSHeavyAudioPlay(GameObject weaponObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(playerSSHeavyAttackEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, weaponObj.transform, weaponObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void PlayGSLightAudioPlay(GameObject weaponObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(playerGSLightAttackEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, weaponObj.transform, weaponObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void PlayGSHeavyAudioPlay(GameObject weaponObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(playerGSHeavyAttackEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, weaponObj.transform, weaponObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void PlayPewPewAudioPlay(GameObject weaponObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(playerBolterAttackEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, weaponObj.transform, weaponObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
 }

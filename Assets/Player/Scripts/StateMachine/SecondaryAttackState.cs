@@ -73,6 +73,12 @@ public class SecondaryAttackState : State
         player.animator.Play("Shoot");
         player.playerShoot.Shoot();
         
+        //Audio
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlayPewPewAudioPlay(player.audioSource);
+        }
+        
         yield return new WaitForSeconds(0.25f);
         
         Aim();
@@ -85,6 +91,12 @@ public class SecondaryAttackState : State
         player.animator.Play("HeavyAttack");
         player.weapon.GetComponent<Collider>().enabled = true;
         
+        //Audio
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlaySSHeavyAudioPlay(player.audioSource);
+        }
+        
         yield return new WaitForSeconds(1.75f);
         player.stateMachine.Transit(player.idleState);
     }
@@ -95,6 +107,12 @@ public class SecondaryAttackState : State
         player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
         player.weapon.GetComponent<Collider>().enabled = true;
+        
+        //Audio
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlayGSHeavyAudioPlay(player.audioSource);
+        }
         
         yield return new WaitForSeconds(1.75f);
         
