@@ -18052,10 +18052,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   players: []
   currentTarget: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 500
   currentHealth:
     m_InternalValue: 0
-  speed: 3
+  speed: 5
   damage: 20
   gravity: -15
   aggroEvaluationInterval: 8

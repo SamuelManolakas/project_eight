@@ -425,8 +425,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1038853752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -483,7 +483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &719358565
 Transform:
   m_ObjectHideFlags: 0
@@ -680,7 +680,7 @@ RectTransform:
   m_Father: {fileID: 1857320534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -884,6 +884,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5724985852759360321, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380614509000372635, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1019,7 +1027,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   m_multiplayerUI: {fileID: 0}
   _sessionUI: {fileID: 73344836}
-  m_playerPrefab: {fileID: 5125210286697788315, guid: 41076b11ae828c24cb75fd0e46ffb288, type: 3}
+  m_playerPrefab: {fileID: 5125210286697788315, guid: 653d1cec21779b741b3ae946f0775120, type: 3}
   m_enemyPrefab: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
   m_pallets: []
 --- !u!1 &1425260202
