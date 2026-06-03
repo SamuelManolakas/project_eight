@@ -51,8 +51,13 @@ public class PlayerStamina : NetworkBehaviour
         {
             if (!IsOwner || _stamina.Value < amount) return false;
     
-            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
+            
             return true;
+        }
+
+        public void ConsumeStamina(float amount)
+        {
+            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
         }
     
         private void OnStaminaChanged(float previous, float current)

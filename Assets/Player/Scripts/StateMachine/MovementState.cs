@@ -48,7 +48,12 @@ public class MovementState : State
         //
         if (player.speed == player.sprintSpeed)
         {
-            player.stamina.TryUseStamina(player.sprintStaminaCost);
+            player.stamina.ConsumeStamina(player.sprintStaminaCost);
+
+            if (player.stamina._stamina.Value <= 2)
+            {
+                player.speed = player.initialSpeed;
+            }
         }
         
         // Target velocity this frame based on input

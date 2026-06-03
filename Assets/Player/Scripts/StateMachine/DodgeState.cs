@@ -24,6 +24,8 @@ public class DodgeState : State
         _isDodging = true;
         _dodgeTimer = 0f;
         
+        player.stamina.ConsumeStamina(player.dodgeStaminaCost);
+        
         player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
         
         //Audio
@@ -71,7 +73,6 @@ public class DodgeState : State
             _isDodging = false;
             player.controller.Move(Vector3.zero);
             player.stateMachine.Transit(player.idleState);
-            Debug.Log(" transitioning to idle state");
         }
         
         player.controller.Move((_dodgeDirection * speed + player.velocity) * Time.deltaTime);
