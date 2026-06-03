@@ -25,6 +25,12 @@ public class DodgeState : State
         _dodgeTimer = 0f;
         
         player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
+        
+        //Audio
+        if (player.PlayerAudioScriptableObject != null)
+        {
+            player.PlayerAudioScriptableObject.PlayRollAudioPlay(player.audioSource);
+        }
     }
 
     public override void Exit()
