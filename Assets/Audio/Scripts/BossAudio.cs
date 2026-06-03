@@ -86,21 +86,4 @@ public class GrenadierAudio : ScriptableObject
         eventInstance.start();
         eventInstance.release();
     }
-    
-    public void ShieldSwitchAudioPlay(GameObject FeetObj, int UpDown)
-    {
-        //Creates an Eventinstance referencing to meleeAttackEvent
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossChargeEvent);
-        
-        //Manual attaching of Instance to game object. Specifically rigidbody.
-        RuntimeManager.AttachInstanceToGameObject(eventInstance, FeetObj.transform, FeetObj.GetComponent<Rigidbody>()); 
-        
-        
-        eventInstance.start();
-        eventInstance.release();
-        
-        
-    }
-
-
 }
