@@ -5,12 +5,11 @@ using FMOD.Studio;
 using FMODUnity;
 
 [CreateAssetMenu(menuName = "Scriptables/Audio/Enemy/Boss")]
-public class GrenadierAudio : ScriptableObject
+public class BossAudio : ScriptableObject
 {
     [SerializeField] private EventReference bossEngineEvent;
     [SerializeField] private EventReference bossSwingEvent;
     [SerializeField] private EventReference bossRangedEvent;
-    [SerializeField] private EventReference bossChargeEvent;
     [SerializeField] private EventReference bossDamageEvent;
     [SerializeField] private EventReference bossDieEvent;
 
@@ -19,14 +18,15 @@ public class GrenadierAudio : ScriptableObject
 
     public void PlayEngineAudioPlay(GameObject feetObj, int state, int crash)
     {
-        // 2. If the instance hasn't been created yet (or was destroyed), create it.
+        // If the instance hasn't been created yet (or was destroyed), create it.
         if (!engineInstance.isValid())
         {
             engineInstance = RuntimeManager.CreateInstance(bossEngineEvent);
             RuntimeManager.AttachInstanceToGameObject(engineInstance, feetObj.transform, feetObj.GetComponent<Rigidbody>());
+            engineInstance.start();
         }
         
-        // 4. Start or Stop based on the integer
+        // Changes value of parameters in FMOD
         if (state == 0)
         {
             engineInstance.setParameterByName("Boss Engine", state);
@@ -87,21 +87,4 @@ public class GrenadierAudio : ScriptableObject
         eventInstance.start();
         eventInstance.release();
     }
-    
-    public void ShieldSwitchAudioPlay(GameObject FeetObj, int UpDown)
-    {
-        //Creates an Eventinstance referencing to meleeAttackEvent
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossChargeEvent);
-        
-        //Manual attaching of Instance to game object. Specifically rigidbody.
-        RuntimeManager.AttachInstanceToGameObject(eventInstance, FeetObj.transform, FeetObj.GetComponent<Rigidbody>()); 
-        
-        
-        eventInstance.start();
-        eventInstance.release();
-        
-        
-    }
-
-
 }

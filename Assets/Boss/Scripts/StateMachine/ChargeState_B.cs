@@ -15,8 +15,13 @@ public class ChargeState_B : State_B
         boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = boss.damage;
         boss.StartCoroutine(Wait());
         
+        //Audio
         boss.bossEngineSound = 2;
         boss.bossChargeCrashSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
 
     public override void Exit()
@@ -25,8 +30,13 @@ public class ChargeState_B : State_B
         
         boss.StopAllCoroutines();
 
+        //Audio
         boss.bossChargeCrashSound = 1;
         boss.bossEngineSound = 3;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
         
     }
     

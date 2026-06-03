@@ -6,7 +6,12 @@ public class MovementState_B : State_B
 
     public override void Enter()
     {
+        //Audio
         boss.bossEngineSound = 1;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
 
     public override void Exit()

@@ -12,28 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7153148662861d42b0e7bfeb5237d96, type: 3}
   m_Name: Boss Audio
   m_EditorClassIdentifier: Assembly-CSharp::GrenadierAudio
-  bossWalkEvent:
+  bossEngineEvent:
+    Guid:
+      Data1: 1919878018
+      Data2: 1243056828
+      Data3: 849175998
+      Data4: -540685038
+    Path: event:/Sound/Boss/Movement/Movement Manager
+  bossSwingEvent:
     Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
-  bossPunchEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  bossGrenadeEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  bossLightningEvent:
+  bossRangedEvent:
     Guid:
       Data1: 0
       Data2: 0
