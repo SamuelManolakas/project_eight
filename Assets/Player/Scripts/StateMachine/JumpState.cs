@@ -16,6 +16,8 @@ public class JumpState : State
     public override void Exit()
     {
         canJump = false;
+        
+        player.StopAllCoroutines();
     }
 
     private IEnumerator Wait()

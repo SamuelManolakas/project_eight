@@ -11,7 +11,11 @@ public class ReloadState : State
 
         player.StartCoroutine(Wait());
     }
-    public override void Exit(){}
+
+    public override void Exit()
+    {
+        player.StopAllCoroutines();
+    }
 
     private IEnumerator Wait()
     {

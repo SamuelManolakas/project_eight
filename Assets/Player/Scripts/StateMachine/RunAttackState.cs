@@ -27,6 +27,8 @@ public class RunAttackState : State
     public override void Exit()
     {
         player.weapon.GetComponent<Collider>().enabled = false;
+        
+        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()

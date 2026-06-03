@@ -19,5 +19,7 @@ public class GuardState : State
         if (!player.IsOwner) return;
         
         player.stamina.IsGuarding.Value = false;
+        
+        player.StopAllCoroutines();
     }
 }

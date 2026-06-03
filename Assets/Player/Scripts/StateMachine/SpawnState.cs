@@ -13,7 +13,7 @@ public class SpawnState : State
 
     public override void Exit()
     {
-        
+        player.StopAllCoroutines();
     }
 
     private IEnumerator Wait()

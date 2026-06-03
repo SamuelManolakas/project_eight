@@ -16,6 +16,8 @@ public class GrabbedState : State
     public override void Exit()
     {
         canMove = false;
+        
+        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()

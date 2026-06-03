@@ -31,6 +31,8 @@ public class SecondaryAttackState : State
     {
         if (player.swordAndShield || player.greatSword)
             player.weapon.GetComponent<Collider>().enabled = false;
+        
+        player.StopAllCoroutines();
     }
 
     private void Aim()

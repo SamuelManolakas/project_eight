@@ -26,6 +26,8 @@ public class PrimaryAttackState : State
     {
         if (player.swordAndShield)
             player.weapon.GetComponent<Collider>().enabled = false;
+        
+        player.StopAllCoroutines();
     }
 
     public override void OnPrimaryAttack()

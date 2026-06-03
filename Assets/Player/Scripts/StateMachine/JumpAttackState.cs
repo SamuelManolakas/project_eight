@@ -38,6 +38,8 @@ public class JumpAttackState : State
             player.weapon.GetComponent<Collider>().enabled = false;
 
         _fireOnce = 0;
+        
+        player.StopAllCoroutines();
     }
 
     public override void OnPrimaryAttack()

@@ -28,6 +28,8 @@ public class MovementState : State
         {
             player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
         }
+        
+        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()

@@ -30,6 +30,8 @@ public class DodgeState : State
     public override void Exit()
     {
         player.animator.speed = 1f;
+        
+        player.StopAllCoroutines();
     }
 
     public override void GetHit(int damage)

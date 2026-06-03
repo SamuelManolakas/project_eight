@@ -11,7 +11,7 @@ public class IdleState : State
 
     public override void Exit()
     {
-        
+        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()
