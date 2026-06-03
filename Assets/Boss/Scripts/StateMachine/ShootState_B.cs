@@ -5,11 +5,13 @@ using UnityEngine;
 public class ShootState_B : State_B
 {
     public ShootState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
-
+    
     public override void Enter()
     {
         boss.animator.Play("Shoot");
         boss.StartCoroutine(Wait());
+
+        boss.currentTarget = GetFurthestPlayer();
     }
 
     public override void Exit()
@@ -41,5 +43,24 @@ public class ShootState_B : State_B
         boss.Shoot();
         yield return new WaitForSeconds(2.5f);
         boss.stateMachine.Transit(boss.movementState);
+    }
+    
+    private GameObject GetFurthestPlayer()
+    {
+        GameObject furthest = null;
+        float maxDistance = float.MinValue;
+
+        foreach (var player in boss.players)
+        {
+            if (player == null) continue;
+            float dist = Vector3.Distance(boss.transform.position, player.transform.position);
+            if (dist > maxDistance)
+            {
+                maxDistance = dist;
+                furthest = player;
+            }
+        }
+
+        return furthest;
     }
 }
