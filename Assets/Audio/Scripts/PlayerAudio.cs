@@ -63,7 +63,7 @@ public class AvatarAudio : ScriptableObject
         
         eventInstance.start();
         eventInstance.release();
-        Debug.Log("Roll!");
+        
     }
 
     public void PlaySSLightAudioPlay(GameObject weaponObj)
