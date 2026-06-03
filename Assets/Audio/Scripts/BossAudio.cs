@@ -5,7 +5,7 @@ using FMOD.Studio;
 using FMODUnity;
 
 [CreateAssetMenu(menuName = "Scriptables/Audio/Enemy/Boss")]
-public class GrenadierAudio : ScriptableObject
+public class BossAudio : ScriptableObject
 {
     [SerializeField] private EventReference bossEngineEvent;
     [SerializeField] private EventReference bossSwingEvent;

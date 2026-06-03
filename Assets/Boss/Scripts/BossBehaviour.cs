@@ -48,6 +48,9 @@ public class BossBehaviour : Enemy
     public GameObject flamePrefab;
     public GameObject chestFlamer;
     public Transform nukePosition;
+    //Audio
+    public BossAudio bossAudioScriptableObject;
+    public GameObject audioSource;
 
     [Header("Nuke Attack")]
     public float nukeRadius;
@@ -65,6 +68,7 @@ public class BossBehaviour : Enemy
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public HitBox hitBox;
     [HideInInspector] public HurtBox hurtBox;
+    //Audio
     [HideInInspector] public int bossEngineSound;
     [HideInInspector] public int bossChargeCrashSound;
 
@@ -140,6 +144,14 @@ public class BossBehaviour : Enemy
         currentHealth.Value = maxHealth;
         hitBox  = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
+        
+        //Audio
+        bossEngineSound = 0;
+        if (bossAudioScriptableObject != null)
+        {
+            bossAudioScriptableObject.PlayEngineAudioPlay(audioSource, bossEngineSound, bossChargeCrashSound);
+        }
+        
     }
 
     public override void OnNetworkSpawn()
