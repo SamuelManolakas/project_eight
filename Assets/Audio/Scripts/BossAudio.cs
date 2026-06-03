@@ -23,6 +23,7 @@ public class BossAudio : ScriptableObject
         {
             engineInstance = RuntimeManager.CreateInstance(bossEngineEvent);
             RuntimeManager.AttachInstanceToGameObject(engineInstance, feetObj.transform, feetObj.GetComponent<Rigidbody>());
+            engineInstance.start();
         }
         
         // Changes value of parameters in FMOD

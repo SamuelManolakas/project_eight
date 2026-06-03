@@ -3086,7 +3086,6 @@ GameObject:
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
   - component: {fileID: 5296430105436699208}
-  - component: {fileID: 1744639794071265647}
   m_Layer: 8
   m_Name: Player_Bolter
   m_TagString: Player
@@ -3551,20 +3550,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 775290615496694872, guid: 6c6169c9298595f40bb7845e0c40ca5a, type: 3}
   firePoint: {fileID: 4385925974512642274}
   damage: 5
---- !u!114 &1744639794071265647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125210286697788315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
 --- !u!1 &5146331886742341556
 GameObject:
   m_ObjectHideFlags: 0
