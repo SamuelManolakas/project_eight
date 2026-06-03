@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
+  attackerNetworkObjectId: 0
 --- !u!1 &2206689751160023702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkAnimatorExpanded: 0
-  AuthorityMode: 0
+  AuthorityMode: 1
   m_Animator: {fileID: 8673128803003159111}
   TransitionStateInfoList: []
   AnimatorParameterEntries:
@@ -2007,7 +2008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2101,6 +2102,7 @@ MonoBehaviour:
   healAmount: 10
   maxAmmo: 0
   ammo: 0
+  isMoving: 0
   animator: {fileID: 8673128803003159111}
   weapon: {fileID: 5472721737541937953}
   shield: {fileID: 2133909435104971191}
@@ -2471,6 +2473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
+  attackerNetworkObjectId: 0
 --- !u!136 &7199136687836623858
 CapsuleCollider:
   m_ObjectHideFlags: 0
