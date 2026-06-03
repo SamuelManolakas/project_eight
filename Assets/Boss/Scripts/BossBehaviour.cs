@@ -65,6 +65,8 @@ public class BossBehaviour : Enemy
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public HitBox hitBox;
     [HideInInspector] public HurtBox hurtBox;
+    [HideInInspector] public int bossEngineSound;
+    [HideInInspector] public int bossChargeCrashSound;
 
     public RootState_B rootState        = null;
     public AliveState_B aliveState      = null;
