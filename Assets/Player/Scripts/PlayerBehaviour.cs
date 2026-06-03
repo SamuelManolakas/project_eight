@@ -225,7 +225,7 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             if (context.performed && controller.isGrounded)
                 stateMachine.currentState.OnGuard();
-            else if (context.canceled && health.Health > 0)
+            else if (context.canceled && health.Health > 0 && stateMachine.currentState == guardState)
             {
                 stateMachine.Transit(idleState);
             }
