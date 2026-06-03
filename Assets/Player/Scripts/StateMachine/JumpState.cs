@@ -51,8 +51,6 @@ public class JumpState : State
         
         if (canJump)
         {
-            
-
             if (player.controller.isGrounded)
             {
                 player.stateMachine.Transit(player.idleState);
@@ -62,9 +60,10 @@ public class JumpState : State
 
     public override void OnPrimaryAttack()
     {
+        if (!player.stamina.TryUseStamina(player.primaryAttackStaminaCost)) return;
+        
         if (player.swordAndShield || player.greatSword)
             player.StartCoroutine(WaitToTransition());
-
     }
 
     private IEnumerator WaitToTransition()

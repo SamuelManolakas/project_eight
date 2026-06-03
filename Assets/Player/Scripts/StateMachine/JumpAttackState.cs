@@ -11,7 +11,7 @@ public class JumpAttackState : State
     {
         player.animator.Play("Jump Attack",2, 0);
         player.animator.SetLayerWeight(2, 1);
-        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
 
         if (player.swordAndShield)
         {

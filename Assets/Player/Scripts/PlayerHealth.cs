@@ -55,6 +55,12 @@ public class PlayerHealth : NetworkBehaviour
         if (stamina != null && stamina.IsGuarding.Value)
         {
             stamina.ConsumeStaminaServer(amount);
+
+            if (stamina._stamina.Value <= 1)
+            {
+                player.TransitToStunnedStateClientRpc(player.transform.position);
+            }
+            
             return;
         }
 

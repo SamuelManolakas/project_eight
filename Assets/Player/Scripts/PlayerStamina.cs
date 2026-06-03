@@ -54,11 +54,6 @@ public class PlayerStamina : NetworkBehaviour
             
             return true;
         }
-
-        public void ConsumeStamina(float amount)
-        {
-            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
-        }
     
         private void OnStaminaChanged(float previous, float current)
         {

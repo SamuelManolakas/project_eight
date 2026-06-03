@@ -187,7 +187,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed)
+        if (context.performed && stamina.TryUseStamina(secondaryAttackStaminaCost))
         {
             if (stateMachine.currentState != secondaryAttackState)
             {

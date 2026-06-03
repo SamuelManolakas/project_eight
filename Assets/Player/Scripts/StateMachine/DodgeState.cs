@@ -24,7 +24,7 @@ public class DodgeState : State
         _isDodging = true;
         _dodgeTimer = 0f;
         
-        player.stamina.ConsumeStamina(player.dodgeStaminaCost);
+        player.stamina.ConsumeStaminaServer(player.dodgeStaminaCost);
         
         player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
         

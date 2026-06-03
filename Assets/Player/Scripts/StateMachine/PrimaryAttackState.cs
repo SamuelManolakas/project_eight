@@ -37,7 +37,7 @@ public class PrimaryAttackState : State
 
     private IEnumerator SwordAndShieldCombo()
     {
-        player.stamina.ConsumeStamina(player.primaryAttackStaminaCost);
+        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
         player.ClearHitTargets();
         
         yield return new WaitForSeconds(0.2f);
@@ -55,7 +55,7 @@ public class PrimaryAttackState : State
         if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
         {
             player.ClearHitTargets();
-            player.stamina.ConsumeStamina(player.primaryAttackStaminaCost);
+            player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
             
@@ -69,7 +69,7 @@ public class PrimaryAttackState : State
             if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
             {
                 player.ClearHitTargets();
-                player.stamina.ConsumeStamina(player.primaryAttackStaminaCost);
+                player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
                 
@@ -97,7 +97,7 @@ public class PrimaryAttackState : State
 
     private IEnumerator GreatSwordCombo()
     {
-        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
+        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
         player.ClearHitTargets();
         
         yield return new WaitForSeconds(0.2f);
@@ -112,9 +112,7 @@ public class PrimaryAttackState : State
             player.PlayerAudioScriptableObject.PlayGSLightAudioPlay(player.audioSource);
         }
         
-        yield return new WaitForSeconds(3f);
-        
-        Debug.Log(player.hitBox.hitTargets.Count);
+        yield return new WaitForSeconds(1.8f);
         
         player.stateMachine.Transit(player.idleState);
     }
