@@ -28,6 +28,8 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private List<ResourcePallet> m_pallets;
     
+    [HideInInspector] public List<GameObject> m_players;
+    
     private GameObject m_playerPrefab;
 
     private void Start()
@@ -59,6 +61,14 @@ public class GameManager : NetworkBehaviour
         m_playerPrefab = m_BolterPrefab;
         characterSelectButtonPrefab.SetActive(false);
         sessionBrowser.SetActive(true);
+    }
+
+    public void SceneReload()
+    {
+        if (m_players.Count < 1)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -105,10 +115,8 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.ConnectedClients[clientID].PlayerObject != null)
             return;
         GameObject player = Instantiate(m_playerPrefab, transform);
-        //GameObject enemy = Instantiate(m_enemyPrefab, transform);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
         GameObject.FindGameObjectWithTag("Enemy").GetComponent<BossBehaviour>().players.Add(player);
-        //enemy.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
     }
 
     public override void OnNetworkDespawn()

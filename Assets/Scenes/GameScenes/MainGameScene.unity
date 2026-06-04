@@ -1931,7 +1931,9 @@ MonoBehaviour:
   m_enemyPrefab: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
   characterSelectButtonPrefab: {fileID: 597760785}
   sessionBrowser: {fileID: 699192118}
+  playerCharacterData: {fileID: 1174162761624556145, guid: 1a9e988b0af178a4e8932bc044f96839, type: 3}
   m_pallets: []
+  m_players: []
 --- !u!1 &1425260202
 GameObject:
   m_ObjectHideFlags: 0

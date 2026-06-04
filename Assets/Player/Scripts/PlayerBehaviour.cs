@@ -298,6 +298,8 @@ public class PlayerBehaviour : NetworkBehaviour
             camera.isRanged = true;
         }
         stamina._stamina.OnValueChanged += OnStaminaChanged;
+        
+        FindAnyObjectByType<GameManager>().m_players.Add(gameObject);
     }
     
     private void OnStaminaChanged(float previousValue, float newValue)
@@ -415,7 +417,8 @@ public class PlayerBehaviour : NetworkBehaviour
         
         stamina._stamina.OnValueChanged -= OnStaminaChanged;
 
-        SceneManager.LoadScene(0);
+        FindAnyObjectByType<GameManager>().m_players.Remove(gameObject);
+        FindAnyObjectByType<GameManager>().SceneReload();
     }
     
     [Rpc(SendTo.Server)]
