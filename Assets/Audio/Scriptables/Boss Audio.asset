@@ -91,15 +91,15 @@ MonoBehaviour:
     Path: event:/Sound/Boss/Other/Stun Pop
   bossDamageEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1348541873
+      Data2: 1255077099
+      Data3: 1517168041
+      Data4: -1411622393
+    Path: event:/Sound/Boss/Other/Take DMG
   bossDieEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1096467061
+      Data2: 1269163760
+      Data3: 601365936
+      Data4: 657022697
+    Path: event:/Sound/Boss/Other/Death
