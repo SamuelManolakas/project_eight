@@ -82,6 +82,13 @@ MonoBehaviour:
       Data3: -151140455
       Data4: 587812513
     Path: event:/Sound/Boss/Attacks/Nuke/Nuke Sequence
+  bossStunEvent:
+    Guid:
+      Data1: 1528859397
+      Data2: 1123037385
+      Data3: -1372026234
+      Data4: -277821200
+    Path: event:/Sound/Boss/Other/Stun Pop
   bossDamageEvent:
     Guid:
       Data1: 0
