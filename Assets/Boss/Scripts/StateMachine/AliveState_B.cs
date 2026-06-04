@@ -6,10 +6,7 @@ public class AliveState_B : State_B
     public AliveState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
     public override void Enter(){}
 
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
-    }
+    public override void Exit() {}
     public override void GetHit(int damage)
     {
         boss.currentHealth.Value -= damage;

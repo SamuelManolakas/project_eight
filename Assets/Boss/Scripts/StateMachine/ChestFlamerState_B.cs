@@ -20,6 +20,12 @@ public class ChestFlamerState_B : State_B
     {
         boss.animator.Play("ChestFlamer");
         boss.StartCoroutine(Wait());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossChestAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()

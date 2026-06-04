@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4173510496
+  GlobalObjectIdHash: 1993563133
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet_B
   ShowTopMostFoldoutHeaderGroup: 1
-  damage: 5
-  speed: 25
+  damage: 50
+  speed: 50
   direction: {x: -5.5357475, y: -2.7422466, z: 1.4182014}
   _rigidbody: {fileID: 0}
 --- !u!114 &-235320137192604373

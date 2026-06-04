@@ -10,6 +10,12 @@ public class ShootState_B : State_B
     {
         boss.animator.Play("Shoot");
         boss.StartCoroutine(Wait());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossRangedAudioPlay(boss.audioSource);
+        }
 
         boss.currentTarget = GetFurthestPlayer();
     }

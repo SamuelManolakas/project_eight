@@ -9,6 +9,12 @@ public class StunnedState_B : State_B
     {
         boss.animator.Play("Stunned");
         boss.StartCoroutine(Wait());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossStunAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()

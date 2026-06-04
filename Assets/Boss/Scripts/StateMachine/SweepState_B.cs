@@ -11,6 +11,12 @@ public class SweepState_B : State_B
         boss.animator.Play("Sweep");
         boss.StartCoroutine(Wait());
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossSweepAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()
