@@ -16,6 +16,7 @@ public class BossBehaviour : Enemy
     public float speed;
     public int damage;
     public float gravity;
+    public float attackCooldown;
 
     [Header("Aggro Settings")]
     [Tooltip("How often (seconds) the boss considers a random target switch.")]

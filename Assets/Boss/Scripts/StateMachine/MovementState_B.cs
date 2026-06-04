@@ -4,6 +4,7 @@ public class MovementState_B : State_B
 {
     public MovementState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
 
+    private float _attackCooldownTimer;
     public override void Enter()
     {
         //Audio
@@ -12,6 +13,8 @@ public class MovementState_B : State_B
         {
             boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
         }
+
+        _attackCooldownTimer = boss.attackCooldown;
     }
 
     public override void Exit()
@@ -31,6 +34,11 @@ public class MovementState_B : State_B
         move.y = 0;
         
         Vector3 finalMove = move * boss.speed;
+
+        if (_attackCooldownTimer >= 0)
+        {
+            _attackCooldownTimer -= Time.deltaTime;
+        }
         
         if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
         {
@@ -47,7 +55,11 @@ public class MovementState_B : State_B
         else
         {
             boss.animator.SetFloat("speed", 0);
-            CombatWheel();
+
+            if (_attackCooldownTimer <= 0)
+            {
+                CombatWheel();   
+            }
         }
         
         if (move.sqrMagnitude > 0.001f)
