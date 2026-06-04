@@ -36,7 +36,13 @@ public class SpinAttackState_B : State_B
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
         _isSpinning = true;
 
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(1);
+        boss.hitBox.hitTargets.Clear();
+        yield return new WaitForSeconds(1);
+        boss.hitBox.hitTargets.Clear();
+        yield return new WaitForSeconds(1);
+        boss.hitBox.hitTargets.Clear();
+        yield return new WaitForSeconds(1.5f);
         _isSpinning = false;
         
         yield return new WaitForSeconds(0.5f);

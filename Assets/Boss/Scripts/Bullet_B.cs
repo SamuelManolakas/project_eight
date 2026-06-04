@@ -36,7 +36,9 @@ public class Bullet_B : NetworkBehaviour
           
           if (other.TryGetComponent(out HurtBox hurtBox))
           {
-               hurtBox.GetHit(damage, 1); 
+               hurtBox.GetHit(damage, 1);
+
+               Debug.Log("Hit the player for: " + damage);
           }
           
           DestroyBullet();

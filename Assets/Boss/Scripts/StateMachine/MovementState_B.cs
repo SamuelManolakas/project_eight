@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class MovementState_B : State_B
 {
     public MovementState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
 
+    private float _attackCooldownTimer;
+
+    private bool _hasFiredNuke;
     public override void Enter()
     {
         //Audio
@@ -12,11 +16,18 @@ public class MovementState_B : State_B
         {
             boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
         }
+
+        _attackCooldownTimer = boss.attackCooldown;
+
+        if (boss.currentHealth.Value <= boss.maxHealth / 2 && !_hasFiredNuke)
+        {
+            boss.StartCoroutine(FireNuke());
+        }
     }
 
     public override void Exit()
     {
-        boss.StopAllCoroutines();
+        //boss.StopAllCoroutines();
     }
 
     private float _rangedAttackTimer;
@@ -31,6 +42,11 @@ public class MovementState_B : State_B
         move.y = 0;
         
         Vector3 finalMove = move * boss.speed;
+
+        if (_attackCooldownTimer >= 0)
+        {
+            _attackCooldownTimer -= Time.deltaTime;
+        }
         
         if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
         {
@@ -47,7 +63,11 @@ public class MovementState_B : State_B
         else
         {
             boss.animator.SetFloat("speed", 0);
-            CombatWheel();
+
+            if (_attackCooldownTimer <= 0)
+            {
+                CombatWheel();   
+            }
         }
         
         if (move.sqrMagnitude > 0.001f)
@@ -60,7 +80,7 @@ public class MovementState_B : State_B
 
     private void CombatWheel()
     {
-        int attack = Random.Range(0, 11);
+        int attack = Random.Range(0, 10);
 
         switch (attack)
         {
@@ -85,10 +105,15 @@ public class MovementState_B : State_B
             case 9:
                 boss.stateMachine.Transit(boss.SpinAttackState);
                 break;
-            case 10:
-                boss.stateMachine.Transit(boss.NukeState);
-                break;
         }
+    }
+
+    private IEnumerator FireNuke()
+    {
+        _hasFiredNuke = true;
+        
+        yield return new WaitForSeconds(0.2f);
+        boss.stateMachine.Transit(boss.NukeState);
     }
 
     private void RangedAttack()

@@ -17,7 +17,7 @@ public class NukeState_B : State_B
     public override void Exit()
     {
         _hasReachedPosition = false;
-        
+       
         boss.StopAllCoroutines();
     }
 
@@ -86,10 +86,13 @@ public class NukeState_B : State_B
         
         if (boss.telegraphVFX) boss.telegraphVFX.SetActive(false);
         if (boss.nukeVFX)      boss.nukeVFX.SetActive(true);
-
+        
         ExecuteNuke();
         
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1f);
+        if (boss.nukeVFX)      boss.nukeVFX.SetActive(false);
+        
+        yield return new WaitForSeconds(9f);
         boss.stateMachine.Transit(boss.movementState);
     }
 

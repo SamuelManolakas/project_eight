@@ -16,6 +16,7 @@ public class BossBehaviour : Enemy
     public float speed;
     public int damage;
     public float gravity;
+    public float attackCooldown;
 
     [Header("Aggro Settings")]
     [Tooltip("How often (seconds) the boss considers a random target switch.")]
@@ -356,7 +357,6 @@ public class BossBehaviour : Enemy
         Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(dir));
         bullet.GetComponent<Bullet_B>().Initialize(dir);
-        bullet.GetComponent<Bullet_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
 

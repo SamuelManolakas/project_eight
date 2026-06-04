@@ -22,10 +22,10 @@ public class GrabState_B : State_B
     {
         yield return new WaitForSeconds(1);
         boss.grabCollider.enabled = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         _shouldMove = false;
         boss.grabCollider.enabled = false;
-        yield return new WaitForSeconds(2.958f);
+        yield return new WaitForSeconds(3.958f);
         boss.stateMachine.Transit(boss.movementState);
     }
     
