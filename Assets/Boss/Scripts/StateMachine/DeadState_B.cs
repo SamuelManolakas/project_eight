@@ -9,6 +9,12 @@ public class DeadState_B : State_B
         boss.animator.Play("Death");
             
         //Audio
+        
+        boss.bossEngineSound = 3;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioScriptableObject.BossDieAudioPlay(boss.audioSource);
