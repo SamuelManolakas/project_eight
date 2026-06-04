@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MovementState_B : State_B
@@ -5,6 +6,8 @@ public class MovementState_B : State_B
     public MovementState_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
 
     private float _attackCooldownTimer;
+
+    private bool _hasFiredNuke;
     public override void Enter()
     {
         //Audio
@@ -15,11 +18,16 @@ public class MovementState_B : State_B
         }
 
         _attackCooldownTimer = boss.attackCooldown;
+
+        if (boss.currentHealth.Value <= boss.maxHealth / 2 && !_hasFiredNuke)
+        {
+            boss.StartCoroutine(FireNuke());
+        }
     }
 
     public override void Exit()
     {
-        boss.StopAllCoroutines();
+        //boss.StopAllCoroutines();
     }
 
     private float _rangedAttackTimer;
@@ -72,7 +80,7 @@ public class MovementState_B : State_B
 
     private void CombatWheel()
     {
-        int attack = Random.Range(0, 11);
+        int attack = Random.Range(0, 10);
 
         switch (attack)
         {
@@ -97,10 +105,15 @@ public class MovementState_B : State_B
             case 9:
                 boss.stateMachine.Transit(boss.SpinAttackState);
                 break;
-            case 10:
-                boss.stateMachine.Transit(boss.NukeState);
-                break;
         }
+    }
+
+    private IEnumerator FireNuke()
+    {
+        _hasFiredNuke = true;
+        
+        yield return new WaitForSeconds(0.2f);
+        boss.stateMachine.Transit(boss.NukeState);
     }
 
     private void RangedAttack()

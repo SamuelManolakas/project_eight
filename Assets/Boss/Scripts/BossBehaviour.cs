@@ -357,7 +357,6 @@ public class BossBehaviour : Enemy
         Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(dir));
         bullet.GetComponent<Bullet_B>().Initialize(dir);
-        bullet.GetComponent<Bullet_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
 

@@ -12,11 +12,15 @@ public class NukeState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Idle/Run");
+        
+        Debug.Log("Time to bomba!");
     }
 
     public override void Exit()
     {
         _hasReachedPosition = false;
+        
+        Debug.Log("Bomba finished!");
         
         boss.StopAllCoroutines();
     }
