@@ -69,6 +69,12 @@ public class NukeState_B : State_B
     private void OnPositionReached()
     {
         boss.StartCoroutine(NukeSequence());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossNukeAudioPlay(boss.audioSource);
+        }
     }
 
     private IEnumerator NukeSequence()

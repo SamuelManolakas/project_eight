@@ -11,6 +11,12 @@ public class GrabState_B : State_B
         _shouldMove = true;
         boss.animator.Play("Grab");
         boss.StartCoroutine(Wait());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossGrabAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()

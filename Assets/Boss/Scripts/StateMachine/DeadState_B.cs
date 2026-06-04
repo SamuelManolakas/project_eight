@@ -7,6 +7,12 @@ public class DeadState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Death");
+            
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossDieAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()

@@ -12,6 +12,12 @@ public class Combo2State_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.StartCoroutine(Combo());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.Boss4HcAudioPlay(boss.audioSource);
+        }
     }
 
     public override void Exit()
