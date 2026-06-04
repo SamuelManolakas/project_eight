@@ -13,12 +13,22 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private UIDocument _sessionUI;
     [SerializeField]
-    private GameObject m_playerPrefab;
+    private GameObject m_SwordAndShieldPrefab;
+    [SerializeField]
+    private GameObject m_GreatswordPrefab;
+    [SerializeField]
+    private GameObject m_BolterPrefab;
     [SerializeField]
     private GameObject m_enemyPrefab;
+    [SerializeField]
+    private GameObject characterSelectButtonPrefab;
+    [SerializeField]
+    private GameObject sessionBrowser;
 
     [SerializeField]
     private List<ResourcePallet> m_pallets;
+    
+    private GameObject m_playerPrefab;
 
     private void Start()
     {
@@ -28,6 +38,27 @@ public class GameManager : NetworkBehaviour
             m_multiplayerUI.OnStartClient += StartClient;
             m_multiplayerUI.OnDiconnectClient += DisconnectClient;
         }
+    }
+
+    public void OnSwordAndShield()
+    {
+        m_playerPrefab = m_SwordAndShieldPrefab;
+        characterSelectButtonPrefab.SetActive(false);
+        sessionBrowser.SetActive(true);
+    }
+    
+    public void OnGreatsword()
+    {
+        m_playerPrefab = m_GreatswordPrefab;
+        characterSelectButtonPrefab.SetActive(false);
+        sessionBrowser.SetActive(true);
+    }
+    
+    public void OnBolter()
+    {
+        m_playerPrefab = m_BolterPrefab;
+        characterSelectButtonPrefab.SetActive(false);
+        sessionBrowser.SetActive(true);
     }
 
     public override void OnNetworkSpawn()
