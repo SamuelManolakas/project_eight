@@ -240,6 +240,12 @@ public class PlayerBehaviour : NetworkBehaviour
             _healCooldown = 0.6f;
             health.Heal(healAmount);
             healConsumableAmount--;
+            
+            //Audio
+            if (PlayerAudioScriptableObject != null)
+            {
+                PlayerAudioScriptableObject.PlayHealAudioPlay(audioSource);
+            }
         }
     }
     
