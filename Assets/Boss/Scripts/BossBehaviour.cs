@@ -63,6 +63,7 @@ public class BossBehaviour : Enemy
     [Header("VFX")]
     public GameObject telegraphVFX;
     public GameObject nukeVFX;
+    public GameObject grabExplosionVFX;
     
     [Header("Death VFX")]
     public GameObject frontLeftExplosion;

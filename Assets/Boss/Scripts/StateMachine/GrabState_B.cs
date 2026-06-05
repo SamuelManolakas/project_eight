@@ -31,8 +31,14 @@ public class GrabState_B : State_B
         yield return new WaitForSeconds(0.5f);
         _shouldMove = false;
         boss.grabCollider.enabled = false;
+
+        yield return new WaitForSeconds(2.3f);
+        boss.grabExplosionVFX.SetActive(true);
         
-        yield return new WaitForSeconds(3.958f);
+        yield return new WaitForSeconds(0.5f);
+        boss.grabExplosionVFX.SetActive(false);
+        
+        yield return new WaitForSeconds(1.158f);
         boss.stateMachine.Transit(boss.movementState);
     }
     
