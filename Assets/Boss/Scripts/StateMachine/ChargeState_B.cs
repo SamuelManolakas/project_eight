@@ -27,6 +27,7 @@ public class ChargeState_B : State_B
     public override void Exit()
     {
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
+        boss.chargeHitBox.gameObject.layer = 7;
         
         boss.StopAllCoroutines();
 
@@ -51,9 +52,12 @@ public class ChargeState_B : State_B
         yield return new WaitForSeconds(1);
         
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = true;
+        boss.chargeHitBox.gameObject.layer = 9;
         charge = true;
         
         yield return new WaitForSeconds(7.667f);
+        
+        boss.chargeHitBox.gameObject.layer = 7;
         
         charge = false;
         if (boss.stateMachine.currentState == boss.stunnedState)
