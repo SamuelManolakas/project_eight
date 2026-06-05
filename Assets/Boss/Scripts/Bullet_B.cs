@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class Bullet_B : NetworkBehaviour
      public Rigidbody _rigidbody;
      
      private Vector3 _direction;
+
+     private int _hitOnce;
 
      private void Start()
      {
@@ -33,10 +36,12 @@ public class Bullet_B : NetworkBehaviour
      private void OnTriggerEnter(Collider other)
      {
           if (!IsServer) return;
+          if(_hitOnce >= 1) return;
           
           if (other.TryGetComponent(out HurtBox hurtBox))
           {
                hurtBox.GetHit(damage, 1);
+               _hitOnce++;
 
                Debug.Log("Hit the player for: " + damage);
           }
