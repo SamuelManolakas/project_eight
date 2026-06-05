@@ -1221,6 +1221,10 @@ PrefabInstance:
       propertyPath: nukePosition
       value: 
       objectReference: {fileID: 2142270099}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: bossAudioNetworker
+      value: 
+      objectReference: {fileID: 1865132835}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 456640548
@@ -2777,6 +2781,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1180, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1865132835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4577532226953923579, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+  m_PrefabInstance: {fileID: 1106059112}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3703b076495a6468932d5ff1808f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAudioNetworker
 --- !u!1 &1895148866
 GameObject:
   m_ObjectHideFlags: 0
