@@ -46,6 +46,7 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
+    public GameObject canonExplosionPrefab;
     public GameObject flamePrefab;
     public GameObject chestFlamer;
     public Transform nukePosition;
@@ -358,6 +359,16 @@ public class BossBehaviour : Enemy
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(dir));
         bullet.GetComponent<Bullet_B>().Initialize(dir);
         bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void CanonExplosions() => RequestCanonExplosionsServerRpc();
+
+    [ServerRpc]
+    private void RequestCanonExplosionsServerRpc()
+    {
+        Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
+        GameObject explosion = Instantiate(canonExplosionPrefab, firePoint.position, Quaternion.LookRotation(dir));
+        explosion.GetComponent<NetworkObject>().Spawn();
     }
 
     public void Flamer(Vector3 direction, float timer) => RequestFlamerServerRpc(direction, timer);
