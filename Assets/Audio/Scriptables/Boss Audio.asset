@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GrenadierAudio
   bossEngineEvent:
     Guid:
-      Data1: -1818231544
-      Data2: 1137947095
-      Data3: 1609222332
-      Data4: -1018609330
+      Data1: 1919878018
+      Data2: 1243056828
+      Data3: 849175998
+      Data4: -540685038
     Path: event:/Sound/Boss/Movement/Movement Manager
   bossSweepEvent:
     Guid:
@@ -63,10 +63,10 @@ MonoBehaviour:
     Path: event:/Sound/Boss/Attacks/Melee/3HC
   bossRangedEvent:
     Guid:
-      Data1: 1862370221
-      Data2: 1143125904
-      Data3: 762362516
-      Data4: -398971540
+      Data1: 1533912567
+      Data2: 1079191633
+      Data3: -933784157
+      Data4: 1578741433
     Path: event:/Sound/Boss/Attacks/Range/Cannon
   bossChestEvent:
     Guid:

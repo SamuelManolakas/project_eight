@@ -61,3 +61,10 @@ MonoBehaviour:
       Data3: 1586686088
       Data4: -822451168
     Path: event:/Sound/Player/Weapons/BG/Pew Pew
+  playerHealEvent:
+    Guid:
+      Data1: 567525447
+      Data2: 1195573155
+      Data3: 454472617
+      Data4: -1409655180
+    Path: event:/Sound/Player/Other/Heal
