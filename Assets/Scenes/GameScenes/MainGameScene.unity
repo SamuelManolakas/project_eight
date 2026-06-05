@@ -1206,6 +1206,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: slider
+      value: 
+      objectReference: {fileID: 117264264}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukeVFX
       value: 
       objectReference: {fileID: 2022002471}
