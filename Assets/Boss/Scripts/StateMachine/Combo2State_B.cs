@@ -20,6 +20,11 @@ public class Combo2State_B : State_B
         {
             boss.bossAudioScriptableObject.Boss4HcAudioPlay(boss.audioSource);
         }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
 
     public override void Exit()
