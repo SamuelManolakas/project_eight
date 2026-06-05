@@ -26,11 +26,12 @@ public class GrabState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         boss.grabCollider.enabled = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         _shouldMove = false;
         boss.grabCollider.enabled = false;
+        
         yield return new WaitForSeconds(3.958f);
         boss.stateMachine.Transit(boss.movementState);
     }
