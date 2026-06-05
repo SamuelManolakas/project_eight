@@ -147,7 +147,7 @@ public class PlayerBehaviour : NetworkBehaviour
             shieldHitBox = shield.GetComponent<HitBox>();
         }
         hurtBox = GetComponent<HurtBox>();
-        ammo = maxAmmo;
+        
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -296,6 +296,8 @@ public class PlayerBehaviour : NetworkBehaviour
         }
 
         if (!IsOwner) return;
+        
+        ammo = maxAmmo;
         
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
         camera.target = transform;
