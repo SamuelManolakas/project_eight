@@ -80,29 +80,29 @@ public class MovementState_B : State_B
 
     private void CombatWheel()
     {
-        int attack = Random.Range(0, 10);
+        int attack = Random.Range(0, 37);
 
         switch (attack)
         {
-            case >= 0 and <= 2:
+            case >= 0 and <= 4:
                 boss.stateMachine.Transit(boss.combo1State);
                 break;
-            case 3 or 4:
-                boss.stateMachine.Transit(boss.grabState);
-                break;
-            case 5:
-                boss.stateMachine.Transit(boss.strikeState);
-                break;
-            case 6:
-                boss.stateMachine.Transit(boss.sweepState);
-                break;
-            case 7:
+            case >= 5 and <= 9:
                 boss.stateMachine.Transit(boss.combo2State);
                 break;
-            case 8:
+            case >= 10 and <= 12:
+                boss.stateMachine.Transit(boss.grabState);
+                break;
+            case >= 13 and <= 17:
+                boss.stateMachine.Transit(boss.strikeState);
+                break;
+            case >= 18 and <= 20:
+                boss.stateMachine.Transit(boss.sweepState);
+                break;
+            case >= 21 and <= 25:
                 boss.stateMachine.Transit(boss.chestFlamerState);
                 break;
-            case 9:
+            case >= 26 and <= 36:
                 boss.stateMachine.Transit(boss.SpinAttackState);
                 break;
         }
@@ -118,16 +118,16 @@ public class MovementState_B : State_B
 
     private void RangedAttack()
     {
-        int attack = Random.Range(0, 10);
+        int attack = Random.Range(0, 16);
 
         switch (attack)
         {
-            case >= 0 and <= 3:
+            case >= 0 and <= 5:
                 break;
-            case 4:
+            case >= 6 and <= 9:
                 boss.stateMachine.Transit(boss.chargeState);
                 break;
-            case >= 5 and <= 9:
+            case >= 10 and <= 15:
                 boss.stateMachine.Transit(boss.shootState);
                 break;
         }
