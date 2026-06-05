@@ -17985,7 +17985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2821339365
+  GlobalObjectIdHash: 3979267067
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -18088,6 +18088,7 @@ MonoBehaviour:
   nukePosition: {fileID: 0}
   bossAudioScriptableObject: {fileID: 11400000, guid: eca5ab289fbe810419f06baf6eab6fa7, type: 2}
   audioSource: {fileID: 1150551456821946020}
+  bossAudioNetworker: {fileID: 0}
   nukeRadius: 500
   nukeDamage: 100
   targetLayerMask:

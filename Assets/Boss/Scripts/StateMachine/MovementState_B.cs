@@ -15,6 +15,8 @@ public class MovementState_B : State_B
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
         }
 
         _attackCooldownTimer = boss.attackCooldown;

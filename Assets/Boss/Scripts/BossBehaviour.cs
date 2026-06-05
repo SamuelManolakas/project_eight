@@ -53,6 +53,7 @@ public class BossBehaviour : Enemy
     //Audio
     public BossAudio bossAudioScriptableObject;
     public GameObject audioSource;
+    public BossAudioNetworker bossAudioNetworker;
 
     [Header("Nuke Attack")]
     public float nukeRadius;

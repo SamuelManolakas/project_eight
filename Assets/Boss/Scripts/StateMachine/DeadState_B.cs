@@ -15,10 +15,14 @@ public class DeadState_B : State_B
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
         }
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioScriptableObject.BossDieAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.TriggerDieAudio();
+
         }
     }
 
