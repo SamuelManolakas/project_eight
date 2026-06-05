@@ -17,6 +17,11 @@ public class SweepState_B : State_B
         {
             boss.bossAudioScriptableObject.BossSweepAudioPlay(boss.audioSource);
         }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
 
     public override void Exit()

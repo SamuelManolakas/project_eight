@@ -11,7 +11,6 @@ public class DeadState_B : State_B
         boss.StartCoroutine(DeathSequence());
         
         //Audio
-        
         boss.bossEngineSound = 3;
         if (boss.bossAudioScriptableObject != null)
         {
@@ -26,6 +25,13 @@ public class DeadState_B : State_B
     public override void Exit()
     {
         boss.StopAllCoroutines();
+        
+        //Audio
+        boss.bossEngineSound = 3;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
     public override void GetHit(int damage){}
 

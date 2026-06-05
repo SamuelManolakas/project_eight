@@ -16,6 +16,11 @@ public class ShootState_B : State_B
         {
             boss.bossAudioScriptableObject.BossRangedAudioPlay(boss.audioSource);
         }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
 
         boss.currentTarget = GetFurthestPlayer();
     }

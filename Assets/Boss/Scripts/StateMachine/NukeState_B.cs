@@ -75,6 +75,11 @@ public class NukeState_B : State_B
         {
             boss.bossAudioScriptableObject.BossNukeAudioPlay(boss.audioSource);
         }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+        }
     }
 
     private IEnumerator NukeSequence()
