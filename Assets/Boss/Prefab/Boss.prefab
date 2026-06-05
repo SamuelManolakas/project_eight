@@ -17984,7 +17984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3979267067
+  GlobalObjectIdHash: 2821339365
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -18058,19 +18058,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   players: []
   currentTarget: {fileID: 0}
-  maxHealth: 500
+  maxHealth: 1000
   currentHealth:
     m_InternalValue: 0
   speed: 5
   damage: 20
   gravity: -15
-  attackCooldown: 0
+  attackCooldown: 2.5
   aggroEvaluationInterval: 8
   randomSwitchChance: 0.25
-  randomTauntDuration: 4
+  randomTauntDuration: 15
   staggerThreshold: 150
-  staggerWindow: 3
-  staggerCooldown: 6
+  staggerWindow: 5
+  staggerCooldown: 30
   animator: {fileID: 1786571155882600704}
   m_animationEvents: {fileID: 2054388775556113775}
   greatSwordModel: {fileID: 1890145477471268160}

@@ -80,7 +80,7 @@ public class MovementState_B : State_B
 
     private void CombatWheel()
     {
-        int attack = Random.Range(10, 12);
+        int attack = Random.Range(0, 37);
 
         switch (attack)
         {

@@ -3248,8 +3248,8 @@ MonoBehaviour:
   bolter: 1
   greatSword: 0
   speed: 5
-  sprintSpeed: 8
-  acceleration: 10
+  sprintSpeed: 7
+  acceleration: 8
   deceleration: 6
   jumpHeight: 2
   gravity: -15
@@ -3260,10 +3260,10 @@ MonoBehaviour:
   fireRate: 0.9
   primaryAttackStaminaCost: 0
   secondaryAttackStaminaCost: 0
-  dodgeStaminaCost: 10
-  sprintStaminaCost: 0.1
-  healConsumableAmount: 4
-  healAmount: 10
+  dodgeStaminaCost: 30
+  sprintStaminaCost: 0.2
+  healConsumableAmount: 3
+  healAmount: 30
   maxAmmo: 5
   ammo: 0
   isMoving: 0

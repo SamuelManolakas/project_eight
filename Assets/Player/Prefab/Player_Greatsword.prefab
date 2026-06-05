@@ -1133,21 +1133,21 @@ MonoBehaviour:
   greatSword: 1
   speed: 5
   sprintSpeed: 7
-  acceleration: 4
-  deceleration: 5
+  acceleration: 7
+  deceleration: 8
   jumpHeight: 2
   gravity: -15
   dodgeDuration: 1
-  dodgeDistance: 5
-  primaryAttackDamage: 10
-  secondaryAttackDamage: 15
+  dodgeDistance: 6
+  primaryAttackDamage: 20
+  secondaryAttackDamage: 35
   fireRate: 0
   primaryAttackStaminaCost: 25
-  secondaryAttackStaminaCost: 50
-  dodgeStaminaCost: 25
-  sprintStaminaCost: 0.1
-  healConsumableAmount: 4
-  healAmount: 10
+  secondaryAttackStaminaCost: 35
+  dodgeStaminaCost: 30
+  sprintStaminaCost: 0.2
+  healConsumableAmount: 3
+  healAmount: 30
   maxAmmo: 0
   ammo: 0
   isMoving: 0
