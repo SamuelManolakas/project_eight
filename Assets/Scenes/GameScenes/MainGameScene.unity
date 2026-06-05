@@ -1214,6 +1214,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2022002471}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: maxHealth
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukePosition
       value: 
       objectReference: {fileID: 2142270099}

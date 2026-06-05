@@ -2383,7 +2383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReviveInteraction
   ShowTopMostFoldoutHeaderGroup: 1
-  reviveRadius: 2
+  reviveRadius: 5
   reviveDuration: 3
 --- !u!1 &5472721737541937953
 GameObject:
