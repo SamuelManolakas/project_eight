@@ -63,6 +63,13 @@ public class BossBehaviour : Enemy
     [Header("VFX")]
     public GameObject telegraphVFX;
     public GameObject nukeVFX;
+    
+    [Header("Death VFX")]
+    public GameObject frontLeftExplosion;
+    public GameObject backRightExplosion;
+    public GameObject flamesLeftShoulder;
+    public GameObject flamesRightShoulder;
+    public GameObject flamesHead;
 
     [HideInInspector] public Rigidbody _rigidbody;
     [HideInInspector] public StateMachine_B stateMachine = null;
