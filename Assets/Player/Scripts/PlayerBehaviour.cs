@@ -477,5 +477,17 @@ public class PlayerBehaviour : NetworkBehaviour
             shieldHitBox.hitTargets.Clear();
         }
     }
+
+    public void AddPlayerFromBossList()
+    {
+        if (!IsOwner) return;
+        FindAnyObjectByType<GameManager>().m_players.Add(gameObject);
+    }
+    
+    public void RemovePlayerFromBossList()
+    {
+        if (!IsOwner) return;
+        FindAnyObjectByType<GameManager>().m_players.Remove(gameObject);
+    }
 }
 

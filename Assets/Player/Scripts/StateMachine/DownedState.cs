@@ -17,6 +17,8 @@ public class DownedState : State
 
         //if (player.IsOwner)
             //HUDManager.Instance.ShowDownedUI(true);
+            
+        player.RemovePlayerFromBossList();
     }
 
     public override void Exit()
@@ -33,6 +35,7 @@ public class DownedState : State
         _downedTimer += Time.deltaTime;
         if (_downedTimer >= DownedTimeout)
         {
+            player.AddPlayerFromBossList();
             player.TransitToDeadStateClientRpc();
         }
     }

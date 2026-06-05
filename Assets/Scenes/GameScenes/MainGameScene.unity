@@ -1446,6 +1446,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.000002, y: 5, z: 10.000002}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1212750530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212750524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3681166816
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &1212750531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212750524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2183ef9d16a26ad4aba10375a9997958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathPit
+  ShowTopMostFoldoutHeaderGroup: 1
+  damage: 300
 --- !u!1 &1218255574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,6 +1883,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 8387811953205277643, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8794046623582978702, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Layer
       value: 12
@@ -1851,6 +1894,10 @@ PrefabInstance:
     - target: {fileID: 8833696932683823628, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877919771139120050, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9011957933566596105, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Layer
@@ -1863,6 +1910,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4631520395553270340, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1212750529}
+    - targetCorrespondingSourceObject: {fileID: 4631520395553270340, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1212750530}
+    - targetCorrespondingSourceObject: {fileID: 4631520395553270340, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1212750531}
   m_SourcePrefab: {fileID: 100100000, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
 --- !u!1001 &1414127768
 PrefabInstance:
