@@ -17899,6 +17899,7 @@ GameObject:
   - component: {fileID: 8151085552312745090}
   - component: {fileID: 6989152216669118413}
   - component: {fileID: 5942188228963186110}
+  - component: {fileID: -4577532226953923579}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
@@ -18126,6 +18127,24 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   boss: {fileID: 6989152216669118413}
+--- !u!114 &-4577532226953923579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496390614014114605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3703b076495a6468932d5ff1808f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAudioNetworker
+  ShowTopMostFoldoutHeaderGroup: 1
+  bossAudioSO: {fileID: 11400000, guid: eca5ab289fbe810419f06baf6eab6fa7, type: 2}
+  bossRootObject: {fileID: 1150551456821946020}
+  feetObject: {fileID: 1150551456821946020}
+  punchObject: {fileID: 1150551456821946020}
+  rangedObject: {fileID: 1150551456821946020}
 --- !u!1 &8977977192484838127
 GameObject:
   m_ObjectHideFlags: 0
