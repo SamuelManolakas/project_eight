@@ -18097,6 +18097,7 @@ MonoBehaviour:
     m_Bits: 2048
   telegraphVFX: {fileID: 0}
   nukeVFX: {fileID: 0}
+  grabExplosionVFX: {fileID: 8203351251417515830}
   frontLeftExplosion: {fileID: 5594147957197399756}
   backRightExplosion: {fileID: 1306690322958929527}
   flamesLeftShoulder: {fileID: 4620936852453800873}
@@ -19583,6 +19584,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackParticle_GrabExplosion
       objectReference: {fileID: 0}
+    - target: {fileID: 4310728440773465706, guid: e922a019ef3e5e14ebc1a074797a8d95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6471901864038718048, guid: e922a019ef3e5e14ebc1a074797a8d95, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -19667,6 +19672,11 @@ PrefabInstance:
 --- !u!4 &1430509321907718972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6471901864038718048, guid: e922a019ef3e5e14ebc1a074797a8d95, type: 3}
+  m_PrefabInstance: {fileID: 5335323903386882396}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8203351251417515830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4310728440773465706, guid: e922a019ef3e5e14ebc1a074797a8d95, type: 3}
   m_PrefabInstance: {fileID: 5335323903386882396}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6653371412792481299
