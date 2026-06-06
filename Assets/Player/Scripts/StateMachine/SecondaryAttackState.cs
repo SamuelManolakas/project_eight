@@ -87,7 +87,7 @@ public class SecondaryAttackState : State
     private IEnumerator SwordAndShieldCombo()
     {
         player.ClearHitTargets();
-        player.stamina.ConsumeStaminaServer(player.secondaryAttackStaminaCost);
+        player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
         player.weapon.GetComponent<Collider>().enabled = true;
         
@@ -104,7 +104,7 @@ public class SecondaryAttackState : State
     private IEnumerator GreatSwordCombo()
     {
         player.ClearHitTargets();
-        player.stamina.ConsumeStaminaServer(player.secondaryAttackStaminaCost);
+        player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
         player.weapon.GetComponent<Collider>().enabled = true;
         

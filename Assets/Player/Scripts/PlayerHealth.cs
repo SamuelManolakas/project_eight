@@ -54,7 +54,7 @@ public class PlayerHealth : NetworkBehaviour
 
         if (stamina != null && stamina.IsGuarding.Value)
         {
-            stamina.ConsumeStaminaServer(amount);
+            stamina.TryUseStamina(amount);
 
             if (stamina._stamina.Value <= 1)
             {

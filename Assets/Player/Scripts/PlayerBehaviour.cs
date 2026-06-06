@@ -161,7 +161,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
         
-        if (context.performed && stamina.TryUseStamina(dodgeStaminaCost))
+        if (context.performed && stamina._stamina.Value >= dodgeStaminaCost)
         {
             stateMachine.currentState.OnDodge();
         }
@@ -171,7 +171,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed && stamina.TryUseStamina(primaryAttackStaminaCost))
+        if (context.performed && stamina._stamina.Value >= primaryAttackStaminaCost)
         {
             if (stateMachine.currentState != primaryAttackState)
             {
@@ -187,7 +187,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed && stamina.TryUseStamina(secondaryAttackStaminaCost))
+        if (context.performed && stamina._stamina.Value >= secondaryAttackStaminaCost)
         {
             if (stateMachine.currentState != secondaryAttackState)
             {

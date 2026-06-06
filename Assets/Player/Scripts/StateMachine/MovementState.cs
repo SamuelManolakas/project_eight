@@ -48,7 +48,7 @@ public class MovementState : State
         //
         if (player.speed == player.sprintSpeed)
         {
-            player.stamina.ConsumeStaminaServer(player.sprintStaminaCost);
+            player.stamina.TryUseStamina(player.sprintStaminaCost);
 
             if (player.stamina._stamina.Value <= 2)
             {

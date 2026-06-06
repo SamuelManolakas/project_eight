@@ -51,7 +51,7 @@ public class PlayerStamina : NetworkBehaviour
         {
             if (!IsOwner || _stamina.Value < amount) return false;
     
-            
+            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
             return true;
         }
     
@@ -59,19 +59,5 @@ public class PlayerStamina : NetworkBehaviour
         {
             // Still fires on all clients — use for UI updates
         }
-        
-        public void ConsumeStaminaServer(float amount)
-        {
-            if (!IsServer) return;
-
-            ConsumeStaminaClientRpc(amount);
-        }
-
-        [ClientRpc]
-        private void ConsumeStaminaClientRpc(float amount)
-        {
-            if (!IsOwner) return; // Only the owner writes the NetworkVariable
-
-            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
-        }
+    
 }
