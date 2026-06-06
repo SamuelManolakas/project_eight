@@ -235,6 +235,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnHeal(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
+        if(health.Health <= 0) return;
+        
         if (context.performed && health.Health > 0 && healConsumableAmount > 0)
         {
             _healCooldown = 0.6f;
@@ -252,6 +254,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnReload(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
+        if(health.Health <= 0) return;
         
         if (context.performed && bolter && stateMachine.currentState != grabbedState)
         {
@@ -444,13 +447,12 @@ public class PlayerBehaviour : NetworkBehaviour
     [ClientRpc]
     public void TransitToStunnedStateClientRpc(Vector3 position)
     {
+        if(health.Health <= 0) return;
+        
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
     }
-    
-    // In PlayerBehaviour.Awake(), add:
-    // downedState = new DownedState(this, aliveState);
 
     [ClientRpc]
     public void TransitToDownedStateClientRpc()

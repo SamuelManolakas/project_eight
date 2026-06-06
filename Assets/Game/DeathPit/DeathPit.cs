@@ -13,5 +13,7 @@ public class DeathPit : NetworkBehaviour
         {
             hurtBox.GetHit(damage, 1);
         }
+        
+        other.transform.position += new Vector3(0, 8, -7);
     }
 }

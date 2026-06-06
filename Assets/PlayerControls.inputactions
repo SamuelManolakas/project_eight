@@ -405,7 +405,7 @@
                 {
                     "name": "",
                     "id": "3913b05b-7b13-4ed3-bea5-ff0326abea2b",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

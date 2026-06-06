@@ -17,6 +17,11 @@ public class ReloadState : State
         player.StopAllCoroutines();
     }
 
+    public override void ContinuousAction()
+    {
+        player.controller.Move(player.velocity * Time.deltaTime);
+    }
+
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.75f);
