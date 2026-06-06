@@ -253,7 +253,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
         
-        if (context.performed && bolter)
+        if (context.performed && bolter && stateMachine.currentState != grabbedState)
         {
             stateMachine.Transit(reloadState);
         }

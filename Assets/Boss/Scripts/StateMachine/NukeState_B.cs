@@ -96,7 +96,7 @@ public class NukeState_B : State_B
         yield return new WaitForSeconds(2f);
         boss.animator.Play("NukeCharge");
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
         boss.animator.Play("NukeExit");
         
         if (boss.telegraphVFX) boss.telegraphVFX.SetActive(false);
