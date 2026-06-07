@@ -140,14 +140,42 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        hitBox = weapon.GetComponent<HitBox>();
-        hitBox.attackerNetworkObjectId = GetComponent<NetworkObject>().NetworkObjectId;
+        if (weapon == null)
+        {
+            Debug.LogError("Weapon is not assigned in the Inspector!", this);
+            return;
+        }
+
+        if (swordAndShield || greatSword)
+        {
+            hitBox = weapon.GetComponent<HitBox>();
+            
+            if (hitBox == null)
+            {
+                Debug.LogError("No HitBox component found on weapon: " + weapon.name, this);
+                return;
+            }
+        }
+
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        if (networkObject == null)
+        {
+            Debug.LogError("No NetworkObject component found on player!", this);
+            return;
+        }
+
+        hitBox.attackerNetworkObjectId = networkObject.NetworkObjectId;
+
         if (shield)
         {
             shieldHitBox = shield.GetComponent<HitBox>();
+            if (shieldHitBox == null)
+                Debug.LogWarning("No HitBox component found on shield: " + shield.name, this);
         }
+
         hurtBox = GetComponent<HurtBox>();
-        
+        if (hurtBox == null)
+            Debug.LogError("No HurtBox component found on player!", this);
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -310,7 +338,7 @@ public class PlayerBehaviour : NetworkBehaviour
         }
         stamina._stamina.OnValueChanged += OnStaminaChanged;
         
-        FindAnyObjectByType<GameManager>().m_players.Add(gameObject);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Add(gameObject);
     }
     
     private void OnStaminaChanged(float previousValue, float newValue)
@@ -428,8 +456,8 @@ public class PlayerBehaviour : NetworkBehaviour
         
         stamina._stamina.OnValueChanged -= OnStaminaChanged;
 
-        FindAnyObjectByType<GameManager>().m_players.Remove(gameObject);
-        FindAnyObjectByType<GameManager>().SceneReload();
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Remove(gameObject);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().SceneReload();
     }
     
     [Rpc(SendTo.Server)]

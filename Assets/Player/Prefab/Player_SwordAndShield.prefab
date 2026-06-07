@@ -2352,6 +2352,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   maxStamina: 100
   staminaRegenRate: 15
+  staminaRegenDelay: 1
   _stamina:
     m_InternalValue: 100
   IsGuarding:

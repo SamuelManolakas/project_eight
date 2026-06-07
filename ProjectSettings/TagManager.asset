@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - Floor
   - FloorBoss
+  - GameManager
   layers:
   - Default
   - TransparentFX

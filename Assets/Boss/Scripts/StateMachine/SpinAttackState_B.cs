@@ -9,7 +9,7 @@ public class SpinAttackState_B : State_B
     public bool ignoreTimeScale = false;
 
     private float _spawnTimer;
-    private float _spawnInterval = 0.03f;
+    private float _spawnInterval = 0.08f;
     
     private bool _isSpinning = false;
     

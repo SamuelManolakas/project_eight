@@ -194,8 +194,9 @@ public class GameManager : NetworkBehaviour
 
     public void SceneReload()
     {
-        if (m_players.Count < 1)
-            SceneManager.LoadScene(0);
+        if (m_players.Count <= 0)
+            //SceneManager.LoadScene(0);
+            NetworkManager.SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
     private void Update()

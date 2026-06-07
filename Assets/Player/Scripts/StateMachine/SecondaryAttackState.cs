@@ -51,7 +51,7 @@ public class SecondaryAttackState : State
         {
             Quaternion toRotation = Quaternion.LookRotation(Camera.main.transform.forward,Vector3.up);
             
-            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.playerShoot.firePoint.transform.rotation, toRotation, Time.deltaTime * 10f);
+            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.playerShoot.firePoint.transform.rotation, toRotation, Time.deltaTime * 9999f);
             
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, new Quaternion(0,toRotation.y,0, toRotation.w), Time.deltaTime * 10f);
             
