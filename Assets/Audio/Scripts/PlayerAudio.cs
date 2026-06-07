@@ -42,8 +42,6 @@ public class AvatarAudio : ScriptableObject
             // Notice we do NOT release() it here, so it's ready for the next footstep.
             footstepInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
-        
-        Debug.Log("Stomp! Moving state: " + moving);  
     }
 
     // 5. ALWAYS clean up FMOD instances in ScriptableObjects when the game quits

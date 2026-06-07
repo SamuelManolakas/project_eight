@@ -483,13 +483,15 @@ public class PlayerBehaviour : NetworkBehaviour
     public void AddPlayerFromBossList()
     {
         if (!IsOwner) return;
-        FindAnyObjectByType<GameManager>().m_players.Add(gameObject);
+        GameObject.FindGameObjectWithTag("Enemy")
+            .GetComponent<BossBehaviour>().players.Add(gameObject);
     }
     
     public void RemovePlayerFromBossList()
     {
         if (!IsOwner) return;
-        FindAnyObjectByType<GameManager>().m_players.Remove(gameObject);
+        GameObject.FindGameObjectWithTag("Enemy")
+            .GetComponent<BossBehaviour>().players.Remove(gameObject);
     }
 }
 
