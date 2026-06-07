@@ -158,11 +158,25 @@ public class ThirdPersonCamera : MonoBehaviour
         if (!_cursorLocked || _isLockedOn) return;
 
         // --- Look ---
+       //if (lookAction != null)
+       //{
+       //    Vector2 lookDelta = lookAction.action.ReadValue<Vector2>();
+       //    _yaw   += lookDelta.x * horizontalSensitivity;
+       //    _pitch -= lookDelta.y * verticalSensitivity;
+       //    _pitch  = Mathf.Clamp(_pitch, minPitch, maxPitch);
+       //}
+        
         if (lookAction != null)
         {
             Vector2 lookDelta = lookAction.action.ReadValue<Vector2>();
-            _yaw   += lookDelta.x * horizontalSensitivity;
-            _pitch -= lookDelta.y * verticalSensitivity;
+    
+            bool usingController = Gamepad.current != null && 
+                                   Gamepad.current.rightStick.ReadValue().magnitude > 0.01f;
+
+            float multiplier = usingController ? Time.deltaTime : 1f;
+
+            _yaw   += lookDelta.x * horizontalSensitivity * multiplier;
+            _pitch -= lookDelta.y * verticalSensitivity   * multiplier;
             _pitch  = Mathf.Clamp(_pitch, minPitch, maxPitch);
         }
 

@@ -2237,8 +2237,8 @@ MonoBehaviour:
   zoomAction: {fileID: 0}
   lockOnAction: {fileID: 2089443866574708414, guid: f7b51f6a66147ca45882632c5aace099, type: 3}
   aimAction: {fileID: 0}
-  horizontalSensitivity: 0.2
-  verticalSensitivity: 0.2
+  horizontalSensitivity: 200
+  verticalSensitivity: 200
   minPitch: -30
   maxPitch: 60
   distance: 5
