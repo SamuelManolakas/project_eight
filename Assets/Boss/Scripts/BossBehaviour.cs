@@ -403,4 +403,16 @@ public class BossBehaviour : Enemy
         bullet.GetComponent<Flame_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
     }
+    
+    [ClientRpc]
+    public void SetTelegraphVFXClientRpc(bool active)
+    {
+        if (telegraphVFX) telegraphVFX.SetActive(active);
+    }
+
+    [ClientRpc]
+    public void SetNukeVFXClientRpc(bool active)
+    {
+        if (nukeVFX) nukeVFX.SetActive(active);
+    }
 }
