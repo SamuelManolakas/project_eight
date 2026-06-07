@@ -3262,7 +3262,7 @@ MonoBehaviour:
   primaryAttackStaminaCost: 0
   secondaryAttackStaminaCost: 0
   dodgeStaminaCost: 30
-  sprintStaminaCost: 0.2
+  sprintStaminaCost: 0.05
   healConsumableAmount: 3
   healAmount: 30
   maxAmmo: 5
@@ -3528,7 +3528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
   ShowTopMostFoldoutHeaderGroup: 1
   maxStamina: 100
-  staminaRegenRate: 10
+  staminaRegenRate: 15
   _stamina:
     m_InternalValue: 100
   IsGuarding:

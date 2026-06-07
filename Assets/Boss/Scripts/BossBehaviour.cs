@@ -415,4 +415,23 @@ public class BossBehaviour : Enemy
     {
         if (nukeVFX) nukeVFX.SetActive(active);
     }
+    
+    [ClientRpc]
+    public void SetDeathVFXClientRpc(bool active, int value)
+    {
+        if (value == 1)
+        {
+            frontLeftExplosion.SetActive(true);
+        }
+        else if (value == 2)
+        {
+            backRightExplosion.SetActive(true);
+        }
+        else if (value == 3)
+        {
+            flamesRightShoulder.SetActive(true);
+            flamesLeftShoulder.SetActive(true);
+            flamesHead.SetActive(true);
+        }
+    }
 }

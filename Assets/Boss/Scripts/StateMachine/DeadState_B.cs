@@ -44,14 +44,12 @@ public class DeadState_B : State_B
     private IEnumerator DeathSequence()
     {
         yield return new WaitForSeconds(2.3f);
-        boss.frontLeftExplosion.SetActive(true);
+        boss.SetDeathVFXClientRpc(true, 1);
         
         yield return new WaitForSeconds(1.7f);
-        boss.backRightExplosion.SetActive(true);
+        boss.SetDeathVFXClientRpc(true, 2);
         
         yield return new WaitForSeconds(3.5f);
-        boss.flamesRightShoulder.SetActive(true);
-        boss.flamesLeftShoulder.SetActive(true);
-        boss.flamesHead.SetActive(true);
+        boss.SetDeathVFXClientRpc(true, 3);
     }
 }

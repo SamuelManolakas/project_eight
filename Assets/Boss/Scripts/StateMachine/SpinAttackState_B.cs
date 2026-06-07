@@ -96,7 +96,7 @@ public class SpinAttackState_B : State_B
         
         if (_spawnTimer <= 0f)
         {
-            boss.HandFlamer(0.5f);
+            boss.HandFlamer(0.2f);
             _spawnTimer =  _spawnInterval;
         }
     }

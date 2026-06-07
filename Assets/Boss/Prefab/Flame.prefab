@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flame_B
   ShowTopMostFoldoutHeaderGroup: 1
-  damage: 5
+  damage: 1
   speed: 20
   direction: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 0}
