@@ -16,7 +16,7 @@ public class DeathPit : NetworkBehaviour
 
         if (other.TryGetComponent(out NetworkObject networkObject))
         {
-            Vector3 teleportPos = other.transform.position + new Vector3(0, 8, -14);
+            Vector3 teleportPos = other.transform.position + new Vector3(0, 8, -8);
             TeleportPlayerClientRpc(
                 networkObject.NetworkObjectId,
                 teleportPos,

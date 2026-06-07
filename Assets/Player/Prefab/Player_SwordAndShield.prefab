@@ -2097,7 +2097,7 @@ MonoBehaviour:
   primaryAttackStaminaCost: 10
   secondaryAttackStaminaCost: 20
   dodgeStaminaCost: 30
-  sprintStaminaCost: 0.05
+  sprintStaminaCost: 35
   healConsumableAmount: 3
   healAmount: 30
   maxAmmo: 0

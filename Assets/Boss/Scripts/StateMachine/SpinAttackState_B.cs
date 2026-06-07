@@ -9,7 +9,7 @@ public class SpinAttackState_B : State_B
     public bool ignoreTimeScale = false;
 
     private float _spawnTimer;
-    private float _spawnInterval = 0.08f;
+    private float _spawnInterval = 0.03f;
     
     private bool _isSpinning = false;
     
@@ -96,7 +96,7 @@ public class SpinAttackState_B : State_B
         
         if (_spawnTimer <= 0f)
         {
-            boss.HandFlamer(0.2f);
+            boss.HandFlamer(0.5f);
             _spawnTimer =  _spawnInterval;
         }
     }
