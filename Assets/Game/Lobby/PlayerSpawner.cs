@@ -18,6 +18,7 @@ public class PlayerSpawner : NetworkBehaviour
     private void SpawnPlayer(ulong clientId)
     {
         byte classIndex = PlayerClassRegistry.Instance.GetClassChoice(clientId);
+        Debug.Log($"Spawning client {clientId} with class {classIndex}");
         GameObject prefab = classPrefabs[classIndex];
 
         GameObject instance = Instantiate(prefab);
