@@ -11,6 +11,7 @@ public class PasswordPopup : MonoBehaviour
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
+    [SerializeField] private ClassSelectUI classSelectUI;
 
     private ISessionInfo pendingSession;
     
@@ -55,11 +56,13 @@ public class PasswordPopup : MonoBehaviour
 
             // Inside PasswordPopup, before JoinSessionByIdAsync:
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-            NetworkManager.Singleton.NetworkConfig.ConnectionData = new byte[] { (byte)selectedClassIndex };
+            //NetworkManager.Singleton.NetworkConfig.ConnectionData = new byte[] { (byte)selectedClassIndex };
             
+            // In OnConfirmClicked, after a successful join:
             var session = await MultiplayerService.Instance.JoinSessionByIdAsync(pendingSession.Id, options);
             Debug.Log($"Joined session: {session.Name}");
             Hide();
+            classSelectUI.Show(); // NEW
             // TODO: transition UI to "connected, waiting for host to start" state
         }
         catch (SessionException e)

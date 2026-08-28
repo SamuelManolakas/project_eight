@@ -10,11 +10,8 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private TMP_InputField lobbyNameInput;
     [SerializeField] private TMP_InputField passwordInput;
     [SerializeField] private Button hostButton;
-    [SerializeField] private GameObject startGameButton; // shown only to host after session created
-
-    private int selectedClassIndex = 0;
-
-    public void OnClassSelected(int classIndex) => selectedClassIndex = classIndex;
+    [SerializeField] private GameObject startGameButton;
+    [SerializeField] private ClassSelectUI classSelectUI; // NEW
 
     public async void OnHostClicked()
     {
@@ -24,10 +21,9 @@ public class HostLobbyUI : MonoBehaviour
         {
             await ServicesBootstrap.InitTask;
 
-            // Class choice travels in NGO's connection payload, same as before
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-            NetworkManager.Singleton.NetworkConfig.ConnectionData = new byte[] { (byte)selectedClassIndex };
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+            // NOTE: no more ConnectionData/class payload here — class choice now happens after connecting
 
             var options = new SessionOptions
             {
@@ -35,14 +31,13 @@ public class HostLobbyUI : MonoBehaviour
                 MaxPlayers = 4,
                 IsPrivate = false,
                 Password = string.IsNullOrEmpty(passwordInput.text) ? null : passwordInput.text
-            }.WithRelayNetwork(); // ⚠️ VERIFY: confirm the exact extension method name (WithRelayNetwork /
-                                   // WithNetcodeForGameObjects / similar) against your installed package version's
-                                   // autocomplete or docs — Unity has renamed this across SDK revisions.
+            }.WithRelayNetwork();
 
             var session = await MultiplayerService.Instance.CreateSessionAsync(options);
             Debug.Log($"Hosting '{session.Name}' — ID: {session.Id}");
 
             startGameButton.SetActive(true);
+            classSelectUI.Show(); // NEW — host picks their own class too
         }
         catch (SessionException e)
         {
@@ -54,8 +49,7 @@ public class HostLobbyUI : MonoBehaviour
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,
         NetworkManager.ConnectionApprovalResponse response)
     {
-        byte classIndex = request.Payload.Length > 0 ? request.Payload[0] : (byte)0;
-        PlayerClassRegistry.Instance.SetClassChoice(request.ClientNetworkId, classIndex);
+        // No longer reading a class payload here — approval just admits the connection
         response.Approved = true;
         response.CreatePlayerObject = false;
     }

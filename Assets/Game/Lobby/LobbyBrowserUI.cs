@@ -23,6 +23,11 @@ public class LobbyBrowserUI : MonoBehaviour
 
             var options = new QuerySessionsOptions();
             var results = await MultiplayerService.Instance.QuerySessionsAsync(options);
+            
+            // In LobbyBrowserUI.OnRefreshClicked, right after QuerySessionsAsync:
+            Debug.Log($"Query returned {results.Sessions.Count} sessions");
+            foreach (var s in results.Sessions)
+                Debug.Log($"Found: {s.Name} | {s.Id}");
 
             foreach (var sessionInfo in results.Sessions)
             {
