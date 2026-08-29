@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Unity.Services.Multiplayer;
 using UnityEngine;
 
@@ -14,13 +15,14 @@ public static class ActiveSessionManager
         SessionChanged?.Invoke(Current);
     }
 
-    public static async void ClearIfExists()
+    // In ActiveSessionManager.cs
+    public static async Task ClearIfExists()
     {
         if (Current == null) return;
 
         try
         {
-            await Current.LeaveAsync(); // ⚠️ same method-name caveat as before — confirm via autocomplete
+            await Current.LeaveAsync();
         }
         catch (SessionException e)
         {

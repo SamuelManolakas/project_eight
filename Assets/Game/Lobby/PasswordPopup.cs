@@ -65,7 +65,6 @@ public class PasswordPopup : MonoBehaviour
             ActiveSessionManager.Set(session); // new — was previously just a local variable, now shared
             Debug.Log($"Joined session: {session.Name}");
             Hide();
-            classSelectUI.Show();
             // TODO: transition UI to "connected, waiting for host to start" state
         }
         catch (SessionException e)

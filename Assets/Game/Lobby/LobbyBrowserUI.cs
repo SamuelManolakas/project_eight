@@ -77,7 +77,8 @@ public class LobbyBrowserUI : MonoBehaviour
     {
         try
         {
-            ActiveSessionManager.ClearIfExists();
+            await ServicesBootstrap.InitTask; // ensure services are fully initialized first
+            await ActiveSessionManager.ClearIfExists(); // properly wait for any previous leave to finish
 
             var options = new JoinSessionOptions();
             ISession session = await MultiplayerService.Instance.JoinSessionByIdAsync(sessionInfo.Id, options);

@@ -13,21 +13,29 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private GameObject startGameButton;
     [SerializeField] private ClassSelectUI classSelectUI; // NEW
     [SerializeField] private Button closeLobbyButton;
+    [SerializeField] private TMP_Text errorText; // NEW
 
     private ISession currentSession; // store this when you create it
 
     public async void OnHostClicked()
     {
+        if (string.IsNullOrEmpty(passwordInput.text))
+        {
+            ShowError("A password is required to host a lobby.");
+            return;
+        }
+
         hostButton.interactable = false;
+        HideError(); // clear any previous error once a valid attempt starts
 
         try
         {
             await ServicesBootstrap.InitTask;
-
-            ActiveSessionManager.ClearIfExists(); // replaces the old "if (currentSession != null)..." block
+            await ActiveSessionManager.ClearIfExists();
 
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+            NetworkManager.Singleton.ConnectionApprovalCallback = null;
+            NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
 
             var options = new SessionOptions
             {
@@ -38,19 +46,32 @@ public class HostLobbyUI : MonoBehaviour
             }.WithRelayNetwork();
 
             ISession newSession = await MultiplayerService.Instance.CreateSessionAsync(options);
-            ActiveSessionManager.Set(newSession); // replaces "currentSession = newSession"
+            ActiveSessionManager.Set(newSession);
 
             Debug.Log($"Hosting '{newSession.Name}' — ID: {newSession.Id}");
 
             startGameButton.SetActive(true);
             closeLobbyButton.gameObject.SetActive(true);
-            classSelectUI.Show();
         }
         catch (SessionException e)
         {
             Debug.LogError($"Failed to host session: {e}");
+            ShowError("Failed to create lobby. Please try again.");
             hostButton.interactable = true;
         }
+    }
+
+    private void HideError()
+    {
+        errorText.gameObject.SetActive(false);
+    }
+
+    private void ShowError(string message)
+    {
+        Debug.LogWarning(message);
+        // If you have an error text field on this panel, show it here too:
+        errorText.text = message;
+        errorText.gameObject.SetActive(true);
     }
 
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,

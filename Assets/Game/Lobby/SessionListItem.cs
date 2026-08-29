@@ -26,8 +26,7 @@ public class SessionListItem : MonoBehaviour
         joinButton.onClick.AddListener(OnJoinClicked);
     }
 
-    // In SessionListItem.cs
-    private async void OnJoinClicked()
+    private void OnJoinClicked()
     {
         if (sessionInfo.AvailableSlots <= 0)
         {
@@ -35,12 +34,6 @@ public class SessionListItem : MonoBehaviour
             return;
         }
 
-        if (!sessionInfo.HasPassword)
-        {
-            await browser.JoinDirectly(sessionInfo); // new method, no popup needed
-            return;
-        }
-
-        browser.RequestJoin(sessionInfo); // existing popup flow, unchanged
+        browser.RequestJoin(sessionInfo); // always goes through the password popup now
     }
 }   

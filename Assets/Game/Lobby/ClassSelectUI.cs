@@ -1,17 +1,31 @@
+using Unity.Services.Multiplayer;
 using UnityEngine;
 
 public class ClassSelectUI : MonoBehaviour
 {
-    [SerializeField] private GameObject panel; // the parent object holding the 3 buttons
+    [SerializeField] private GameObject panel;
 
     private void Awake()
     {
         panel.SetActive(false);
     }
 
-    public void Show()
+    private void OnEnable()
     {
-        panel.SetActive(true);
+        ActiveSessionManager.SessionChanged += HandleSessionChanged;
+
+        if (ActiveSessionManager.Current != null)
+            panel.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        ActiveSessionManager.SessionChanged -= HandleSessionChanged;
+    }
+
+    private void HandleSessionChanged(ISession session)
+    {
+        panel.SetActive(session != null);
     }
 
     // Wire each of your 3 buttons to call this with a different index (0, 1, 2)
@@ -19,8 +33,5 @@ public class ClassSelectUI : MonoBehaviour
     {
         ClassSelectionManager.Instance.SubmitClassChoiceServerRpc(classIndex);
         Debug.Log($"Sent class choice: {classIndex}");
-
-        // Optional: visually indicate selection, e.g. highlight the chosen button
-        // or hide the panel entirely once picked — your call
     }
 }
