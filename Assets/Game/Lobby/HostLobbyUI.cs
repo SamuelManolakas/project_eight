@@ -12,6 +12,9 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private Button hostButton;
     [SerializeField] private GameObject startGameButton;
     [SerializeField] private ClassSelectUI classSelectUI; // NEW
+    [SerializeField] private Button closeLobbyButton;
+
+    private ISession currentSession; // store this when you create it
 
     public async void OnHostClicked()
     {
@@ -21,23 +24,27 @@ public class HostLobbyUI : MonoBehaviour
         {
             await ServicesBootstrap.InitTask;
 
+            ActiveSessionManager.ClearIfExists(); // replaces the old "if (currentSession != null)..." block
+
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
-            // NOTE: no more ConnectionData/class payload here — class choice now happens after connecting
 
             var options = new SessionOptions
             {
                 Name = string.IsNullOrEmpty(lobbyNameInput.text) ? "Unnamed Lobby" : lobbyNameInput.text,
                 MaxPlayers = 4,
                 IsPrivate = false,
-                Password = string.IsNullOrEmpty(passwordInput.text) ? null : passwordInput.text
+                Password = PasswordUtils.Normalize(passwordInput.text)
             }.WithRelayNetwork();
 
-            var session = await MultiplayerService.Instance.CreateSessionAsync(options);
-            Debug.Log($"Hosting '{session.Name}' — ID: {session.Id}");
+            ISession newSession = await MultiplayerService.Instance.CreateSessionAsync(options);
+            ActiveSessionManager.Set(newSession); // replaces "currentSession = newSession"
+
+            Debug.Log($"Hosting '{newSession.Name}' — ID: {newSession.Id}");
 
             startGameButton.SetActive(true);
-            classSelectUI.Show(); // NEW — host picks their own class too
+            closeLobbyButton.gameObject.SetActive(true);
+            classSelectUI.Show();
         }
         catch (SessionException e)
         {
@@ -58,5 +65,24 @@ public class HostLobbyUI : MonoBehaviour
     {
         if (!NetworkManager.Singleton.IsServer) return;
         NetworkManager.Singleton.SceneManager.LoadScene("Gameplay", UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
+    
+    public async void OnCloseLobbyClicked()
+    {
+        if (ActiveSessionManager.Current == null) return;
+
+        try
+        {
+            await ActiveSessionManager.Current.AsHost().DeleteAsync();
+            Debug.Log("Lobby closed.");
+            ActiveSessionManager.Set(null);
+            closeLobbyButton.gameObject.SetActive(false);
+            startGameButton.SetActive(false);
+            hostButton.interactable = true; // NEW — re-enable so they can host again
+        }
+        catch (SessionException e)
+        {
+            Debug.LogError($"Failed to close lobby: {e}");
+        }
     }
 }

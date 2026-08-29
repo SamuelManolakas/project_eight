@@ -51,8 +51,10 @@ public class PasswordPopup : MonoBehaviour
         {
             var options = new JoinSessionOptions
             {
-                Password = string.IsNullOrEmpty(passwordInput.text) ? null : passwordInput.text
+                Password = PasswordUtils.Normalize(passwordInput.text) // changed
             };
+
+            
 
             // Inside PasswordPopup, before JoinSessionByIdAsync:
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
@@ -60,16 +62,17 @@ public class PasswordPopup : MonoBehaviour
             
             // In OnConfirmClicked, after a successful join:
             var session = await MultiplayerService.Instance.JoinSessionByIdAsync(pendingSession.Id, options);
+            ActiveSessionManager.Set(session); // new — was previously just a local variable, now shared
             Debug.Log($"Joined session: {session.Name}");
             Hide();
-            classSelectUI.Show(); // NEW
+            classSelectUI.Show();
             // TODO: transition UI to "connected, waiting for host to start" state
         }
         catch (SessionException e)
         {
-            errorText.text = "Incorrect password or session unavailable.";
-            errorText.gameObject.SetActive(true);
             Debug.LogWarning($"Join failed: {e}");
+            errorText.text = "Could not join — the lobby may be full or no longer available.";
+            errorText.gameObject.SetActive(true);
         }
         finally
         {

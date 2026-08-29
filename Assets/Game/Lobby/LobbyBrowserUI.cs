@@ -9,8 +9,19 @@ public class LobbyBrowserUI : MonoBehaviour
     [SerializeField] private GameObject sessionListItemPrefab;
     [SerializeField] private PasswordPopup passwordPopup;
     [SerializeField] private GameObject refreshingIndicator; // optional spinner/text
-
+    [SerializeField] private GameObject lobbyFullMessagePanel; // simple panel with text + OK/close button
+    
     private readonly List<GameObject> spawnedItems = new();
+
+    public void ShowLobbyFullMessage()
+    {
+        lobbyFullMessagePanel.SetActive(true);
+    }
+
+    public void HideLobbyFullMessage()
+    {
+        lobbyFullMessagePanel.SetActive(false);
+    }
 
     public async void OnRefreshClicked()
     {
@@ -60,6 +71,23 @@ public class LobbyBrowserUI : MonoBehaviour
     public void RequestJoin(ISessionInfo sessionInfo)
     {
         passwordPopup.Show(sessionInfo);
+    }
+    
+    public async Task JoinDirectly(ISessionInfo sessionInfo)
+    {
+        try
+        {
+            ActiveSessionManager.ClearIfExists();
+
+            var options = new JoinSessionOptions();
+            ISession session = await MultiplayerService.Instance.JoinSessionByIdAsync(sessionInfo.Id, options);
+            ActiveSessionManager.Set(session);
+            Debug.Log($"Joined session: {session.Name}");
+        }
+        catch (SessionException e)
+        {
+            Debug.LogError($"Failed to join: {e}");
+        }
     }
 
     private void OnEnable() => OnRefreshClicked(); // auto-refresh when the browser opens
