@@ -19,31 +19,87 @@ MonoBehaviour:
       Data3: 849175998
       Data4: -540685038
     Path: event:/Sound/Boss/Movement/Movement Manager
-  bossSwingEvent:
+  bossSweepEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -927389278
+      Data2: 1184724679
+      Data3: -642522239
+      Data4: 253799391
+    Path: event:/Sound/Boss/Attacks/Melee/Sweep
+  bossStrikeEvent:
+    Guid:
+      Data1: -703116346
+      Data2: 1125166009
+      Data3: -626173285
+      Data4: -2133827728
+    Path: event:/Sound/Boss/Attacks/Melee/Strike
+  bossSpinEvent:
+    Guid:
+      Data1: 1666629549
+      Data2: 1255821386
+      Data3: -170125436
+      Data4: -1400254280
+    Path: event:/Sound/Boss/Attacks/Melee/Spinning
+  bossGrabEvent:
+    Guid:
+      Data1: -703753704
+      Data2: 1251306043
+      Data3: -1114593354
+      Data4: 1088846518
+    Path: event:/Sound/Boss/Attacks/Melee/Grab
+  boss4HcEvent:
+    Guid:
+      Data1: -1305535840
+      Data2: 1079574449
+      Data3: -901294407
+      Data4: 677548408
+    Path: event:/Sound/Boss/Attacks/Melee/4HC
+  boss3HcEvent:
+    Guid:
+      Data1: -1818231544
+      Data2: 1137947095
+      Data3: 1609222332
+      Data4: -1018609330
+    Path: event:/Sound/Boss/Attacks/Melee/3HC
   bossRangedEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1533912567
+      Data2: 1079191633
+      Data3: -933784157
+      Data4: 1578741433
+    Path: event:/Sound/Boss/Attacks/Range/Cannon
+  bossChestEvent:
+    Guid:
+      Data1: 1886886700
+      Data2: 1175886472
+      Data3: 672702641
+      Data4: 876308934
+    Path: event:/Sound/Boss/Attacks/Range/Chest Flame
+  bossNukeEvent:
+    Guid:
+      Data1: 1718382380
+      Data2: 1332404842
+      Data3: -151140455
+      Data4: 587812513
+    Path: event:/Sound/Boss/Attacks/Nuke/Nuke Sequence
+  bossStunEvent:
+    Guid:
+      Data1: 1528859397
+      Data2: 1123037385
+      Data3: -1372026234
+      Data4: -277821200
+    Path: event:/Sound/Boss/Other/Stun Pop
   bossDamageEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1348541873
+      Data2: 1255077099
+      Data3: 1517168041
+      Data4: -1411622393
+    Path: event:/Sound/Boss/Other/Take DMG
   bossDieEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1096467061
+      Data2: 1269163760
+      Data3: 601365936
+      Data4: 657022697
+    Path: event:/Sound/Boss/Other/Death

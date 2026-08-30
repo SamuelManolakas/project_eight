@@ -16,5 +16,12 @@ public class AliveState_B : State_B
         {
             boss.stateMachine.Transit(boss.deadState);
         }
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossDamageAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.TriggerDamageAudio();
+        }
     }
 }

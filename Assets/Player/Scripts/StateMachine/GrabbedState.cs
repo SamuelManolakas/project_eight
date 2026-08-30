@@ -40,7 +40,7 @@ public class GrabbedState : State
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.3f);
         //Temporary damage solution
         if (player.health.Health >= 0)
         {

@@ -3086,6 +3086,7 @@ GameObject:
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
   - component: {fileID: 5296430105436699208}
+  - component: {fileID: 4345010784332516904}
   m_Layer: 8
   m_Name: Player_Bolter
   m_TagString: Player
@@ -3248,8 +3249,8 @@ MonoBehaviour:
   bolter: 1
   greatSword: 0
   speed: 5
-  sprintSpeed: 8
-  acceleration: 10
+  sprintSpeed: 7
+  acceleration: 8
   deceleration: 6
   jumpHeight: 2
   gravity: -15
@@ -3260,10 +3261,10 @@ MonoBehaviour:
   fireRate: 0.9
   primaryAttackStaminaCost: 0
   secondaryAttackStaminaCost: 0
-  dodgeStaminaCost: 10
-  sprintStaminaCost: 0.1
-  healConsumableAmount: 4
-  healAmount: 10
+  dodgeStaminaCost: 30
+  sprintStaminaCost: 35
+  healConsumableAmount: 3
+  healAmount: 30
   maxAmmo: 5
   ammo: 0
   isMoving: 0
@@ -3478,7 +3479,19 @@ MonoBehaviour:
     m_ActionId: 60f823ac-c4b8-484d-9631-6ea4b14fd384
     m_ActionName: 'Gameplay/Reload[/Keyboard/r]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4345010784332516904}
+        m_TargetAssemblyTypeName: ReviveInteraction, Assembly-CSharp
+        m_MethodName: OnRevive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9ee9054b-f2bd-4674-a9cf-308a8c4f9422
     m_ActionName: 'Gameplay/Revive[/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -3515,7 +3528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
   ShowTopMostFoldoutHeaderGroup: 1
   maxStamina: 100
-  staminaRegenRate: 10
+  staminaRegenRate: 15
+  staminaRegenDelay: 1
   _stamina:
     m_InternalValue: 100
   IsGuarding:
@@ -3550,6 +3564,21 @@ MonoBehaviour:
   bulletPrefab: {fileID: 775290615496694872, guid: 6c6169c9298595f40bb7845e0c40ca5a, type: 3}
   firePoint: {fileID: 4385925974512642274}
   damage: 5
+--- !u!114 &4345010784332516904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db6cae929db82849be91e18b0731a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReviveInteraction
+  ShowTopMostFoldoutHeaderGroup: 1
+  reviveRadius: 5
+  reviveDuration: 3
 --- !u!1 &5146331886742341556
 GameObject:
   m_ObjectHideFlags: 0

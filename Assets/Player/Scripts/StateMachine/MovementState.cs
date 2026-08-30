@@ -48,7 +48,7 @@ public class MovementState : State
         //
         if (player.speed == player.sprintSpeed)
         {
-            player.stamina.ConsumeStaminaServer(player.sprintStaminaCost);
+            player.stamina.TryUseStamina(player.sprintStaminaCost * Time.deltaTime);
 
             if (player.stamina._stamina.Value <= 2)
             {
@@ -142,7 +142,7 @@ public class MovementState : State
 
     public override void OnGuard()
     {
-        if (player.swordAndShield)
+        if (player.swordAndShield || player.greatSword)
             player.stateMachine.Transit(player.guardState);
     }
 

@@ -17,6 +17,21 @@ public class SpinAttackState_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.StartCoroutine(Spin());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossSpinAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.TriggerSpinAudio();
+
+        }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
+        }
     }
 
     public override void Exit()

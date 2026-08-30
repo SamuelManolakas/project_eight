@@ -6,6 +6,9 @@ public class PlayerStamina : NetworkBehaviour
      [Header("Stamina Settings")]
         public float maxStamina = 100f;
         public float staminaRegenRate = 10f;
+        public float staminaRegenDelay = 1f; // Delay before regen starts
+        
+        private float _regenDelayTimer = 0f;
     
         // Owner can write directly — no ServerRpc needed
         [HideInInspector]
@@ -40,9 +43,15 @@ public class PlayerStamina : NetworkBehaviour
     
         private void Update()
         {
-            // Regen runs on the owner (client or host)
             if (!IsOwner) return;
-    
+
+            // Count down the delay timer
+            if (_regenDelayTimer > 0f)
+            {
+                _regenDelayTimer -= Time.deltaTime;
+                return;
+            }
+
             if (_stamina.Value < maxStamina)
                 _stamina.Value = Mathf.Min(_stamina.Value + staminaRegenRate * Time.deltaTime, maxStamina);
         }
@@ -50,8 +59,9 @@ public class PlayerStamina : NetworkBehaviour
         public bool TryUseStamina(float amount)
         {
             if (!IsOwner || _stamina.Value < amount) return false;
-    
-            
+
+            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
+            _regenDelayTimer = staminaRegenDelay; // Reset the delay on use
             return true;
         }
     
@@ -59,19 +69,5 @@ public class PlayerStamina : NetworkBehaviour
         {
             // Still fires on all clients — use for UI updates
         }
-        
-        public void ConsumeStaminaServer(float amount)
-        {
-            if (!IsServer) return;
-
-            ConsumeStaminaClientRpc(amount);
-        }
-
-        [ClientRpc]
-        private void ConsumeStaminaClientRpc(float amount)
-        {
-            if (!IsOwner) return; // Only the owner writes the NetworkVariable
-
-            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
-        }
+    
 }

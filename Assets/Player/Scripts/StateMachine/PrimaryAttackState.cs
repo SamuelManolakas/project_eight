@@ -37,7 +37,7 @@ public class PrimaryAttackState : State
 
     private IEnumerator SwordAndShieldCombo()
     {
-        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
         player.ClearHitTargets();
         
         yield return new WaitForSeconds(0.2f);
@@ -55,7 +55,7 @@ public class PrimaryAttackState : State
         if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
         {
             player.ClearHitTargets();
-            player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
+            player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
             player.animator.Play("Combo1b");
             player.attackBuffer  = false;
             
@@ -69,7 +69,7 @@ public class PrimaryAttackState : State
             if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
             {
                 player.ClearHitTargets();
-                player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
+                player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
                 player.animator.Play("Combo1c");
                 player.attackBuffer  = false;
                 
@@ -97,7 +97,7 @@ public class PrimaryAttackState : State
 
     private IEnumerator GreatSwordCombo()
     {
-        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
         player.ClearHitTargets();
         
         yield return new WaitForSeconds(0.2f);

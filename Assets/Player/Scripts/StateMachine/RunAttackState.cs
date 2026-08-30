@@ -21,7 +21,7 @@ public class RunAttackState : State
         _isAttacking = true;
         _attackTimer = 0f;
         
-        player.stamina.ConsumeStaminaServer(player.primaryAttackStaminaCost);
+        player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
         
         player.StartCoroutine(Attack());
     }

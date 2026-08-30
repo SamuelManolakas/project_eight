@@ -8,6 +8,8 @@ public class DeadState : State
     public override void Enter()
     {
         player.animator.Play("KnockedBack");
+        player.RemovePlayerFromBossList();
+        
         player.StopAllCoroutines();
     }
 

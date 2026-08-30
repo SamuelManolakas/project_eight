@@ -14,6 +14,7 @@ public class AvatarAudio : ScriptableObject
     [SerializeField] private EventReference playerGSLightAttackEvent;
     [SerializeField] private EventReference playerGSHeavyAttackEvent;
     [SerializeField] private EventReference playerBolterAttackEvent;
+    [SerializeField] private EventReference playerHealEvent;
     
     // 1. Store the instance here so it persists between method calls
     private EventInstance footstepInstance;
@@ -41,8 +42,6 @@ public class AvatarAudio : ScriptableObject
             // Notice we do NOT release() it here, so it's ready for the next footstep.
             footstepInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
-        
-        Debug.Log("Stomp! Moving state: " + moving);  
     }
 
     // 5. ALWAYS clean up FMOD instances in ScriptableObjects when the game quits
@@ -111,6 +110,16 @@ public class AvatarAudio : ScriptableObject
         EventInstance eventInstance = RuntimeManager.CreateInstance(playerBolterAttackEvent);
         
         RuntimeManager.AttachInstanceToGameObject(eventInstance, weaponObj.transform, weaponObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+
+    public void PlayHealAudioPlay(GameObject playerObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(playerHealEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, playerObj.transform, playerObj.GetComponent<Rigidbody>());
         
         eventInstance.start();
         eventInstance.release();

@@ -11,6 +11,21 @@ public class GrabState_B : State_B
         _shouldMove = true;
         boss.animator.Play("Grab");
         boss.StartCoroutine(Wait());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossGrabAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.Trigger3HcAudio();
+
+        }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
+        }
     }
 
     public override void Exit()
@@ -20,12 +35,19 @@ public class GrabState_B : State_B
     
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         boss.grabCollider.enabled = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         _shouldMove = false;
         boss.grabCollider.enabled = false;
-        yield return new WaitForSeconds(3.958f);
+
+        yield return new WaitForSeconds(2.3f);
+        boss.grabExplosionVFX.SetActive(true);
+        
+        yield return new WaitForSeconds(0.5f);
+        boss.grabExplosionVFX.SetActive(false);
+        
+        yield return new WaitForSeconds(1.158f);
         boss.stateMachine.Transit(boss.movementState);
     }
     

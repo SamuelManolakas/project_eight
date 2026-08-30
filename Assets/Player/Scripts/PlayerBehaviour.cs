@@ -140,14 +140,42 @@ public class PlayerBehaviour : NetworkBehaviour
 
     private void Start()
     {
-        hitBox = weapon.GetComponent<HitBox>();
-        hitBox.attackerNetworkObjectId = GetComponent<NetworkObject>().NetworkObjectId;
+        if (weapon == null)
+        {
+            Debug.LogError("Weapon is not assigned in the Inspector!", this);
+            return;
+        }
+
+        if (swordAndShield || greatSword)
+        {
+            hitBox = weapon.GetComponent<HitBox>();
+            
+            if (hitBox == null)
+            {
+                Debug.LogError("No HitBox component found on weapon: " + weapon.name, this);
+                return;
+            }
+        }
+
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        if (networkObject == null)
+        {
+            Debug.LogError("No NetworkObject component found on player!", this);
+            return;
+        }
+
+        hitBox.attackerNetworkObjectId = networkObject.NetworkObjectId;
+
         if (shield)
         {
             shieldHitBox = shield.GetComponent<HitBox>();
+            if (shieldHitBox == null)
+                Debug.LogWarning("No HitBox component found on shield: " + shield.name, this);
         }
+
         hurtBox = GetComponent<HurtBox>();
-        ammo = maxAmmo;
+        if (hurtBox == null)
+            Debug.LogError("No HurtBox component found on player!", this);
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -161,7 +189,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
         
-        if (context.performed && stamina.TryUseStamina(dodgeStaminaCost))
+        if (context.performed && stamina._stamina.Value >= dodgeStaminaCost)
         {
             stateMachine.currentState.OnDodge();
         }
@@ -171,7 +199,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed && stamina.TryUseStamina(primaryAttackStaminaCost))
+        if (context.performed && stamina._stamina.Value >= primaryAttackStaminaCost)
         {
             if (stateMachine.currentState != primaryAttackState)
             {
@@ -187,7 +215,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if (context.performed && stamina.TryUseStamina(secondaryAttackStaminaCost))
+        if (context.performed && stamina._stamina.Value >= secondaryAttackStaminaCost)
         {
             if (stateMachine.currentState != secondaryAttackState)
             {
@@ -235,19 +263,28 @@ public class PlayerBehaviour : NetworkBehaviour
     public void OnHeal(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
+        if(health.Health <= 0) return;
+        
         if (context.performed && health.Health > 0 && healConsumableAmount > 0)
         {
             _healCooldown = 0.6f;
             health.Heal(healAmount);
             healConsumableAmount--;
+            
+            //Audio
+            if (PlayerAudioScriptableObject != null)
+            {
+                PlayerAudioScriptableObject.PlayHealAudioPlay(audioSource);
+            }
         }
     }
     
     public void OnReload(InputAction.CallbackContext context)
     {
         if(!IsOwner) return;
+        if(health.Health <= 0) return;
         
-        if (context.performed && bolter)
+        if (context.performed && bolter && stateMachine.currentState != grabbedState)
         {
             stateMachine.Transit(reloadState);
         }
@@ -291,6 +328,8 @@ public class PlayerBehaviour : NetworkBehaviour
 
         if (!IsOwner) return;
         
+        ammo = maxAmmo;
+        
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
         camera.target = transform;
         if (bolter)
@@ -298,6 +337,8 @@ public class PlayerBehaviour : NetworkBehaviour
             camera.isRanged = true;
         }
         stamina._stamina.OnValueChanged += OnStaminaChanged;
+        
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Add(gameObject);
     }
     
     private void OnStaminaChanged(float previousValue, float newValue)
@@ -415,7 +456,8 @@ public class PlayerBehaviour : NetworkBehaviour
         
         stamina._stamina.OnValueChanged -= OnStaminaChanged;
 
-        SceneManager.LoadScene(0);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Remove(gameObject);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().SceneReload();
     }
     
     [Rpc(SendTo.Server)]
@@ -433,13 +475,12 @@ public class PlayerBehaviour : NetworkBehaviour
     [ClientRpc]
     public void TransitToStunnedStateClientRpc(Vector3 position)
     {
+        if(health.Health <= 0) return;
+        
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
     }
-    
-    // In PlayerBehaviour.Awake(), add:
-    // downedState = new DownedState(this, aliveState);
 
     [ClientRpc]
     public void TransitToDownedStateClientRpc()
@@ -465,6 +506,20 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             shieldHitBox.hitTargets.Clear();
         }
+    }
+
+    public void AddPlayerFromBossList()
+    {
+        if (!IsOwner) return;
+        GameObject.FindGameObjectWithTag("Enemy")
+            .GetComponent<BossBehaviour>().players.Add(gameObject);
+    }
+    
+    public void RemovePlayerFromBossList()
+    {
+        if (!IsOwner) return;
+        GameObject.FindGameObjectWithTag("Enemy")
+            .GetComponent<BossBehaviour>().players.Remove(gameObject);
     }
 }
 

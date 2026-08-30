@@ -8,8 +8,16 @@ using FMODUnity;
 public class BossAudio : ScriptableObject
 {
     [SerializeField] private EventReference bossEngineEvent;
-    [SerializeField] private EventReference bossSwingEvent;
+    [SerializeField] private EventReference bossSweepEvent;
+    [SerializeField] private EventReference bossStrikeEvent;
+    [SerializeField] private EventReference bossSpinEvent;
+    [SerializeField] private EventReference bossGrabEvent;
+    [SerializeField] private EventReference boss4HcEvent;
+    [SerializeField] private EventReference boss3HcEvent;
     [SerializeField] private EventReference bossRangedEvent;
+    [SerializeField] private EventReference bossChestEvent;
+    [SerializeField] private EventReference bossNukeEvent;
+    [SerializeField] private EventReference bossStunEvent;
     [SerializeField] private EventReference bossDamageEvent;
     [SerializeField] private EventReference bossDieEvent;
 
@@ -45,32 +53,61 @@ public class BossAudio : ScriptableObject
             }
         }
     }
-    public void BossSwingAudioPlay(GameObject PunchObj)
+    public void BossSweepAudioPlay(GameObject PunchObj)
     {
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossSwingEvent);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossSweepEvent);
         
         RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
-        RuntimeManager.PlayOneShot(bossSwingEvent, PunchObj.transform.position);
         
         eventInstance.start();
         eventInstance.release();
     }
-    public void BossDieAudioPlay(GameObject BossObj)
+    
+    public void BossStrikeAudioPlay(GameObject PunchObj)
     {
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossDieEvent);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossStrikeEvent);
         
-        RuntimeManager.AttachInstanceToGameObject(eventInstance, BossObj.transform, BossObj.GetComponent<Rigidbody>());
-        RuntimeManager.PlayOneShot(bossDieEvent, BossObj.transform.position);
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
         
         eventInstance.start();
         eventInstance.release();
     }
-    public void BossDamageAudioPlay(GameObject BossObj)
+    
+    public void BossSpinAudioPlay(GameObject PunchObj)
     {
-        EventInstance eventInstance = RuntimeManager.CreateInstance(bossDamageEvent);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossSpinEvent);
         
-        RuntimeManager.AttachInstanceToGameObject(eventInstance, BossObj.transform, BossObj.GetComponent<Rigidbody>());
-        RuntimeManager.PlayOneShot(bossDamageEvent, BossObj.transform.position);
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossGrabAudioPlay(GameObject PunchObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossGrabEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void Boss4HcAudioPlay(GameObject PunchObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(boss4HcEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void Boss3HcAudioPlay(GameObject PunchObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(boss3HcEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, PunchObj.transform, PunchObj.GetComponent<Rigidbody>());
         
         eventInstance.start();
         eventInstance.release();
@@ -82,7 +119,59 @@ public class BossAudio : ScriptableObject
         EventInstance eventInstance = RuntimeManager.CreateInstance(bossRangedEvent);
         
         RuntimeManager.AttachInstanceToGameObject(eventInstance, RangedObj.transform, RangedObj.GetComponent<Rigidbody>());
-        RuntimeManager.PlayOneShot(bossRangedEvent, RangedObj.transform.position);
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossChestAudioPlay(GameObject RangedObj)
+    {
+
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossChestEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, RangedObj.transform, RangedObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossNukeAudioPlay(GameObject RangedObj)
+    {
+
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossNukeEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, RangedObj.transform, RangedObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossStunAudioPlay(GameObject RangedObj)
+    {
+
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossStunEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, RangedObj.transform, RangedObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossDieAudioPlay(GameObject BossObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossDieEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, BossObj.transform, BossObj.GetComponent<Rigidbody>());
+        
+        eventInstance.start();
+        eventInstance.release();
+    }
+    
+    public void BossDamageAudioPlay(GameObject BossObj)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(bossDamageEvent);
+        
+        RuntimeManager.AttachInstanceToGameObject(eventInstance, BossObj.transform, BossObj.GetComponent<Rigidbody>());
         
         eventInstance.start();
         eventInstance.release();

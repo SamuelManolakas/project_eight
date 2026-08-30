@@ -11,6 +11,21 @@ public class StrikeState_B : State_B
         boss.animator.Play("Strike");
         boss.StartCoroutine(Wait());
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossStrikeAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.TriggerStrikeAudio();
+
+        }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
+        }
     }
 
     public override void Exit()

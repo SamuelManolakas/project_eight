@@ -6,18 +6,36 @@ public class Combo2State_B : State_B
     public Combo2State_B(BossBehaviour boss, State_B parent) : base(boss , parent){}
     
     bool charge = false;
+    bool exploding = false;
+    float explodingIntervalTimer;
     Vector3 chargeDirection;
     
     public override void Enter()
     {
         boss.hitBox.damage = boss.damage;
         boss.StartCoroutine(Combo());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.Boss4HcAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.Trigger4HcAudio();
+
+        }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
+        }
     }
 
     public override void Exit()
     {
         boss.hitBox.damage = 0;
         boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        boss.chargeHitBox.gameObject.layer = 7;
         
         boss.StopAllCoroutines();
     }
@@ -26,9 +44,13 @@ public class Combo2State_B : State_B
     {
         boss.animator.Play("4HitCombo");
         
-        //spawn small explosions from the cannon
+        yield return new WaitForSeconds(1.2f);
+        exploding = true;
         
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1);
+        exploding = false;
+        
+        yield return new WaitForSeconds(0.8f);
         boss.hitBox.hitTargets.Clear();
         boss.greatSwordModel.GetComponent<Collider>().enabled = true;
 
@@ -39,11 +61,15 @@ public class Combo2State_B : State_B
         chargeDirection.y = 0;
         
         charge = true;
+        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = boss.damage;
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = true;
+        boss.chargeHitBox.gameObject.layer = 9;
         
         yield return new WaitForSeconds(0.4f);
         
+        boss.chargeHitBox.gameObject.layer = 7;
         charge = false;
+        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = 0;
         boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
         
         yield return new WaitForSeconds(3.3f);
@@ -52,6 +78,11 @@ public class Combo2State_B : State_B
         
         yield return new WaitForSeconds(2.1f);
         boss.stateMachine.Transit(boss.movementState);
+    }
+
+    private void SmallExplosions()
+    {
+        boss.CanonExplosions();
     }
 
     public override void ContinuousAction()
@@ -67,6 +98,17 @@ public class Combo2State_B : State_B
         {
             boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime * 5);
             boss.controller.Move(chargeDirection * (Time.deltaTime * 40));   
+        }
+
+        if (exploding)
+        {
+            explodingIntervalTimer -= Time.deltaTime;
+
+            if (explodingIntervalTimer <= 0)
+            {
+                SmallExplosions();
+                explodingIntervalTimer = 0.21f;
+            }
         }
     }
 }

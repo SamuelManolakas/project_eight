@@ -46,12 +46,14 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
+    public GameObject canonExplosionPrefab;
     public GameObject flamePrefab;
     public GameObject chestFlamer;
     public Transform nukePosition;
     //Audio
     public BossAudio bossAudioScriptableObject;
     public GameObject audioSource;
+    public BossAudioNetworker bossAudioNetworker;
 
     [Header("Nuke Attack")]
     public float nukeRadius;
@@ -62,6 +64,14 @@ public class BossBehaviour : Enemy
     [Header("VFX")]
     public GameObject telegraphVFX;
     public GameObject nukeVFX;
+    public GameObject grabExplosionVFX;
+    
+    [Header("Death VFX")]
+    public GameObject frontLeftExplosion;
+    public GameObject backRightExplosion;
+    public GameObject flamesLeftShoulder;
+    public GameObject flamesRightShoulder;
+    public GameObject flamesHead;
 
     [HideInInspector] public Rigidbody _rigidbody;
     [HideInInspector] public StateMachine_B stateMachine = null;
@@ -359,6 +369,16 @@ public class BossBehaviour : Enemy
         bullet.GetComponent<Bullet_B>().Initialize(dir);
         bullet.GetComponent<NetworkObject>().Spawn();
     }
+    
+    public void CanonExplosions() => RequestCanonExplosionsServerRpc();
+
+    [ServerRpc]
+    private void RequestCanonExplosionsServerRpc()
+    {
+        Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
+        GameObject explosion = Instantiate(canonExplosionPrefab, firePoint.position, Quaternion.LookRotation(dir));
+        explosion.GetComponent<NetworkObject>().Spawn();
+    }
 
     public void Flamer(Vector3 direction, float timer) => RequestFlamerServerRpc(direction, timer);
 
@@ -382,5 +402,36 @@ public class BossBehaviour : Enemy
         bullet.GetComponent<Flame_B>().Initialize(firePoint.transform.forward, timer);
         bullet.GetComponent<Flame_B>().damage = damage;
         bullet.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    [ClientRpc]
+    public void SetTelegraphVFXClientRpc(bool active)
+    {
+        if (telegraphVFX) telegraphVFX.SetActive(active);
+    }
+
+    [ClientRpc]
+    public void SetNukeVFXClientRpc(bool active)
+    {
+        if (nukeVFX) nukeVFX.SetActive(active);
+    }
+    
+    [ClientRpc]
+    public void SetDeathVFXClientRpc(bool active, int value)
+    {
+        if (value == 1)
+        {
+            frontLeftExplosion.SetActive(true);
+        }
+        else if (value == 2)
+        {
+            backRightExplosion.SetActive(true);
+        }
+        else if (value == 3)
+        {
+            flamesRightShoulder.SetActive(true);
+            flamesLeftShoulder.SetActive(true);
+            flamesHead.SetActive(true);
+        }
     }
 }

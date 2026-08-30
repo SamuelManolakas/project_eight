@@ -69,6 +69,21 @@ public class NukeState_B : State_B
     private void OnPositionReached()
     {
         boss.StartCoroutine(NukeSequence());
+        
+        //Audio
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.BossNukeAudioPlay(boss.audioSource);
+            boss.bossAudioNetworker.TriggerNukeAudio();
+
+        }
+        boss.bossEngineSound = 0;
+        if (boss.bossAudioScriptableObject != null)
+        {
+            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
+            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
+
+        }
     }
 
     private IEnumerator NukeSequence()
@@ -76,22 +91,22 @@ public class NukeState_B : State_B
         yield return new WaitForSeconds(2f);
         _isRotating = false;
         boss.animator.Play("NukeIntro");
-        if (boss.telegraphVFX) boss.telegraphVFX.SetActive(true);
-        
+        boss.SetTelegraphVFXClientRpc(true);
+
         yield return new WaitForSeconds(2f);
         boss.animator.Play("NukeCharge");
-        
-        yield return new WaitForSeconds(5f);
+
+        yield return new WaitForSeconds(4f);
         boss.animator.Play("NukeExit");
-        
-        if (boss.telegraphVFX) boss.telegraphVFX.SetActive(false);
-        if (boss.nukeVFX)      boss.nukeVFX.SetActive(true);
-        
+
+        boss.SetTelegraphVFXClientRpc(false);
+        boss.SetNukeVFXClientRpc(true);
+
         ExecuteNuke();
-        
+
         yield return new WaitForSeconds(1f);
-        if (boss.nukeVFX)      boss.nukeVFX.SetActive(false);
-        
+        boss.SetNukeVFXClientRpc(false);
+
         yield return new WaitForSeconds(9f);
         boss.stateMachine.Transit(boss.movementState);
     }

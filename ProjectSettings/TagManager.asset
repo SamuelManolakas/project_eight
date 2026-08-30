@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - Floor
   - FloorBoss
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - PlayerHitbox
   - Pillar
   - Wall
-  - 
+  - Floor
   - 
   - 
   - 

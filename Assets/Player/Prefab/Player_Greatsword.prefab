@@ -154,7 +154,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.72, y: 0.46, z: 1.81}
   m_Center: {x: 0.93659645, y: -0.024361126, z: 2.51}
@@ -1133,21 +1133,21 @@ MonoBehaviour:
   greatSword: 1
   speed: 5
   sprintSpeed: 7
-  acceleration: 4
-  deceleration: 5
+  acceleration: 7
+  deceleration: 8
   jumpHeight: 2
   gravity: -15
   dodgeDuration: 1
-  dodgeDistance: 5
-  primaryAttackDamage: 10
-  secondaryAttackDamage: 15
+  dodgeDistance: 6
+  primaryAttackDamage: 20
+  secondaryAttackDamage: 35
   fireRate: 0
   primaryAttackStaminaCost: 25
-  secondaryAttackStaminaCost: 50
-  dodgeStaminaCost: 25
-  sprintStaminaCost: 0.1
-  healConsumableAmount: 4
-  healAmount: 10
+  secondaryAttackStaminaCost: 35
+  dodgeStaminaCost: 30
+  sprintStaminaCost: 35
+  healConsumableAmount: 3
+  healAmount: 30
   maxAmmo: 0
   ammo: 0
   isMoving: 0
@@ -1399,7 +1399,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
   ShowTopMostFoldoutHeaderGroup: 1
   maxStamina: 100
-  staminaRegenRate: 10
+  staminaRegenRate: 15
+  staminaRegenDelay: 1
   _stamina:
     m_InternalValue: 100
   IsGuarding:
@@ -1431,7 +1432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReviveInteraction
   ShowTopMostFoldoutHeaderGroup: 1
-  reviveRadius: 2
+  reviveRadius: 5
   reviveDuration: 3
 --- !u!1 &5131898281267396600
 GameObject:
