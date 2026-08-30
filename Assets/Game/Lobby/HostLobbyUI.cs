@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
@@ -16,6 +17,12 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private TMP_Text errorText; // NEW
 
     private ISession currentSession; // store this when you create it
+
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public async void OnHostClicked()
     {

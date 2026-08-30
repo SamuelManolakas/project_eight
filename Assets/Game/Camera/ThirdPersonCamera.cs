@@ -138,8 +138,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private void HandleInput()
     {
         // --- Toggle cursor lock with Escape ---
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            SetCursorLocked(!_cursorLocked);
+        //if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        //    SetCursorLocked(!_cursorLocked);
 
         // --- Toggle lock-on ---
         if (lockOnAction != null && lockOnAction.action.WasPressedThisFrame())

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Multiplayer;
@@ -12,6 +13,12 @@ public class LobbyBrowserUI : MonoBehaviour
     [SerializeField] private GameObject lobbyFullMessagePanel; // simple panel with text + OK/close button
     
     private readonly List<GameObject> spawnedItems = new();
+
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true;
+    }
 
     public void ShowLobbyFullMessage()
     {
