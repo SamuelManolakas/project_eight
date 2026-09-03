@@ -11,7 +11,6 @@ public class PasswordPopup : MonoBehaviour
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
-    [SerializeField] private ClassSelectUI classSelectUI;
 
     private ISessionInfo pendingSession;
     

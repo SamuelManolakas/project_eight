@@ -15,7 +15,9 @@ public class GameplayPauseUI : MonoBehaviour
     private void Awake()
     {
         panel.SetActive(false);
-        SetCursorLocked(true); // NEW — locked/hidden as soon as the gameplay scene starts
+        // NEW — cursor stays visible/unlocked by default now; locking happens once the player actually spawns
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void Update()
@@ -24,18 +26,24 @@ public class GameplayPauseUI : MonoBehaviour
             TogglePanel();
     }
 
+    // NEW — call this once the player's character has actually spawned
+    public void LockCursorForGameplay()
+    {
+        if (!panel.activeSelf) // don't lock if the pause panel happens to already be open
+            SetCursorLocked(true);
+    }
+
     private void TogglePanel()
     {
         bool showing = !panel.activeSelf;
         panel.SetActive(showing);
-
-        SetCursorLocked(!showing); // NEW — locked when panel is hidden, free when panel is showing
+        SetCursorLocked(!showing);
 
         if (showing)
             RefreshButtonVisibility();
     }
 
-    private void SetCursorLocked(bool locked) // NEW
+    private void SetCursorLocked(bool locked)
     {
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !locked;
@@ -80,7 +88,7 @@ public class GameplayPauseUI : MonoBehaviour
         {
             ActiveSessionManager.Set(null);
             NetworkManager.Singleton.Shutdown();
-            SetCursorLocked(false); // NEW — restore cursor before returning to the menu
+            SetCursorLocked(false);
             SceneManager.LoadScene(MainMenuSceneName, LoadSceneMode.Single);
         }
     }

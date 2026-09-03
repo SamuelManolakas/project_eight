@@ -152,17 +152,20 @@ public class BossBehaviour : Enemy
 
     private void Start()
     {
-        currentHealth.Value = maxHealth;
+        if (IsServer) // NEW — only the server is allowed to write currentHealth
+        {
+            currentHealth.Value = maxHealth;
+        }
+
         hitBox  = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
-        
+    
         //Audio
         bossEngineSound = 0;
         if (bossAudioScriptableObject != null)
         {
             bossAudioScriptableObject.PlayEngineAudioPlay(audioSource, bossEngineSound, bossChargeCrashSound);
         }
-        
     }
 
     public override void OnNetworkSpawn()

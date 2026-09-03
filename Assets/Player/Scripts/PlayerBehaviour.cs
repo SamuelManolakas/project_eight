@@ -131,7 +131,8 @@ public class PlayerBehaviour : NetworkBehaviour
         stateMachine.InitializeMachine(spawnState);
         
         controller = GetComponent<CharacterController>();
-        cameraTransform = Camera.main.transform;
+        if (Camera.main != null) // NEW — guard, in case no active MainCamera exists yet at this instant
+            cameraTransform = Camera.main.transform;
         initialSpeed = speed;
         stamina = GetComponent<PlayerStamina>();
         health = GetComponent<PlayerHealth>();
@@ -164,8 +165,11 @@ public class PlayerBehaviour : NetworkBehaviour
             return;
         }
 
-        hitBox.attackerNetworkObjectId = networkObject.NetworkObjectId;
-
+        if (!bolter)
+        {
+            hitBox.attackerNetworkObjectId = networkObject.NetworkObjectId;
+        }
+        
         if (shield)
         {
             shieldHitBox = shield.GetComponent<HitBox>();
@@ -301,6 +305,11 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             _healCooldown -= Time.deltaTime;
         }
+
+        if (Keyboard.current.aKey.wasPressedThisFrame)
+        {
+            camera.target = transform;
+        }
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
@@ -314,31 +323,60 @@ public class PlayerBehaviour : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
+        Debug.Log("Start of the network spawn fired");
         base.OnNetworkSpawn();
         m_heldObjectType.OnValueChanged += HandleHeldItemChanged;
         HandleItemOnJoin();
         if (IsOwner)
         {
-            //m_animationEvents.OnInteract += HandleInteractAction;
-            //m_animationEvents.OnAnimationDone += HandleAnimationDone;
-            //m_animationEvents.OnChop += HandleChopAction;
-            
+            Debug.Log("IsOwner part of the network spawn fired");
             Instantiate(hudPrefab);
         }
 
         if (!IsOwner) return;
-        
+
         ammo = maxAmmo;
-        
-        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCamera>();
-        camera.target = transform;
-        if (bolter)
-        {
-            camera.isRanged = true;
-        }
+
+        Debug.Log("!IsOwner part of the network spawn fired");
+        StartCoroutine(AssignCameraWhenReady()); // replaces the direct camera assignment
+
         stamina._stamina.OnValueChanged += OnStaminaChanged;
-        
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Add(gameObject);
+
+        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Add(gameObject);
+    }
+
+    private System.Collections.IEnumerator AssignCameraWhenReady()
+    {
+        ThirdPersonCamera foundCamera = null;
+        float timeout = 5f;
+        float elapsed = 0f;
+
+        while (foundCamera == null && elapsed < timeout)
+        {
+            foundCamera = FindObjectOfType<ThirdPersonCamera>(true); // 'true' = include inactive objects, since GameplayCamera starts inactive
+            if (foundCamera == null)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        if (foundCamera == null)
+        {
+            Debug.LogError("Could not find any ThirdPersonCamera in the scene after waiting.");
+            yield break;
+        }
+
+        foundCamera.gameObject.SetActive(true); // NEW — turn on the real gameplay camera
+        camera = foundCamera;
+        camera.target = transform;
+        cameraTransform = foundCamera.transform; // NEW — refresh the cached reference from Awake()
+        if (bolter)
+            camera.isRanged = true;
+
+        WaitingCameraMarker waitingCam = FindObjectOfType<WaitingCameraMarker>(true);
+        if (waitingCam != null)
+            waitingCam.gameObject.SetActive(false); // NEW — turn off the spectator camera
     }
     
     private void OnStaminaChanged(float previousValue, float newValue)
@@ -456,8 +494,8 @@ public class PlayerBehaviour : NetworkBehaviour
         
         stamina._stamina.OnValueChanged -= OnStaminaChanged;
 
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Remove(gameObject);
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().SceneReload();
+        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Remove(gameObject);
+        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().SceneReload();
     }
     
     [Rpc(SendTo.Server)]

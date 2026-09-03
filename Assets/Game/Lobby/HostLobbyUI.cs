@@ -12,7 +12,6 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private TMP_InputField passwordInput;
     [SerializeField] private Button hostButton;
     [SerializeField] private GameObject startGameButton;
-    [SerializeField] private ClassSelectUI classSelectUI; // NEW
     [SerializeField] private Button closeLobbyButton;
     [SerializeField] private TMP_Text errorText; // NEW
 
