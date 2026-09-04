@@ -49,12 +49,19 @@ public class SecondaryAttackState : State
     {
         if (player.bolter)
         {
-            Quaternion toRotation = Quaternion.LookRotation(Camera.main.transform.forward,Vector3.up);
-            
-            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(player.playerShoot.firePoint.transform.rotation, toRotation, Time.deltaTime * 9999f);
-            
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, new Quaternion(0,toRotation.y,0, toRotation.w), Time.deltaTime * 10f);
-            
+            // Body still turns to face the camera's yaw
+            Quaternion cameraYawRotation = Quaternion.LookRotation(player.cameraTransform.forward, Vector3.up);
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation,
+                new Quaternion(0, cameraYawRotation.y, 0, cameraYawRotation.w), Time.deltaTime * 50f);
+
+            // Fire point aims at what the crosshair is actually over
+            Vector3 aimPoint     = player.camera.AimPoint;
+            Vector3 firePointPos = player.playerShoot.firePoint.transform.position;
+            Quaternion aimRotation = Quaternion.LookRotation((aimPoint - firePointPos).normalized, Vector3.up);
+
+            player.playerShoot.firePoint.transform.rotation = Quaternion.Slerp(
+                player.playerShoot.firePoint.transform.rotation, aimRotation, Time.deltaTime * 9999f);
+
             if (_timer >= 0)
                 _timer -= Time.deltaTime;
         }

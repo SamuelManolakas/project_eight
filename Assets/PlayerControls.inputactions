@@ -304,6 +304,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "470e85d4-b137-4157-b15b-a478283519b4",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "adf155fb-d29d-4704-92ad-33756f0f2f7f",
                     "path": "<Keyboard>/q",

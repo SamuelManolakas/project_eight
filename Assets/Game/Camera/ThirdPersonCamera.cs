@@ -31,12 +31,16 @@ public class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private InputActionReference zoomAction;   // optional scroll zoom
     [SerializeField] private InputActionReference lockOnAction; // toggle lock-on
     [SerializeField] private InputActionReference aimAction;    // hold to aim (e.g. RMB / LT)
+    
+    [Header("Orbit Settings — Mouse")]
+    [SerializeField] private float mouseHorizontalSensitivity = 0.2f;
+    [SerializeField] private float mouseVerticalSensitivity   = 0.2f;
 
-    [Header("Orbit Settings")]
-    [SerializeField] private float horizontalSensitivity = 0.2f;
-    [SerializeField] private float verticalSensitivity   = 0.2f;
+    [Header("Orbit Settings — Gamepad")]
+    [SerializeField] private float gamepadHorizontalSensitivity = 120f; // degrees/sec — tune independently
+    [SerializeField] private float gamepadVerticalSensitivity   = 120f;
 
-    [Tooltip("Vertical look limits in degrees.")]
+    [Header("Vertical look limits in degrees.")]
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch =  60f;
 
@@ -73,6 +77,16 @@ public class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float aimHeightOffset = 0.1f;
     [Tooltip("How fast the camera transitions in and out of aim mode.")]
     [SerializeField] private float aimTransitionSpeed = 10f;
+    
+    [Header("Crosshair UI")]
+    [Tooltip("CanvasGroup on your crosshair UI Image, centered on screen.")]
+    [SerializeField] private CanvasGroup crosshair;
+    
+    [Header("Aim Raycast")]
+    [SerializeField] private float aimRaycastRange = 100f;
+    [SerializeField] private LayerMask aimRaycastLayers = ~0;
+
+    public Vector3 AimPoint { get; private set; }
 
     // Runtime state
     private float   _yaw;
@@ -101,7 +115,7 @@ public class ThirdPersonCamera : MonoBehaviour
         _yaw   = angles.y;
         _pitch = angles.x;
 
-        //SetCursorLocked(true);
+        SetCursorLocked(true);
 
         _currentAimDistance    = distance;
         _currentShoulderOffset = Vector3.zero;
@@ -132,15 +146,13 @@ public class ThirdPersonCamera : MonoBehaviour
         HandleInput();
         SmoothFollow();
         ApplyTransform();
+        UpdateAimPoint();
+        UpdateCrosshair();
     }
 
     // ---------------------------------------------------------------
     private void HandleInput()
     {
-        // --- Toggle cursor lock with Escape ---
-        //if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        //    SetCursorLocked(!_cursorLocked);
-
         // --- Toggle lock-on ---
         if (lockOnAction != null && lockOnAction.action.WasPressedThisFrame())
         {
@@ -156,28 +168,27 @@ public class ThirdPersonCamera : MonoBehaviour
 
         // Only orbit with mouse when the cursor is locked and not locked on
         if (!_cursorLocked || _isLockedOn) return;
-
-        // --- Look ---
-       //if (lookAction != null)
-       //{
-       //    Vector2 lookDelta = lookAction.action.ReadValue<Vector2>();
-       //    _yaw   += lookDelta.x * horizontalSensitivity;
-       //    _pitch -= lookDelta.y * verticalSensitivity;
-       //    _pitch  = Mathf.Clamp(_pitch, minPitch, maxPitch);
-       //}
+        
         
         if (lookAction != null)
         {
             Vector2 lookDelta = lookAction.action.ReadValue<Vector2>();
-    
-            bool usingController = Gamepad.current != null && 
+ 
+            bool usingController = Gamepad.current != null &&
                                    Gamepad.current.rightStick.ReadValue().magnitude > 0.01f;
-
-            float multiplier = usingController ? Time.deltaTime : 1f;
-
-            _yaw   += lookDelta.x * horizontalSensitivity * multiplier;
-            _pitch -= lookDelta.y * verticalSensitivity   * multiplier;
-            _pitch  = Mathf.Clamp(_pitch, minPitch, maxPitch);
+ 
+            if (usingController)
+            {
+                _yaw   += lookDelta.x * gamepadHorizontalSensitivity * Time.deltaTime;
+                _pitch -= lookDelta.y * gamepadVerticalSensitivity   * Time.deltaTime;
+            }
+            else
+            {
+                _yaw   += lookDelta.x * mouseHorizontalSensitivity;
+                _pitch -= lookDelta.y * mouseVerticalSensitivity;
+            }
+ 
+            _pitch = Mathf.Clamp(_pitch, minPitch, maxPitch);
         }
 
         // --- Zoom (scroll wheel) ---
@@ -249,7 +260,7 @@ public class ThirdPersonCamera : MonoBehaviour
                 desiredPos = ResolveCollision(aimPivot, desiredPos);
 
             transform.position = desiredPos;
-            transform.LookAt(aimPivot);
+            transform.rotation = rotation;   // instead of transform.LookAt(aimPivot);
         }
     }
 
@@ -303,4 +314,19 @@ public class ThirdPersonCamera : MonoBehaviour
 
     /// <summary>Returns true while the camera is in aim mode.</summary>
     public bool IsAiming => _isAiming;
+    
+    private void UpdateCrosshair()
+    {
+        if (crosshair == null) return;
+        crosshair.alpha = _currentAimBlend;
+    }
+    
+    private void UpdateAimPoint()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        AimPoint = Physics.Raycast(ray, out RaycastHit hit, aimRaycastRange, aimRaycastLayers, QueryTriggerInteraction.Ignore)
+            ? hit.point
+            : ray.GetPoint(aimRaycastRange);
+    }
 }
