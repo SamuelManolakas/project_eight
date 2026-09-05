@@ -37,12 +37,35 @@ public class PlayerBehaviour : NetworkBehaviour
     public float secondaryAttackStaminaCost;
     public float dodgeStaminaCost;
     public float sprintStaminaCost;
+
+    [Header("Heal and Ammo")] 
+    public int maxHealConsumableAmount;
+    private int _healConsumableAmount;
+    public int healConsumableAmount
+    {
+        get => _healConsumableAmount;
+        set
+        {
+            _healConsumableAmount = Mathf.Clamp(value, 0, maxHealConsumableAmount);
+            OnHealConsumableChanged?.Invoke(_healConsumableAmount, maxHealConsumableAmount);
+        }
+    }
+    public event System.Action<int, int> OnHealConsumableChanged;
     
-    [Header("Heal and Ammo")]
-    public int healConsumableAmount;
     public int healAmount;
     public int maxAmmo;
-    [HideInInspector] public int ammo;
+    private int _ammo;
+    public int ammo
+    {
+        get => _ammo;
+        set
+        {
+            _ammo = Mathf.Clamp(value, 0, maxAmmo);
+            OnAmmoChanged?.Invoke(_ammo, maxAmmo);
+        }
+    }
+    
+    public event System.Action<int, int> OnAmmoChanged;
 
     [Header("Sound")] 
     public int isMoving;
@@ -336,7 +359,13 @@ public class PlayerBehaviour : NetworkBehaviour
         if (!IsOwner) return;
 
         ammo = maxAmmo;
-
+        var ammoUI = FindObjectOfType<AmmoUI>();
+        ammoUI?.Bind(this); // internally hides itself if this player isn't bolter class
+        
+        healConsumableAmount = maxHealConsumableAmount;
+        var healUI = FindObjectOfType<HealUI>();
+        healUI?.Bind(this);
+        
         Debug.Log("!IsOwner part of the network spawn fired");
         StartCoroutine(AssignCameraWhenReady()); // replaces the direct camera assignment
 

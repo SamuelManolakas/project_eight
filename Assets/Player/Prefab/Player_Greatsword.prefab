@@ -1146,10 +1146,9 @@ MonoBehaviour:
   secondaryAttackStaminaCost: 35
   dodgeStaminaCost: 30
   sprintStaminaCost: 35
-  healConsumableAmount: 3
+  maxHealConsumableAmount: 4
   healAmount: 30
   maxAmmo: 0
-  ammo: 0
   isMoving: 0
   animator: {fileID: 1294663116307986526}
   weapon: {fileID: 792112579415033488}
