@@ -96,6 +96,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private bool    _cursorLocked;
     public bool    _isLockedOn;
     private bool    _isAiming;
+    [HideInInspector] public bool canAim;
     private float   _currentAimBlend;      // 0 = normal, 1 = fully aimed
     private float   _currentAimDistance;   // lerped distance
     private Vector3 _currentShoulderOffset; // lerped shoulder offset
@@ -164,7 +165,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
         // --- Aim (hold) ---
         if(isRanged)
-            _isAiming = aimAction != null && aimAction.action.IsPressed();
+            _isAiming = aimAction != null && aimAction.action.IsPressed() && canAim;
 
         // Only orbit with mouse when the cursor is locked and not locked on
         if (!_cursorLocked || _isLockedOn) return;

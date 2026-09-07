@@ -37,11 +37,15 @@ public class SecondaryAttackState : State
 
     private void Aim()
     {
-        player.animator.Play("Aim");
+        //player.animator.Play("Aim");
+        
+        player.camera.canAim = true;
     }
 
     public void ExitAim()
     {
+        player.camera.canAim = false;
+        
         player.stateMachine.Transit(player.idleState);
     }
 

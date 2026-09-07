@@ -346,14 +346,13 @@ public class PlayerBehaviour : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
-        Debug.Log("Start of the network spawn fired");
         base.OnNetworkSpawn();
         m_heldObjectType.OnValueChanged += HandleHeldItemChanged;
         HandleItemOnJoin();
         if (IsOwner)
         {
-            Debug.Log("IsOwner part of the network spawn fired");
-            Instantiate(hudPrefab);
+            Canvas sceneCanvas = FindObjectOfType<Canvas>(); // or a cached reference if you have one
+            Instantiate(hudPrefab, sceneCanvas.transform, false);
         }
 
         if (!IsOwner) return;
@@ -366,7 +365,6 @@ public class PlayerBehaviour : NetworkBehaviour
         var healUI = FindObjectOfType<HealUI>();
         healUI?.Bind(this);
         
-        Debug.Log("!IsOwner part of the network spawn fired");
         StartCoroutine(AssignCameraWhenReady()); // replaces the direct camera assignment
 
         stamina._stamina.OnValueChanged += OnStaminaChanged;
