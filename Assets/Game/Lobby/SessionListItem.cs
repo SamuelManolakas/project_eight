@@ -26,7 +26,7 @@ public class SessionListItem : MonoBehaviour
         joinButton.onClick.AddListener(OnJoinClicked);
     }
 
-    private void OnJoinClicked()
+    public void OnJoinClicked()
     {
         if (sessionInfo.AvailableSlots <= 0)
         {

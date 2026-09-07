@@ -13,10 +13,6 @@ public class PasswordPopup : MonoBehaviour
     [SerializeField] private Button cancelButton;
 
     private ISessionInfo pendingSession;
-    
-    private int selectedClassIndex = 0;
-
-    public void OnClassSelected(int classIndex) => selectedClassIndex = classIndex;
 
     private void Awake()
     {
@@ -52,9 +48,7 @@ public class PasswordPopup : MonoBehaviour
             {
                 Password = PasswordUtils.Normalize(passwordInput.text) // changed
             };
-
             
-
             // Inside PasswordPopup, before JoinSessionByIdAsync:
             NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
             //NetworkManager.Singleton.NetworkConfig.ConnectionData = new byte[] { (byte)selectedClassIndex };
