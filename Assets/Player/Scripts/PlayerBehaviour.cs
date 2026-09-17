@@ -66,6 +66,20 @@ public class PlayerBehaviour : NetworkBehaviour
     }
     
     public event System.Action<int, int> OnAmmoChanged;
+    
+    [Header("Carry")]
+    public Transform carryPoint;              // empty child on the carrier's rig, e.g. over the shoulder
+    public float carryDetectionRange = 2.5f;
+    public LayerMask playerLayerMask;
+    public float carrySpeedMultiplier = 0.6f;
+    public float throwForce = 6f;
+    public float throwUpwardForce = 3f;
+
+    [HideInInspector] public PlayerBehaviour carriedPlayer;   // set on the carrier
+    [HideInInspector] public PlayerBehaviour carrierPlayer;   // set on the carried player
+
+    public CarryState carryState = null;
+    public CarriedState carriedState = null;
 
     [Header("Sound")] 
     public int isMoving;
@@ -77,6 +91,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public GameObject hudPrefab;
     public AvatarAudio PlayerAudioScriptableObject;
     public GameObject audioSource;
+    public NetworkTransform networkTransform;
     
     [HideInInspector] 
     public Transform cameraTransform;
@@ -149,6 +164,8 @@ public class PlayerBehaviour : NetworkBehaviour
         reloadState = new ReloadState(this, aliveState);
         runAttackState = new RunAttackState(this, aliveState);
         downedState = new DownedState(this, aliveState);
+        carryState = new CarryState(this, aliveState);
+        carriedState = new CarriedState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -204,6 +221,165 @@ public class PlayerBehaviour : NetworkBehaviour
         if (hurtBox == null)
             Debug.LogError("No HurtBox component found on player!", this);
     }
+    
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        Debug.Log("Pressing Interact!");
+        if (!IsOwner) return;
+        
+        if (!context.performed) return;
+
+        if (stateMachine.currentState == carryState)
+        {
+            RequestDropCarriedPlayerServerRpc();
+            return;
+        }
+
+        if (health.Health <= 0) return;
+        //if (stateMachine.currentState != idleState && stateMachine.currentState != movementState) return;
+
+        PlayerBehaviour target = FindCarryTarget();
+        if (target == null) return;
+
+        RequestPickUpTeammateServerRpc(target.NetworkObjectId);
+    }
+
+    public void OnThrow(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        if (!context.performed) return;
+        if (stateMachine.currentState != carryState) return;
+
+        RequestThrowCarriedPlayerServerRpc();
+    }
+
+    private PlayerBehaviour FindCarryTarget()
+    {
+        Vector3 origin = transform.position + Vector3.up;
+        Collider[] hits = Physics.OverlapSphere(origin, carryDetectionRange, playerLayerMask);
+
+        PlayerBehaviour best = null;
+        float bestDot = 0.5f; // roughly a 60° cone in front of you
+
+        foreach (var hit in hits)
+        {
+            if (!hit.TryGetComponent(out PlayerBehaviour candidate)) continue;
+            if (candidate == this) continue;
+            if (candidate.stateMachine.currentState != candidate.downedState) continue;
+
+            Vector3 toCandidate = (candidate.transform.position - transform.position).normalized;
+            float dot = Vector3.Dot(transform.forward, toCandidate);
+            if (dot > bestDot)
+            {
+                bestDot = dot;
+                best = candidate;
+            }
+        }
+
+        return best;
+    }
+    
+    [Rpc(SendTo.Server)]
+    private void RequestPickUpTeammateServerRpc(ulong targetNetworkObjectId)
+    {
+        if (stateMachine.currentState == carryState) return;
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(targetNetworkObjectId, out NetworkObject targetNetObj))
+            return;
+        if (!targetNetObj.TryGetComponent(out PlayerBehaviour target)) return;
+        if (target == this) return;
+        if (target.stateMachine.currentState != target.downedState) return;
+        if (target.carrierPlayer != null) return; // already being carried
+    
+        float maxDist = carryDetectionRange * 1.5f; // generous margin for latency
+        if ((target.transform.position - transform.position).sqrMagnitude > maxDist * maxDist) return;
+    
+        //targetNetObj.TrySetParent(carryPoint != null ? carryPoint : transform, false);
+        
+        bool parented = targetNetObj.TrySetParent(NetworkObject, false); // this carrier's own NetworkObject, not carryPoint
+        if (!parented)
+        {
+            Debug.LogWarning($"Carry: failed to parent {target.name} under {name}.");
+            return;
+        }
+
+        NotifyPickUpClientRpc(NetworkObjectId, targetNetworkObjectId);
+    }
+    
+    public override void OnNetworkObjectParentChanged(NetworkObject parentNetworkObject)
+    {
+        if (parentNetworkObject == null) return; // being un-parented (thrown/dropped) — nothing to offset
+
+        if (!parentNetworkObject.TryGetComponent(out PlayerBehaviour carrier)) return;
+        if (carrier.carryPoint == null) return;
+
+        transform.localPosition = carrier.transform.InverseTransformPoint(carrier.carryPoint.position);
+        transform.localRotation = Quaternion.Inverse(carrier.transform.rotation) * carrier.carryPoint.rotation;
+    }
+    
+    [ClientRpc]
+    private void NotifyPickUpClientRpc(ulong carrierId, ulong carriedId)
+    {
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carrierId, out NetworkObject carrierObj)) return;
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carriedId, out NetworkObject carriedObj)) return;
+    
+        PlayerBehaviour carrier = carrierObj.GetComponent<PlayerBehaviour>();
+        PlayerBehaviour carried = carriedObj.GetComponent<PlayerBehaviour>();
+    
+        carrier.carriedPlayer = carried;
+        carried.carrierPlayer = carrier;
+    
+        carrier.stateMachine.Transit(carrier.carryState);
+        carried.stateMachine.Transit(carried.carriedState);
+    }
+    
+    [Rpc(SendTo.Server)]
+    private void RequestThrowCarriedPlayerServerRpc()
+    {
+        if (stateMachine.currentState != carryState || carriedPlayer == null) return;
+    
+        PlayerBehaviour target = carriedPlayer;
+        target.GetComponent<NetworkObject>().TrySetParent((Transform)null, true);
+    
+        Vector3 throwVelocity = transform.forward * throwForce + Vector3.up * throwUpwardForce;
+        NotifyThrowClientRpc(NetworkObjectId, target.NetworkObjectId, throwVelocity);
+    }
+    
+    [ClientRpc]
+    private void NotifyThrowClientRpc(ulong carrierId, ulong carriedId, Vector3 throwVelocity)
+    {
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carrierId, out NetworkObject carrierObj)) return;
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carriedId, out NetworkObject carriedObj)) return;
+
+        PlayerBehaviour carrier = carrierObj.GetComponent<PlayerBehaviour>();
+        PlayerBehaviour carried = carriedObj.GetComponent<PlayerBehaviour>();
+    
+        carried.velocity = throwVelocity;
+        carried.horizontalVelocity = new Vector3(throwVelocity.x, 0f, throwVelocity.z);
+    
+        carrier.stateMachine.Transit(carrier.idleState);
+        carried.stateMachine.Transit(carried.downedState);
+    }
+    
+    [Rpc(SendTo.Server)]
+    private void RequestDropCarriedPlayerServerRpc()
+    {
+        if (stateMachine.currentState != carryState || carriedPlayer == null) return;
+    
+        PlayerBehaviour target = carriedPlayer;
+        target.GetComponent<NetworkObject>().TrySetParent((Transform)null, true);
+    
+        NotifyDropClientRpc(NetworkObjectId, target.NetworkObjectId);
+    }
+    
+    [ClientRpc]
+    private void NotifyDropClientRpc(ulong carrierId, ulong carriedId)
+    {
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carrierId, out NetworkObject carrierObj)) return;
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carriedId, out NetworkObject carriedObj)) return;
+    
+        carrierObj.GetComponent<PlayerBehaviour>().stateMachine.Transit(carrierObj.GetComponent<PlayerBehaviour>().idleState);
+        carriedObj.GetComponent<PlayerBehaviour>().stateMachine.Transit(carriedObj.GetComponent<PlayerBehaviour>().downedState);
+    }   
     
     public void OnMove(InputAction.CallbackContext context)
     {
