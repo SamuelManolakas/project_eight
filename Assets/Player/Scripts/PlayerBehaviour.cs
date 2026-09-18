@@ -144,6 +144,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public ReloadState reloadState = null;
     public RunAttackState runAttackState = null;
     public DownedState downedState = null;
+    public ThrownState thrownState = null;
+    
 
     private float _healCooldown;
     
@@ -166,6 +168,7 @@ public class PlayerBehaviour : NetworkBehaviour
         downedState = new DownedState(this, aliveState);
         carryState = new CarryState(this, aliveState);
         carriedState = new CarriedState(this, aliveState);
+        thrownState = new ThrownState(this, aliveState);
         
         stateMachine = new StateMachine();
         stateMachine.InitializeMachine(spawnState);
@@ -287,7 +290,11 @@ public class PlayerBehaviour : NetworkBehaviour
             return;
         if (!targetNetObj.TryGetComponent(out PlayerBehaviour target)) return;
         if (target == this) return;
-        if (target.stateMachine.currentState != target.downedState) return;
+        if (target.stateMachine.currentState != target.downedState)
+        {
+            Debug.LogWarning($"Carry: {target.name} isn't downed on the server (server sees: {target.stateMachine.currentState}).");
+            return;
+        }
         if (target.carrierPlayer != null) return; // already being carried
     
         float maxDist = carryDetectionRange * 1.5f; // generous margin for latency
@@ -355,9 +362,16 @@ public class PlayerBehaviour : NetworkBehaviour
     
         carried.velocity = throwVelocity;
         carried.horizontalVelocity = new Vector3(throwVelocity.x, 0f, throwVelocity.z);
-    
+
         carrier.stateMachine.Transit(carrier.idleState);
-        carried.stateMachine.Transit(carried.downedState);
+        carried.stateMachine.Transit(carried.thrownState);
+    }
+    
+    [Rpc(SendTo.Server)]
+    public void NotifyThrowLandedServerRpc()
+    {
+        if (stateMachine.currentState != thrownState) return; // ignore stray/duplicate calls
+        TransitToDownedStateClientRpc();
     }
     
     [Rpc(SendTo.Server)]

@@ -456,7 +456,7 @@
                 {
                     "name": "",
                     "id": "67dde74b-9c49-4109-aee5-0809c0fff5de",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -467,7 +467,18 @@
                 {
                     "name": "",
                     "id": "ed9793e2-8a8a-4bb3-8a09-79ef4c54b77f",
-                    "path": "",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b3b8383-a457-4994-9d57-db90b47a303d",
+                    "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
