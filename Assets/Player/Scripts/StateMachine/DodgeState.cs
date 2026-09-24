@@ -12,7 +12,9 @@ public class DodgeState : State
     public override void Enter()
     {
         HandleAnimation();
-        _dodgeDirection = player.controller.velocity.normalized;
+        _dodgeDirection = player.controller.velocity;
+        _dodgeDirection.y = 0f;
+        _dodgeDirection.Normalize();
 
         if (player.moveInput == Vector2.zero)
         {
@@ -57,7 +59,6 @@ public class DodgeState : State
         if (!_isDodging) return;
 
         _dodgeTimer += Time.deltaTime;
-        float progress = _dodgeTimer / player.dodgeDuration; // 0 → 1
 
         float t = Mathf.Clamp01(_dodgeTimer / player.dodgeDuration);
 
@@ -68,14 +69,13 @@ public class DodgeState : State
         // speed = d/dt [ 1 - (1-t)^3 ] = 3(1-t)^2
         float speed = 3f * Mathf.Pow(1f - t, 2f) * (player.dodgeDistance / player.dodgeDuration);
 
+        player.horizontalVelocity = _dodgeDirection * speed;
+
         if (t >= player.dodgeDuration - 0.2f)
         {
             _isDodging = false;
-            player.controller.Move(Vector3.zero);
-            player.stateMachine.Transit(player.idleState);
+            player.stateMachine.Transit(player.idleState); // Idle bleeds off the remaining speed
         }
-        
-        player.controller.Move((_dodgeDirection * speed + player.velocity) * Time.deltaTime);
     }
 
     private IEnumerator IFrameWindow(float startFraction, float endFraction)

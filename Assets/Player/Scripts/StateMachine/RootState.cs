@@ -5,7 +5,7 @@ public class RootState : State{
     public override void Enter(){}
     public override void Exit(){}
     public override void GetHit(int damage){}
-    public override void ContinuousAction(){}
+    public override void ContinuousAction(){ player.BleedHorizontalVelocity(); } // default for states that don't drive movement
     public override void OnPrimaryAttack(){}
     public override void OnMove(){}
     public override void OnJump(){}

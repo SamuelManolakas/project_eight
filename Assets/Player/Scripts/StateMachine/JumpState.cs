@@ -29,18 +29,8 @@ public class JumpState : State
     
     public override void ContinuousAction()
     {
-        Vector3 camForward = player.cameraTransform.forward;
-        Vector3 camRight = player.cameraTransform.right;
-
-        camForward.y = 0;
-        camRight.y = 0;
-
-        camForward.Normalize();
-        camRight.Normalize();
-
-        Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
-
-        player.controller.Move((move * player.speed + player.velocity) * Time.deltaTime);
+        Vector3 move = player.GetCameraRelativeInput();
+        player.horizontalVelocity = move * player.speed;
 
         if (move.sqrMagnitude > 0.001f)
         {
@@ -51,7 +41,9 @@ public class JumpState : State
         
         if (canJump)
         {
-            if (player.controller.isGrounded)
+            // isGrounded is from last frame's Move, so also require that we're falling —
+            // otherwise the frame right after takeoff would count as a landing.
+            if (player.controller.isGrounded && player.velocity.y <= 0f)
             {
                 player.stateMachine.Transit(player.idleState);
             }

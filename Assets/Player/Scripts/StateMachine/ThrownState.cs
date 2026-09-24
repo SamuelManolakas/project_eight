@@ -20,7 +20,6 @@ public class ThrownState : State
 
     public override void ContinuousAction()
     {
-        player.controller.Move((player.horizontalVelocity + player.velocity) * Time.deltaTime);
         player.horizontalVelocity = Vector3.MoveTowards(player.horizontalVelocity, Vector3.zero, player.deceleration * Time.deltaTime);
 
         if (!_hasReportedLanding && player.controller.isGrounded && player.velocity.y <= 0f)

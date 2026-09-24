@@ -20,8 +20,7 @@ public class MovementState : State
     {
         player.animator.SetFloat("speed", 0);
         player.animator.SetLayerWeight(1, 0);
-        player.horizontalVelocity = Vector3.zero;
-        
+
         player.isMoving = 0;
         
         if (player.PlayerAudioScriptableObject != null)
@@ -34,18 +33,6 @@ public class MovementState : State
 
     public override void ContinuousAction()
     {
-        Vector3 camForward = player.cameraTransform.forward;
-        Vector3 camRight = player.cameraTransform.right;
-
-        camForward.y = 0;
-        camRight.y = 0;
-
-        //camForward.Normalize();
-        //camRight.Normalize();
-        //Vector3 move = camForward * player.moveInput.y + camRight * player.moveInput.x;
-        //
-        //move = Vector3.Lerp(move, move * player.speed, player.acceleration * Time.deltaTime);
-        //
         if (player.speed == player.sprintSpeed)
         {
             player.stamina.TryUseStamina(player.sprintStaminaCost * Time.deltaTime);
@@ -57,9 +44,7 @@ public class MovementState : State
         }
         
         // Target velocity this frame based on input
-        Vector3 targetVelocity = (camForward * player.moveInput.y + camRight * player.moveInput.x);
-        if (targetVelocity.magnitude > 1f) targetVelocity.Normalize();
-        targetVelocity *= player.speed;
+        Vector3 targetVelocity = player.GetCameraRelativeInput() * player.speed;
 
         // Lerp the STORED velocity toward the target — this is what gives you smooth accel/decel
         float lerpRate = targetVelocity.sqrMagnitude > 0.001f
@@ -101,8 +86,6 @@ public class MovementState : State
         {
             player.stateMachine.Transit(player.idleState);
         }
-        
-        player.controller.Move((player.horizontalVelocity + player.velocity) * Time.deltaTime);
     }
 
     public override void OnPrimaryAttack()

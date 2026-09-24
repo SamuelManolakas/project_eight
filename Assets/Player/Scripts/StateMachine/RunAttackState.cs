@@ -8,7 +8,8 @@ public class RunAttackState : State
     private bool _isAttacking;
     private float _attackTimer;
     private Vector3 _attackDirection;
-    
+    private float _attackSpeed;
+
     public override void Enter()
     {
         player.animator.Play("Run Attack");
@@ -16,8 +17,11 @@ public class RunAttackState : State
         player.weapon.GetComponent<Collider>().enabled = true;
         player.hitBox.damage = player.primaryAttackDamage;
         
-        _attackDirection = player.controller.velocity.normalized;
-        
+        _attackDirection = player.controller.velocity;
+        _attackDirection.y = 0f;
+        _attackDirection.Normalize();
+        _attackSpeed = player.speed;
+
         _isAttacking = true;
         _attackTimer = 0f;
         
@@ -35,27 +39,19 @@ public class RunAttackState : State
 
     public override void ContinuousAction()
     {
-        if (!_isAttacking) return;
+        if (!_isAttacking)
+        {
+            player.BleedHorizontalVelocity();
+            return;
+        }
 
         _attackTimer += Time.deltaTime;
-        float progress = _attackTimer / player.dodgeDuration; // 0 → 1
-
         float t = Mathf.Clamp01(_attackTimer / player.dodgeDuration);
 
-        // Ease Out Cubic: fast start, smooth stop
-        float easedT = 1f - Mathf.Pow(1f - t, 3f);
-
-        // Differentiate to get speed (derivative of ease out cubic)
-        // speed = d/dt [ 1 - (1-t)^3 ] = 3(1-t)^2
-        float speed = player.speed -= Time.deltaTime * easedT;
+        player.horizontalVelocity = _attackDirection * _attackSpeed;
 
         if (t >= 0.4f)
-        {
             _isAttacking = false;
-            player.controller.Move(Vector3.zero);
-        }
-        
-        player.controller.Move((_attackDirection * speed + player.velocity) * Time.deltaTime);
     }
     
     private IEnumerator Attack()

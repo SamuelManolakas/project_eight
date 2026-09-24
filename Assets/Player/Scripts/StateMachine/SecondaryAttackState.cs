@@ -51,6 +51,8 @@ public class SecondaryAttackState : State
 
     public override void ContinuousAction()
     {
+        player.BleedHorizontalVelocity();
+
         if (player.bolter)
         {
             // Body still turns to face the camera's yaw

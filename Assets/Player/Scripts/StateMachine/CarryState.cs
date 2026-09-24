@@ -17,16 +17,8 @@ public class CarryState : State
 
     public override void ContinuousAction()
     {
-        Vector3 camForward = player.cameraTransform.forward;
-        Vector3 camRight = player.cameraTransform.right;
-        camForward.y = 0;
-        camRight.y = 0;
-
         float moveSpeed = player.speed * player.carrySpeedMultiplier;
-
-        Vector3 targetVelocity = (camForward * player.moveInput.y + camRight * player.moveInput.x);
-        if (targetVelocity.magnitude > 1f) targetVelocity.Normalize();
-        targetVelocity *= moveSpeed;
+        Vector3 targetVelocity = player.GetCameraRelativeInput() * moveSpeed;
 
         float lerpRate = targetVelocity.sqrMagnitude > 0.001f
             ? player.acceleration
@@ -44,8 +36,6 @@ public class CarryState : State
         {
             player.animator.SetFloat("speed", 0f);
         }
-
-        player.controller.Move((player.horizontalVelocity + player.velocity) * Time.deltaTime);
     }
 
     public override void OnPrimaryAttack() {}

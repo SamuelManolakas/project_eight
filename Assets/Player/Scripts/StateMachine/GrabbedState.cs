@@ -22,7 +22,7 @@ public class GrabbedState : State
 
     public override void ContinuousAction()
     {
-        
+        player.BleedHorizontalVelocity();
     }
 
     public override void OnMove()

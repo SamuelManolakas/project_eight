@@ -20,6 +20,7 @@ public class DeadState : State
     public override void GetHit(int damage){}
     public override void ContinuousAction()
     {
+        player.BleedHorizontalVelocity();
     }
     public override void OnGuard()
     {

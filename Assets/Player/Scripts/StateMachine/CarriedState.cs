@@ -8,6 +8,9 @@ public class CarriedState : State
     {
         player.animator.Play("Carried");
         player.controller.enabled = false; // keep this — stops the capsule collider from pushing against things while parented
+        // Clear movement on enter, not exit: the throw sets velocity right before leaving this state.
+        player.velocity = Vector3.zero;
+        player.horizontalVelocity = Vector3.zero;
         player.RemovePlayerFromBossList();
     }
 

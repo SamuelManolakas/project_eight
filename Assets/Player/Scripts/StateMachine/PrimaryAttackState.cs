@@ -139,7 +139,10 @@ public class PrimaryAttackState : State
 
     public override void ContinuousAction()
     {
-        GetAttackImpulse();
-        player.controller.Move((GetAttackImpulse() * player.speed + player.velocity) * Time.deltaTime);
+        Vector3 impulse = GetAttackImpulse();
+        if (impulse != Vector3.zero)
+            player.horizontalVelocity = impulse * player.speed;
+        else
+            player.BleedHorizontalVelocity();
     }
 }

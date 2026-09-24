@@ -26,12 +26,17 @@ public class JumpAttackState : State
         }
         
         _jumpDirection = player.transform.forward;
+
+        // Same arc as the old "velocity * 2": double vertical speed and gravity for a faster slam.
+        player.velocity.y *= 2f;
+        player.gravityScale = 2f;
     }
 
     public override void Exit()
     {
         player.animator.SetLayerWeight(2, 0);
-        
+        player.gravityScale = 1f;
+
         if (player.swordAndShield) 
             player.shield.GetComponent<Collider>().enabled = false;
         if (player.greatSword) 
@@ -51,10 +56,12 @@ public class JumpAttackState : State
     {
         if (!player.controller.isGrounded)
         {
-            player.controller.Move((_jumpDirection * player.speed + (player.velocity * 2)) * Time.deltaTime);
+            player.horizontalVelocity = _jumpDirection * player.speed;
         }
         else
         {
+            player.BleedHorizontalVelocity();
+
             if (_fireOnce < 1)
                 player.StartCoroutine(Wait());
             

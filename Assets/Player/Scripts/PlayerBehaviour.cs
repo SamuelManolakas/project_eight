@@ -99,10 +99,12 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public CharacterController controller;
     [HideInInspector] 
     public Vector2 moveInput;
-    [HideInInspector] 
-    public Vector3 velocity;
-    [HideInInspector] 
-    public Vector3 horizontalVelocity;
+    [HideInInspector]
+    public Vector3 velocity; // only .y is used — vertical speed, owned by ApplyMovement
+    [HideInInspector]
+    public Vector3 horizontalVelocity; // set by the current state each frame
+    [HideInInspector]
+    public float gravityScale = 1f;
     [HideInInspector] 
     public float initialSpeed;
     [HideInInspector] 
@@ -402,7 +404,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         PlayerBehaviour carrier = carrierObj.GetComponent<PlayerBehaviour>();
         PlayerBehaviour carried = carriedObj.GetComponent<PlayerBehaviour>();
     
-        carried.velocity = throwVelocity;
+        carried.velocity = new Vector3(0f, throwVelocity.y, 0f);
         carried.horizontalVelocity = new Vector3(throwVelocity.x, 0f, throwVelocity.z);
 
         carrier.stateMachine.Transit(carrier.idleState);
@@ -553,8 +555,8 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     {
         if(!IsOwner) return;
         
-        velocity.y += gravity * Time.deltaTime;
         ContinuousAction();
+        ApplyMovement();
 
         if (_healCooldown >= 0)
         {
@@ -568,6 +570,42 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
+
+    // The only place the player's CharacterController is moved. States set horizontalVelocity
+    // (and velocity.y for jumps); gravity and grounding are handled here.
+    private void ApplyMovement()
+    {
+        if (!controller.enabled) return; // e.g. CarriedState — position comes from the carrier
+
+        if (controller.isGrounded && velocity.y < 0f)
+            velocity.y = -2f; // small constant push keeps isGrounded stable on slopes/steps
+        velocity.y += gravity * gravityScale * Time.deltaTime;
+
+        Vector3 motion = horizontalVelocity;
+        motion.y = velocity.y;
+        controller.Move(motion * Time.deltaTime);
+    }
+
+    // Default for states that don't drive movement: horizontal speed bleeds off smoothly.
+    public void BleedHorizontalVelocity()
+    {
+        horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, deceleration * Time.deltaTime);
+        if (horizontalVelocity.sqrMagnitude < 0.0001f) horizontalVelocity = Vector3.zero;
+    }
+
+    // Move input mapped onto the camera's flattened forward/right. Magnitude is clamped to 1.
+    public Vector3 GetCameraRelativeInput()
+    {
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 move = camForward * moveInput.y + camRight * moveInput.x;
+        return Vector3.ClampMagnitude(move, 1f);
+    }
     
     public void GetHit(int damage)
     {

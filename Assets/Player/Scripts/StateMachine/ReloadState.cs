@@ -19,7 +19,7 @@ public class ReloadState : State
 
     public override void ContinuousAction()
     {
-        player.controller.Move(player.velocity * Time.deltaTime);
+        player.BleedHorizontalVelocity();
     }
 
     private IEnumerator Wait()
