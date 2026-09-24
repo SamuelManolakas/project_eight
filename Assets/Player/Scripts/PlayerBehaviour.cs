@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerBehaviour : NetworkBehaviour
+public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
 {
     [Header("Weapon Choice")]
     public bool swordAndShield;
@@ -314,13 +314,55 @@ public class PlayerBehaviour : NetworkBehaviour
     
     public override void OnNetworkObjectParentChanged(NetworkObject parentNetworkObject)
     {
-        if (parentNetworkObject == null) return; // being un-parented (thrown/dropped) — nothing to offset
+        if (parentNetworkObject == null) return; // being un-parented (thrown/dropped/dropped-off) — nothing to offset
 
-        if (!parentNetworkObject.TryGetComponent(out PlayerBehaviour carrier)) return;
-        if (carrier.carryPoint == null) return;
+        Transform socket;
+        if (parentNetworkObject.TryGetComponent(out PlayerBehaviour carrier))
+        {
+            socket = carrier.carryPoint;
+        }
+        else if (parentNetworkObject.TryGetComponent(out PitExtractionDevice extractor))
+        {
+            socket = extractor.AttachPoint;
+        }
+        else
+        {
+            return;
+        }
 
-        transform.localPosition = carrier.transform.InverseTransformPoint(carrier.carryPoint.position);
-        transform.localRotation = Quaternion.Inverse(carrier.transform.rotation) * carrier.carryPoint.rotation;
+        if (socket == null) return;
+
+        transform.localPosition = parentNetworkObject.transform.InverseTransformPoint(socket.position);
+        transform.localRotation = Quaternion.Inverse(parentNetworkObject.transform.rotation) * socket.rotation;
+    }
+    
+    [ClientRpc]
+    public void TransitToCarriedStateClientRpc()
+    {
+        stateMachine.Transit(carriedState);
+    }
+
+    // IExtractionCarryable — called by PitExtractionDevice, server-only
+    public void OnExtractionPickup(NetworkObject device)
+    {
+        if (!IsServer) return;
+
+        bool parented = NetworkObject.TrySetParent(device, false);
+        if (!parented)
+        {
+            Debug.LogWarning($"Extraction: failed to parent {name} under {device.name}.");
+            return;
+        }
+
+        TransitToCarriedStateClientRpc();
+    }
+
+    public void OnExtractionDropoff()
+    {
+        if (!IsServer) return;
+
+        NetworkObject.TrySetParent((Transform)null, true); // leave them exactly where the ride left them
+        TransitToDownedStateClientRpc(); // already exists — reused as-is, same as a normal pit-down
     }
     
     [ClientRpc]

@@ -887,7 +887,7 @@ Transform:
   m_GameObject: {fileID: 396664973}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.432, y: 10.27, z: 0.0049}
+  m_LocalPosition: {x: -4.432, y: 15.16, z: 0.0049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1835,6 +1835,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 204109355052301057, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4402267542072039539, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Name
       value: Level_Church
@@ -1886,6 +1890,10 @@ PrefabInstance:
     - target: {fileID: 6380614509000372635, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213281081230278510, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8387811953205277643, guid: 6e6f5ae7640aaac4bbd24e4506b4d104, type: 3}
       propertyPath: m_Enabled
@@ -1959,6 +1967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeathPit
   ShowTopMostFoldoutHeaderGroup: 1
   damage: 300
+  extractionPoint: {fileID: 1321359610}
 --- !u!65 &1321359608
 BoxCollider:
   m_ObjectHideFlags: 0

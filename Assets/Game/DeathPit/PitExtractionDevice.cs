@@ -11,7 +11,8 @@ using UnityEngine;
 ///  - NetworkObject component
 ///  - NetworkTransform component, set to Server Authoritative
 ///  - Registered in your NetworkManager's Network Prefabs list
-///  - A child Transform assigned to attachPoint, marking where the player visually sits
+///  - A child Transform assigned to attachPoint — read by PlayerBehaviour.OnNetworkObjectParentChanged
+///    the same way it already reads a carrying player's carryPoint
 /// </summary>
 [RequireComponent(typeof(NetworkObject))]
 public class PitExtractionDevice : NetworkBehaviour
@@ -28,8 +29,9 @@ public class PitExtractionDevice : NetworkBehaviour
     [SerializeField] private float cruiseHeightAboveDrop = 4f;
 
     [Header("References")]
-    [Tooltip("Local socket the player is visually attached to while carried. Falls back to this transform if left empty.")]
+    [Tooltip("Local socket the player is visually attached to while carried.")]
     [SerializeField] private Transform attachPoint;
+    public Transform AttachPoint => attachPoint;
 
     private Vector3 _pickupPosition;
     private Vector3 _dropPosition;
@@ -53,13 +55,13 @@ public class PitExtractionDevice : NetworkBehaviour
 
     private IEnumerator RunSequence()
     {
-        Transform anchor = attachPoint != null ? attachPoint : transform;
-
         // Phase 1 — hover down from this device's spawn point to the downed player.
-        yield return MoveAlongWaypoints(new[] { transform.position, _pickupPosition }, approachDuration, null);
+        yield return MoveAlongWaypoints(new[] { transform.position, _pickupPosition }, approachDuration);
 
-        // Pickup.
-        _carryable?.OnExtractionPickup(NetworkObject, anchor);
+        // Pickup — parents the player under this device (mirrors the teammate-carry
+        // pattern exactly). From here on the player follows for free; no per-frame
+        // position pushing needed.
+        _carryable?.OnExtractionPickup(NetworkObject);
 
         // Phase 2 — "upside-down L": straight up above the pit, then across (and slightly
         // down, since cruise height is only a little above the drop point) to the destination.
@@ -67,10 +69,10 @@ public class PitExtractionDevice : NetworkBehaviour
         Vector3 corner = new Vector3(_pickupPosition.x, cruiseY, _pickupPosition.z);
         Vector3[] carryPath = { _pickupPosition, corner, _dropPosition };
 
-        yield return MoveAlongWaypoints(carryPath, carryDuration, () => _carryable?.OnExtractionCarryUpdate(anchor.position));
+        yield return MoveAlongWaypoints(carryPath, carryDuration);
 
         // Drop-off.
-        _carryable?.OnExtractionDropoff(_dropPosition);
+        _carryable?.OnExtractionDropoff();
 
         // Only the server may despawn a NetworkObject.
         NetworkObject.Despawn();
@@ -80,7 +82,7 @@ public class PitExtractionDevice : NetworkBehaviour
     /// Moves this transform along a polyline in exactly `duration` seconds, regardless of the
     /// polyline's total length — speed scales with distance so total travel time stays fixed.
     /// </summary>
-    private IEnumerator MoveAlongWaypoints(Vector3[] waypoints, float duration, System.Action onStep)
+    private IEnumerator MoveAlongWaypoints(Vector3[] waypoints, float duration)
     {
         int segmentCount = waypoints.Length - 1;
         var segmentLengths = new float[segmentCount];
@@ -114,11 +116,9 @@ public class PitExtractionDevice : NetworkBehaviour
             }
 
             transform.position = pos;
-            onStep?.Invoke();
             yield return null;
         }
 
         transform.position = waypoints[waypoints.Length - 1];
-        onStep?.Invoke();
     }
 }
