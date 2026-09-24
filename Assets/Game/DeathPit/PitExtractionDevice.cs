@@ -55,19 +55,25 @@ public class PitExtractionDevice : NetworkBehaviour
 
     private IEnumerator RunSequence()
     {
-        // Phase 1 — hover down from this device's spawn point to the downed player.
-        yield return MoveAlongWaypoints(new[] { transform.position, _pickupPosition }, approachDuration);
+        // Phase 1 — move horizontally from the spawn point to above the downed player,
+        // then drop straight down to pick them up.
+        Vector3 spawnPosition = transform.position;
+        Vector3 abovePlayer = new Vector3(_pickupPosition.x, spawnPosition.y, _pickupPosition.z);
+        Vector3[] approachPath = { spawnPosition, abovePlayer, _pickupPosition };
+
+        yield return MoveAlongWaypoints(approachPath, approachDuration);
 
         // Pickup — parents the player under this device (mirrors the teammate-carry
         // pattern exactly). From here on the player follows for free; no per-frame
         // position pushing needed.
         _carryable?.OnExtractionPickup(NetworkObject);
 
-        // Phase 2 — "upside-down L": straight up above the pit, then across (and slightly
-        // down, since cruise height is only a little above the drop point) to the destination.
+        // Phase 2 — straight up above the pit, flat across at cruise altitude, then
+        // straight down onto the drop point.
         float cruiseY = Mathf.Max(_pickupPosition.y, _dropPosition.y + cruiseHeightAboveDrop);
-        Vector3 corner = new Vector3(_pickupPosition.x, cruiseY, _pickupPosition.z);
-        Vector3[] carryPath = { _pickupPosition, corner, _dropPosition };
+        Vector3 riseCorner = new Vector3(_pickupPosition.x, cruiseY, _pickupPosition.z);     // top of the rise, above the pit
+        Vector3 descentCorner = new Vector3(_dropPosition.x, cruiseY, _dropPosition.z);       // start of the descent, above the drop point
+        Vector3[] carryPath = { _pickupPosition, riseCorner, descentCorner, _dropPosition };
 
         yield return MoveAlongWaypoints(carryPath, carryDuration);
 

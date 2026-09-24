@@ -200,9 +200,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PitExtractionDevice
   ShowTopMostFoldoutHeaderGroup: 1
-  approachDuration: 2.34
-  carryDuration: 3
-  cruiseHeightAboveDrop: 0
+  approachDuration: 10
+  carryDuration: 8
+  cruiseHeightAboveDrop: 6
   attachPoint: {fileID: 5992205330033399865}
 --- !u!1 &3383434121425433421
 GameObject:
