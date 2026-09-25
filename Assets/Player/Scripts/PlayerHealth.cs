@@ -13,9 +13,16 @@ public class PlayerHealth : NetworkBehaviour
         NetworkVariableWritePermission.Server
     );
 
+    // 0–1 while this player lies downed inside a ReviveZone; readable on all clients for UI.
+    public NetworkVariable<float> ReviveProgress = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     private PlayerBehaviour player;
     private PlayerStamina stamina;
-    
+
     public int Health => _health.Value;
     public bool IsAlive => _health.Value > 0f;
 
@@ -107,11 +114,12 @@ public class PlayerHealth : NetworkBehaviour
         player.TransitToDownedStateClientRpc();
     }
 
-    // New: called by a reviver
+    // Called by a ReviveZone once revive progress completes
     public void Revive(int healthOnRevive = 30)
     {
         if (!IsServer) return;
         _health.Value = healthOnRevive;
+        ReviveProgress.Value = 0f;
     }
 
     private void OnHealthChanged(int previous, int current)
