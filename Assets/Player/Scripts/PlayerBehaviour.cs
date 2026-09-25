@@ -128,7 +128,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
     
     [HideInInspector]
-    public StateMachine stateMachine = null;
+    public HierarchicalStateMachine<State> stateMachine = null;
     
     public RootState rootState = null;
     public AliveState aliveState = null;
@@ -175,7 +175,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         carriedState = new CarriedState(this, aliveState);
         thrownState = new ThrownState(this, aliveState);
         
-        stateMachine = new StateMachine();
+        stateMachine = new HierarchicalStateMachine<State>();
         stateMachine.InitializeMachine(spawnState);
         
         controller = GetComponent<CharacterController>();

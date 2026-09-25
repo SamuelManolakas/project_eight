@@ -74,7 +74,7 @@ public class BossBehaviour : Enemy
     public GameObject flamesHead;
 
     [HideInInspector] public Rigidbody _rigidbody;
-    [HideInInspector] public StateMachine_B stateMachine = null;
+    [HideInInspector] public HierarchicalStateMachine<State_B> stateMachine = null;
     [HideInInspector] public CharacterController controller;
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public HitBox hitBox;
@@ -136,7 +136,7 @@ public class BossBehaviour : Enemy
         SpinAttackState  = new SpinAttackState_B(this, aliveState);
         NukeState        = new NukeState_B(this, aliveState);
 
-        stateMachine = new StateMachine_B();
+        stateMachine = new HierarchicalStateMachine<State_B>();
         stateMachine.InitializeMachine(spawnState);
 
         _rigidbody = GetComponent<Rigidbody>();
