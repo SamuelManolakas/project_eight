@@ -993,6 +993,7 @@ Transform:
   m_Children:
   - {fileID: 5122771914584728100}
   - {fileID: 2034217497068213754}
+  - {fileID: 2300252023511842648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &629659950324464260
@@ -1148,6 +1149,14 @@ MonoBehaviour:
   maxHealConsumableAmount: 4
   healAmount: 30
   maxAmmo: 0
+  carryPoint: {fileID: 2300252023511842648}
+  carryDetectionRange: 2.5
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  carrySpeedMultiplier: 0.6
+  throwForce: 6
+  throwUpwardForce: 3
   isMoving: 0
   animator: {fileID: 1294663116307986526}
   weapon: {fileID: 792112579415033488}
@@ -1351,6 +1360,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9ee9054b-f2bd-4674-a9cf-308a8c4f9422
     m_ActionName: 'Gameplay/Revive[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2722297990731148367}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eeaa86f4-9e65-4446-b745-84b81ff60a56
+    m_ActionName: 'Gameplay/Interact[/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 457477d4-0b2c-4650-9f1c-ac6c607444be
+    m_ActionName: Gameplay/Throw
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -2860,3 +2889,34 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &960698989925113840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2300252023511842648}
+  m_Layer: 0
+  m_Name: CarryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2300252023511842648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960698989925113840}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.15876, y: 0.87266, z: 0.70435}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 820807651429821145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

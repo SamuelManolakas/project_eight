@@ -227,35 +227,24 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
             Debug.LogError("No HurtBox component found on player!", this);
     }
     
+    // One button: picks up a downed teammate, or throws them if already carrying one.
     public void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log("Pressing Interact!");
         if (!IsOwner) return;
-        
         if (!context.performed) return;
 
         if (stateMachine.currentState == carryState)
         {
-            RequestDropCarriedPlayerServerRpc();
+            RequestThrowCarriedPlayerServerRpc();
             return;
         }
 
         if (health.Health <= 0) return;
-        //if (stateMachine.currentState != idleState && stateMachine.currentState != movementState) return;
 
         PlayerBehaviour target = FindCarryTarget();
         if (target == null) return;
 
         RequestPickUpTeammateServerRpc(target.NetworkObjectId);
-    }
-
-    public void OnThrow(InputAction.CallbackContext context)
-    {
-        if (!IsOwner) return;
-        if (!context.performed) return;
-        if (stateMachine.currentState != carryState) return;
-
-        RequestThrowCarriedPlayerServerRpc();
     }
 
     private PlayerBehaviour FindCarryTarget()
@@ -417,27 +406,6 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         if (stateMachine.currentState != thrownState) return; // ignore stray/duplicate calls
         TransitToDownedStateClientRpc();
     }
-    
-    [Rpc(SendTo.Server)]
-    private void RequestDropCarriedPlayerServerRpc()
-    {
-        if (stateMachine.currentState != carryState || carriedPlayer == null) return;
-    
-        PlayerBehaviour target = carriedPlayer;
-        target.GetComponent<NetworkObject>().TrySetParent((Transform)null, true);
-    
-        NotifyDropClientRpc(NetworkObjectId, target.NetworkObjectId);
-    }
-    
-    [ClientRpc]
-    private void NotifyDropClientRpc(ulong carrierId, ulong carriedId)
-    {
-        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carrierId, out NetworkObject carrierObj)) return;
-        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carriedId, out NetworkObject carriedObj)) return;
-    
-        carrierObj.GetComponent<PlayerBehaviour>().stateMachine.Transit(carrierObj.GetComponent<PlayerBehaviour>().idleState);
-        carriedObj.GetComponent<PlayerBehaviour>().stateMachine.Transit(carriedObj.GetComponent<PlayerBehaviour>().downedState);
-    }   
     
     public void OnMove(InputAction.CallbackContext context)
     {
