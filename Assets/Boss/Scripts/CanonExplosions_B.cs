@@ -23,6 +23,8 @@ public class CanonExplosions_B : NetworkBehaviour
 
      private void Update()
      {
+          if (!IsServer) return; // only the server may despawn; clients get the despawn via Netcode
+
           _lifeTimer -= Time.deltaTime;
 
           if (_lifeTimer <= 0)

@@ -8,6 +8,9 @@ public class GameplaySpawnManager : NetworkBehaviour
 
     [SerializeField] private GameObject[] classPrefabs; // 0 = SwordAndShield, 1 = Greatsword, 2 = Bolter
 
+    [Tooltip("Empty GameObjects in the scene. Players take them in join order; wraps around if there are more players than points.")]
+    [SerializeField] private Transform[] spawnPoints;
+
     private readonly HashSet<ulong> spawnedClients = new();
 
     private void Awake() => Instance = this;
@@ -29,7 +32,9 @@ public class GameplaySpawnManager : NetworkBehaviour
             classIndex = 0;
         }
 
-        GameObject instance = Instantiate(classPrefabs[classIndex]);
+        GameObject prefab = classPrefabs[classIndex];
+        GetSpawnPose(prefab, out Vector3 position, out Quaternion rotation);
+        GameObject instance = Instantiate(prefab, position, rotation);
         instance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         spawnedClients.Add(clientId);
 
@@ -40,5 +45,20 @@ public class GameplaySpawnManager : NetworkBehaviour
         }
 
         Debug.Log($"Spawned class {classIndex} for client {clientId}");
+    }
+
+    private void GetSpawnPose(GameObject prefab, out Vector3 position, out Quaternion rotation)
+    {
+        if (spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.LogWarning($"{nameof(GameplaySpawnManager)} has no spawn points assigned; spawning at the prefab's position.", this);
+            position = prefab.transform.position;
+            rotation = prefab.transform.rotation;
+            return;
+        }
+
+        Transform spawn = spawnPoints[spawnedClients.Count % spawnPoints.Length];
+        position = spawn.position;
+        rotation = spawn.rotation;
     }
 }

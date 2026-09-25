@@ -150,6 +150,9 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     
 
     private float _healCooldown;
+
+    private readonly Collider[] _carryHits = new Collider[32]; // reused by FindCarryTarget, which runs every frame for the prompt
+    private InteractPromptUI _interactPrompt;
     
     public void Awake(){
         rootState = new RootState(this, null);
@@ -247,16 +250,26 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         RequestPickUpTeammateServerRpc(target.NetworkObjectId);
     }
 
+    // Owner only: shows the HUD pickup prompt while Interact would pick up a teammate right now.
+    private void UpdateCarryPrompt()
+    {
+        if (_interactPrompt == null) return;
+
+        bool canPickUp = stateMachine.currentState != carryState && health.Health > 0 && FindCarryTarget() != null;
+        _interactPrompt.SetPrompt(canPickUp ? "Pick up" : null);
+    }
+
     private PlayerBehaviour FindCarryTarget()
     {
         Vector3 origin = transform.position + Vector3.up;
-        Collider[] hits = Physics.OverlapSphere(origin, carryDetectionRange, playerLayerMask);
+        int hitCount = Physics.OverlapSphereNonAlloc(origin, carryDetectionRange, _carryHits, playerLayerMask);
 
         PlayerBehaviour best = null;
         float bestDot = 0.5f; // roughly a 60° cone in front of you
 
-        foreach (var hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
+            Collider hit = _carryHits[i];
             if (!hit.TryGetComponent(out PlayerBehaviour candidate)) continue;
             if (candidate == this) continue;
             if (candidate.stateMachine.currentState != candidate.downedState) continue;
@@ -525,6 +538,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         
         ContinuousAction();
         ApplyMovement();
+        UpdateCarryPrompt();
 
         if (_healCooldown >= 0)
         {
@@ -602,7 +616,10 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         healConsumableAmount = maxHealConsumableAmount;
         var healUI = FindObjectOfType<HealUI>();
         healUI?.Bind(this);
-        
+
+        _interactPrompt = FindObjectOfType<InteractPromptUI>();
+        if (_interactPrompt != null) _interactPrompt.Bind(GetComponent<PlayerInput>());
+
         StartCoroutine(AssignCameraWhenReady()); // replaces the direct camera assignment
 
         stamina._stamina.OnValueChanged += OnStaminaChanged;
