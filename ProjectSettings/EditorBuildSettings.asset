@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestingScenes/Speltest.unity
     guid: a834ab1080d43044fb436303773d52bf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScenes/MainGameScene.unity
     guid: b95cf525d23a1b246b436095185aa8bc
   - enabled: 0
