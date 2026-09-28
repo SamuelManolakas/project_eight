@@ -1591,77 +1591,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4686195113010661237, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: damage
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: slider
       value: 
       objectReference: {fileID: 117264264}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: gravity
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukeVFX
       value: 
       objectReference: {fileID: 2022002471}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: maxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukePosition
       value: 
       objectReference: {fileID: 2142270099}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: attackCooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: bossAudioNetworker
-      value: 
-      objectReference: {fileID: 1106059114}
-    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 620242184
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: SceneMigrationSynchronization
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7134712910558551087, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 2821339365
-      objectReference: {fileID: 0}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 456640548
-      objectReference: {fileID: 0}
-    - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: SceneMigrationSynchronization
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 2821339365
+      value: 2764105833
       objectReference: {fileID: 0}
     - target: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: m_Name
       value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 8496390614014114605, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1713,17 +1661,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8796926961650866662, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
   m_PrefabInstance: {fileID: 1106059112}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1106059114 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -4577532226953923579, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-  m_PrefabInstance: {fileID: 1106059112}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3703b076495a6468932d5ff1808f13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossAudioNetworker
 --- !u!1 &1202251436
 GameObject:
   m_ObjectHideFlags: 0

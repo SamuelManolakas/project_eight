@@ -17985,14 +17985,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3979267067
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2764105833
+  InScenePlacedSourceGlobalObjectIdHash: 2821339365
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -18065,13 +18065,18 @@ MonoBehaviour:
   speed: 5
   damage: 20
   gravity: -15
-  attackCooldown: 2.5
+  attackCooldown: 5
   aggroEvaluationInterval: 8
   randomSwitchChance: 0.25
   randomTauntDuration: 15
   staggerThreshold: 150
   staggerWindow: 5
   staggerCooldown: 30
+  healthPerExtraPlayer: 1.51
+  damagePerExtraPlayer: 0.2
+  staggerThresholdPerExtraPlayer: 1.51
+  scaledMaxHealth:
+    m_InternalValue: 0
   animator: {fileID: 1786571155882600704}
   m_animationEvents: {fileID: 2054388775556113775}
   greatSwordModel: {fileID: 1890145477471268160}
@@ -18088,7 +18093,7 @@ MonoBehaviour:
   nukePosition: {fileID: 0}
   bossAudioScriptableObject: {fileID: 11400000, guid: eca5ab289fbe810419f06baf6eab6fa7, type: 2}
   audioSource: {fileID: 1150551456821946020}
-  bossAudioNetworker: {fileID: 0}
+  bossAudioNetworker: {fileID: -4577532226953923579}
   nukeRadius: 500
   nukeDamage: 100
   targetLayerMask:
@@ -18106,7 +18111,6 @@ MonoBehaviour:
   flamesRightShoulder: {fileID: 532073869648570772}
   flamesHead: {fileID: 3400320973162928531}
   _rigidbody: {fileID: 0}
-  stateMachine: {fileID: 0}
   controller: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   hitBox: {fileID: 0}

@@ -35,6 +35,18 @@ public class BossBehaviour : Enemy
     [Tooltip("Minimum time (seconds) between staggers, so it can't chain-stagger infinitely.")]
     public float staggerCooldown = 6f;
 
+    [Header("Player Count Scaling")]
+    [Tooltip("Values above are balanced for 1 player. Each extra player adds this fraction of the base value (0.75 = +75% per extra player).")]
+    public float healthPerExtraPlayer = 0.75f;
+    [Tooltip("Applies to all boss damage: melee, charge, flamers, nuke, bullets and cannon explosions.")]
+    public float damagePerExtraPlayer = 0.2f;
+    [Tooltip("More players deal more burst damage, so the stagger threshold rises with them.")]
+    public float staggerThresholdPerExtraPlayer = 0.75f;
+
+    // Scaled max health, synced so every client's health bar uses the same max.
+    public NetworkVariable<int> scaledMaxHealth = new NetworkVariable<int>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     [Header("Components")]
     public Animator animator;
     public AnimationEvents m_animationEvents;
@@ -115,6 +127,11 @@ public class BossBehaviour : Enemy
     private int   _windowDamageAccumulator = 0;    // Running sum of unexpired events
     private float _staggerCooldownTimer    = 0f;   // > 0 while on cooldown
 
+    // ── Player Count Scaling ─────────────────────────────────────────────────────
+    // Inspector values captured before scaling, so scaling always starts from the 1-player balance.
+    private int _baseMaxHealth, _baseDamage, _baseNukeDamage, _baseStaggerThreshold;
+    private float _damageMultiplier = 1f;
+
     public void Awake()
     {
         rootState        = new RootState_B(this, null);
@@ -143,6 +160,11 @@ public class BossBehaviour : Enemy
         controller = GetComponent<CharacterController>();
 
         chargeHitBox.OnHitWall += TransitionToStunnedState;
+
+        _baseMaxHealth        = maxHealth;
+        _baseDamage           = damage;
+        _baseNukeDamage       = nukeDamage;
+        _baseStaggerThreshold = staggerThreshold;
     }
 
     public override void OnDestroy()
@@ -152,11 +174,6 @@ public class BossBehaviour : Enemy
 
     private void Start()
     {
-        if (IsServer) // NEW — only the server is allowed to write currentHealth
-        {
-            currentHealth.Value = maxHealth;
-        }
-
         hitBox  = greatSwordModel.GetComponent<HitBox>();
         hurtBox = GetComponent<HurtBox>();
     
@@ -170,20 +187,58 @@ public class BossBehaviour : Enemy
 
     public override void OnNetworkSpawn()
     {
-        slider.maxValue = maxHealth;
-        slider.value    = maxHealth;
+        if (IsServer) // only the server is allowed to write currentHealth
+        {
+            ApplyPlayerCountScaling(NetworkManager.ConnectedClientsIds.Count);
+            currentHealth.Value = maxHealth;
+        }
+
+        OnMaxHealthChanged(0, scaledMaxHealth.Value);
+        slider.value = currentHealth.Value;
         currentHealth.OnValueChanged += OnHealthChanged;
+        scaledMaxHealth.OnValueChanged += OnMaxHealthChanged;
     }
 
     public override void OnNetworkDespawn()
     {
         currentHealth.OnValueChanged -= OnHealthChanged;
+        scaledMaxHealth.OnValueChanged -= OnMaxHealthChanged;
     }
 
     private void OnHealthChanged(int previousValue, int newValue)
     {
         slider.value = newValue;
     }
+
+    private void OnMaxHealthChanged(int previousValue, int newValue)
+    {
+        if (newValue <= 0) return;
+        maxHealth = newValue; // keeps maxHealth-based checks (e.g. the half-health nuke) in sync on clients too
+        slider.maxValue = newValue;
+    }
+
+    // ── Player Count Scaling ─────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Server only. Scales health, damage and stagger resistance from the 1-player inspector values.
+    /// Called once when the boss spawns; everyone is already connected from the lobby by then.
+    /// </summary>
+    private void ApplyPlayerCountScaling(int playerCount)
+    {
+        int extraPlayers = Mathf.Max(0, playerCount - 1);
+        _damageMultiplier = 1f + damagePerExtraPlayer * extraPlayers;
+
+        maxHealth        = Mathf.RoundToInt(_baseMaxHealth * (1f + healthPerExtraPlayer * extraPlayers));
+        damage           = ScaleDamage(_baseDamage);
+        nukeDamage       = ScaleDamage(_baseNukeDamage);
+        staggerThreshold = Mathf.RoundToInt(_baseStaggerThreshold * (1f + staggerThresholdPerExtraPlayer * extraPlayers));
+        scaledMaxHealth.Value = maxHealth;
+
+        Debug.Log($"Boss scaled for {playerCount} player(s): health {maxHealth}, damage {damage}, " +
+                  $"nuke {nukeDamage}, stagger threshold {staggerThreshold}");
+    }
+
+    private int ScaleDamage(int baseAmount) => Mathf.RoundToInt(baseAmount * _damageMultiplier);
 
     private void Update()
     {
@@ -369,7 +424,9 @@ public class BossBehaviour : Enemy
     {
         Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(dir));
-        bullet.GetComponent<Bullet_B>().Initialize(dir);
+        Bullet_B bulletB = bullet.GetComponent<Bullet_B>();
+        bulletB.Initialize(dir);
+        bulletB.damage = ScaleDamage(bulletB.damage); // prefab value is the 1-player damage
         bullet.GetComponent<NetworkObject>().Spawn();
     }
     
@@ -380,6 +437,8 @@ public class BossBehaviour : Enemy
     {
         Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
         GameObject explosion = Instantiate(canonExplosionPrefab, firePoint.position, Quaternion.LookRotation(dir));
+        CanonExplosions_B explosionB = explosion.GetComponent<CanonExplosions_B>();
+        explosionB.damage = ScaleDamage(explosionB.damage); // prefab value is the 1-player damage
         explosion.GetComponent<NetworkObject>().Spawn();
     }
 
