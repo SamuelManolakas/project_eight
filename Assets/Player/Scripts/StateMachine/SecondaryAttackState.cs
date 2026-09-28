@@ -30,7 +30,7 @@ public class SecondaryAttackState : State
     public override void Exit()
     {
         if (player.swordAndShield || player.greatSword)
-            player.weapon.GetComponent<Collider>().enabled = false;
+            player.weaponCollider.enabled = false;
         
         player.StopAllCoroutines();
     }
@@ -58,7 +58,7 @@ public class SecondaryAttackState : State
             // Body still turns to face the camera's yaw
             Quaternion cameraYawRotation = Quaternion.LookRotation(player.cameraTransform.forward, Vector3.up);
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation,
-                new Quaternion(0, cameraYawRotation.y, 0, cameraYawRotation.w), Time.deltaTime * 50f);
+                new Quaternion(0, cameraYawRotation.y, 0, cameraYawRotation.w), Smoothing.Factor(50f));
 
             // Fire point aims at what the crosshair is actually over
             Vector3 aimPoint     = player.camera.AimPoint;
@@ -102,7 +102,7 @@ public class SecondaryAttackState : State
         player.ClearHitTargets();
         player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
-        player.weapon.GetComponent<Collider>().enabled = true;
+        player.weaponCollider.enabled = true;
         
         //Audio
         if (player.PlayerAudioScriptableObject != null)
@@ -119,7 +119,7 @@ public class SecondaryAttackState : State
         player.ClearHitTargets();
         player.stamina.TryUseStamina(player.secondaryAttackStaminaCost);
         player.animator.Play("HeavyAttack");
-        player.weapon.GetComponent<Collider>().enabled = true;
+        player.weaponCollider.enabled = true;
         
         //Audio
         if (player.PlayerAudioScriptableObject != null)

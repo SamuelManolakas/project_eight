@@ -18,7 +18,7 @@ public class MovementState : State
 
     public override void Exit()
     {
-        player.animator.SetFloat("speed", 0);
+        player.animator.SetFloat(AnimatorParams.Speed, 0);
         player.animator.SetLayerWeight(1, 0);
 
         player.isMoving = 0;
@@ -54,7 +54,7 @@ public class MovementState : State
         player.horizontalVelocity = Vector3.Lerp(
             player.horizontalVelocity,
             targetVelocity,
-            lerpRate * Time.deltaTime
+            Smoothing.Factor(lerpRate)
         );
         
         if (player.horizontalVelocity.sqrMagnitude > 0.001f)
@@ -65,19 +65,19 @@ public class MovementState : State
                 bossDirection.y = 0;
                 
                 Quaternion toRotation = Quaternion.LookRotation(bossDirection.normalized, Vector3.up);
-                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Smoothing.Factor(10f));
                 
-                player.animator.SetFloat("speed", 0);
+                player.animator.SetFloat(AnimatorParams.Speed, 0);
                 player.animator.SetLayerWeight(1, player.horizontalVelocity.magnitude / player.speed);
-                player.animator.SetFloat("strafeX", player.moveInput.x);
-                player.animator.SetFloat("strafeZ", player.moveInput.y);
+                player.animator.SetFloat(AnimatorParams.StrafeX, player.moveInput.x);
+                player.animator.SetFloat(AnimatorParams.StrafeZ, player.moveInput.y);
             }
             else
             {
                 Quaternion toRotation = Quaternion.LookRotation(player.horizontalVelocity.normalized, Vector3.up);
-                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
+                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Smoothing.Factor(10f));
                 
-                player.animator.SetFloat("speed", player.horizontalVelocity.magnitude / player.speed);
+                player.animator.SetFloat(AnimatorParams.Speed, player.horizontalVelocity.magnitude / player.speed);
                 
                 player.animator.SetLayerWeight(1, 0);
             }

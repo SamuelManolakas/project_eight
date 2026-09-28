@@ -49,7 +49,6 @@ public class BossBehaviour : Enemy
 
     [Header("Components")]
     public Animator animator;
-    public AnimationEvents m_animationEvents;
     public GameObject greatSwordModel;
     public Slider slider;
     public GameObject upperBody;
@@ -91,6 +90,8 @@ public class BossBehaviour : Enemy
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public HitBox hitBox;
     [HideInInspector] public HurtBox hurtBox;
+    [HideInInspector] public Collider swordCollider;       // cached: attack states toggle these on every attack
+    [HideInInspector] public Collider chargeHitBoxCollider;
     //Audio
     [HideInInspector] public int bossEngineSound;
     [HideInInspector] public int bossChargeCrashSound;
@@ -132,6 +133,8 @@ public class BossBehaviour : Enemy
     private int _baseMaxHealth, _baseDamage, _baseNukeDamage, _baseStaggerThreshold;
     private float _damageMultiplier = 1f;
 
+    private bool _isGrounded;
+
     public void Awake()
     {
         rootState        = new RootState_B(this, null);
@@ -157,6 +160,8 @@ public class BossBehaviour : Enemy
         stateMachine.InitializeMachine(spawnState);
 
         _rigidbody = GetComponent<Rigidbody>();
+        swordCollider        = greatSwordModel.GetComponent<Collider>();
+        chargeHitBoxCollider = chargeHitBox.GetComponent<Collider>();
         controller = GetComponent<CharacterController>();
 
         chargeHitBox.OnHitWall += TransitionToStunnedState;
@@ -247,8 +252,14 @@ public class BossBehaviour : Enemy
 
         ContinuousAction();
 
+        // Hold a small downward speed while grounded instead of letting gravity build up forever.
+        // Grounding comes from this gravity move's own result: the states' horizontal Move calls
+        // run first and report isGrounded = false even when the boss is standing on the floor.
+        if (_isGrounded && velocity.y < 0f)
+            velocity.y = -2f;
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        CollisionFlags flags = controller.Move(velocity * Time.deltaTime);
+        _isGrounded = (flags & CollisionFlags.Below) != 0;
 
         TickAggroSystem(Time.deltaTime);
         TickStaggerSystem(Time.deltaTime);
@@ -308,6 +319,27 @@ public class BossBehaviour : Enemy
         return validPlayers
             .OrderBy(p => Vector3.Distance(transform.position, p.transform.position))
             .FirstOrDefault();
+    }
+
+    /// <summary>Server only. Makes a player targetable again (e.g. after being revived).</summary>
+    public void AddTarget(GameObject player)
+    {
+        if (!players.Contains(player))
+            players.Add(player);
+    }
+
+    /// <summary>
+    /// Server only. Stops targeting a player (downed, carried, dead). If the boss was chasing them,
+    /// it switches right away instead of waiting for the next aggro evaluation.
+    /// </summary>
+    public void RemoveTarget(GameObject player)
+    {
+        players.Remove(player);
+
+        if (currentTarget != player) return;
+        _randomTauntTimer = 0f;
+        GameObject next = GetTopThreatTarget();
+        if (next != null) currentTarget = next; // nobody left: keep the old target so states don't hit a null
     }
 
     private void TickAggroSystem(float deltaTime)

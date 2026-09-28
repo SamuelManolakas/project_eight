@@ -10,7 +10,7 @@ public class StrikeState_B : State_B
         boss.hitBox.damage = boss.damage;
         boss.animator.Play("Strike");
         boss.StartCoroutine(Wait());
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        boss.swordCollider.enabled = true;
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -31,7 +31,7 @@ public class StrikeState_B : State_B
     public override void Exit()
     {
         boss.hitBox.damage = 0;
-        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        boss.swordCollider.enabled = false;
         
         boss.StopAllCoroutines();
     }

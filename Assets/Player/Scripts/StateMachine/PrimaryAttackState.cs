@@ -25,7 +25,7 @@ public class PrimaryAttackState : State
     public override void Exit()
     {
         if (player.swordAndShield)
-            player.weapon.GetComponent<Collider>().enabled = false;
+            player.weaponCollider.enabled = false;
         
         player.StopAllCoroutines();
     }
@@ -43,7 +43,7 @@ public class PrimaryAttackState : State
         yield return new WaitForSeconds(0.2f);
         
         player.attackBuffer = false;
-        player.weapon.GetComponent<Collider>().enabled = true;
+        player.weaponCollider.enabled = true;
         player.animator.Play("Combo1a");
         
         if (player.PlayerAudioScriptableObject != null)
@@ -103,7 +103,7 @@ public class PrimaryAttackState : State
         yield return new WaitForSeconds(0.2f);
         
         player.attackBuffer = false;
-        player.weapon.GetComponent<Collider>().enabled = true;
+        player.weaponCollider.enabled = true;
         player.animator.Play("Combo1a");
 
         //Audio
@@ -131,10 +131,13 @@ public class PrimaryAttackState : State
 
     Vector3 GetAttackImpulse()
     {
-        if (_attackImpulseTimer >= lungeDuration) return Vector3.zero;
+        float dt = Time.deltaTime;
+        if (_attackImpulseTimer >= lungeDuration || dt <= 0f) return Vector3.zero;
 
-        _attackImpulseTimer += Time.deltaTime;
-        return _attackImpulse ;
+        // Only count the part of this frame that's inside the lunge, so the distance is the same at any frame rate.
+        float activeTime = Mathf.Min(dt, lungeDuration - _attackImpulseTimer);
+        _attackImpulseTimer += dt;
+        return _attackImpulse * (activeTime / dt);
     }
 
     public override void ContinuousAction()

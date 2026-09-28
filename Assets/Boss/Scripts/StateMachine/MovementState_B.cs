@@ -53,7 +53,7 @@ public class MovementState_B : State_B
         if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
         {
             boss.controller.Move(finalMove * Time.deltaTime);
-            boss.animator.SetFloat("speed", move.magnitude);
+            boss.animator.SetFloat(AnimatorParams.Speed, move.magnitude);
             
             _rangedAttackTimer += Time.deltaTime;
             if (_rangedAttackTimer > 7f)
@@ -64,7 +64,7 @@ public class MovementState_B : State_B
         }
         else
         {
-            boss.animator.SetFloat("speed", 0);
+            boss.animator.SetFloat(AnimatorParams.Speed, 0);
 
             if (_attackCooldownTimer <= 0)
             {

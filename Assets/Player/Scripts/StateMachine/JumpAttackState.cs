@@ -16,13 +16,13 @@ public class JumpAttackState : State
         if (player.swordAndShield)
         {
             player.shieldHitBox.damage = player.primaryAttackDamage;
-            player.shield.GetComponent<Collider>().enabled = true;
+            player.shieldCollider.enabled = true;
         }
         
         if (player.greatSword)
         {
             player.hitBox.damage = player.primaryAttackDamage;
-            player.weapon.GetComponent<Collider>().enabled = true;
+            player.weaponCollider.enabled = true;
         }
         
         _jumpDirection = player.transform.forward;
@@ -38,9 +38,9 @@ public class JumpAttackState : State
         player.gravityScale = 1f;
 
         if (player.swordAndShield) 
-            player.shield.GetComponent<Collider>().enabled = false;
+            player.shieldCollider.enabled = false;
         if (player.greatSword) 
-            player.weapon.GetComponent<Collider>().enabled = false;
+            player.weaponCollider.enabled = false;
 
         _fireOnce = 0;
         

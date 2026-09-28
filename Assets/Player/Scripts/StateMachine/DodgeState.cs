@@ -5,6 +5,9 @@ public class DodgeState : State
 {
     public DodgeState(PlayerBehaviour player, State parent) : base(player, parent){}
 
+    // The dodge hands control back at 80% of dodgeDuration; the slow tail of the ease-out is skipped.
+    private const float EndFraction = 0.8f;
+
     private bool _isDodging;
     private float _dodgeTimer;
     private Vector3 _dodgeDirection;
@@ -58,25 +61,27 @@ public class DodgeState : State
     {
         if (!_isDodging) return;
 
-        _dodgeTimer += Time.deltaTime;
+        float dt = Time.deltaTime;
+        if (dt <= 0f) return;
 
+        // Ease Out Cubic: fast start, smooth stop. Move by how far along the curve we got this
+        // frame, rather than sampling its speed, so the dodge covers the same distance at any frame rate.
+        float previousEased = EaseOutCubic(Mathf.Clamp01(_dodgeTimer / player.dodgeDuration));
+        _dodgeTimer += dt;
         float t = Mathf.Clamp01(_dodgeTimer / player.dodgeDuration);
+        float easedT = EaseOutCubic(t);
 
-        // Ease Out Cubic: fast start, smooth stop
-        float easedT = 1f - Mathf.Pow(1f - t, 3f);
-
-        // Differentiate to get speed (derivative of ease out cubic)
-        // speed = d/dt [ 1 - (1-t)^3 ] = 3(1-t)^2
-        float speed = 3f * Mathf.Pow(1f - t, 2f) * (player.dodgeDistance / player.dodgeDuration);
-
+        float speed = (easedT - previousEased) * player.dodgeDistance / dt;
         player.horizontalVelocity = _dodgeDirection * speed;
 
-        if (t >= player.dodgeDuration - 0.2f)
+        if (t >= EndFraction)
         {
             _isDodging = false;
             player.stateMachine.Transit(player.idleState); // Idle bleeds off the remaining speed
         }
     }
+
+    private static float EaseOutCubic(float t) => 1f - Mathf.Pow(1f - t, 3f);
 
     private IEnumerator IFrameWindow(float startFraction, float endFraction)
     {

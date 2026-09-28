@@ -109,8 +109,12 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public float initialSpeed;
     [HideInInspector] 
     public HitBox hitBox;
-    [HideInInspector] 
+    [HideInInspector]
     public HitBox shieldHitBox;
+    [HideInInspector]
+    public Collider weaponCollider; // cached: attack states toggle these on every swing
+    [HideInInspector]
+    public Collider shieldCollider;
     [HideInInspector] 
     public HurtBox hurtBox;
     [HideInInspector] 
@@ -123,10 +127,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public PlayerShoot playerShoot;
     [HideInInspector]
     public ThirdPersonCamera camera;
-    
-    private NetworkVariable<ulong> m_heldNetworkObjectId = new(ulong.MaxValue);
-    private NetworkVariable<ObjectType> m_heldObjectType = new(ObjectType.None);
-    
+
     [HideInInspector]
     public HierarchicalStateMachine<State> stateMachine = null;
     
@@ -185,6 +186,8 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         stamina = GetComponent<PlayerStamina>();
         health = GetComponent<PlayerHealth>();
         playerShoot = GetComponent<PlayerShoot>();
+        if (weapon != null) weaponCollider = weapon.GetComponent<Collider>();
+        if (shield != null) shieldCollider = shield.GetComponent<Collider>();
     }
 
     private void Start()
@@ -544,11 +547,6 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         {
             _healCooldown -= Time.deltaTime;
         }
-
-        if (Keyboard.current.aKey.wasPressedThisFrame)
-        {
-            camera.target = transform;
-        }
     }
 
     private void ContinuousAction(){stateMachine.currentState.ContinuousAction();}
@@ -561,17 +559,21 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
 
         if (controller.isGrounded && velocity.y < 0f)
             velocity.y = -2f; // small constant push keeps isGrounded stable on slopes/steps
+
+        // Move by the average of this frame's start and end vertical speed. That's exact for
+        // constant gravity, so jump height and fall speed are the same at any frame rate.
+        float startVerticalSpeed = velocity.y;
         velocity.y += gravity * gravityScale * Time.deltaTime;
 
         Vector3 motion = horizontalVelocity;
-        motion.y = velocity.y;
+        motion.y = (startVerticalSpeed + velocity.y) * 0.5f;
         controller.Move(motion * Time.deltaTime);
     }
 
     // Default for states that don't drive movement: horizontal speed bleeds off smoothly.
     public void BleedHorizontalVelocity()
     {
-        horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, deceleration * Time.deltaTime);
+        horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, Smoothing.Factor(deceleration));
         if (horizontalVelocity.sqrMagnitude < 0.0001f) horizontalVelocity = Vector3.zero;
     }
 
@@ -599,8 +601,6 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        m_heldObjectType.OnValueChanged += HandleHeldItemChanged;
-        HandleItemOnJoin();
         if (IsOwner)
         {
             Canvas sceneCanvas = FindObjectOfType<Canvas>(); // or a cached reference if you have one
@@ -623,8 +623,6 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         StartCoroutine(AssignCameraWhenReady()); // replaces the direct camera assignment
 
         stamina._stamina.OnValueChanged += OnStaminaChanged;
-
-        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Add(gameObject);
     }
 
     private System.Collections.IEnumerator AssignCameraWhenReady()
@@ -670,120 +668,10 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         }
     }
     
-    [Rpc(SendTo.Server)]
-    private void RequestResourceNodeInteractionServerRpc(ulong networkObjectId)
-    {
-        if (!NetworkManager.SpawnManager.SpawnedObjects
-                .TryGetValue(networkObjectId, out NetworkObject target))
-            return;
-
-        if (!target.TryGetComponent(out ResourceNode node))
-            return;
-
-        node.Harvest(m_heldObjectType.Value);
-    }
-    
-    private void HandleItemOnJoin()
-    {
-        if(m_heldObjectType.Value != ObjectType.None)
-        {
-            HandleHeldItemChanged(ObjectType.None, m_heldObjectType.Value);
-        }
-    }
-    
-    private void HandleHeldItemChanged(ObjectType previousValue, ObjectType newValue)
-    {
-        weapon.SetActive(newValue == ObjectType.Axe);
-    }
-    
-    private void HandleAnimationDone()
-    {
-        //m_isInteracting = false;
-        //m_isChopping = false;
-    }
-    
-    [Rpc(SendTo.Server)]
-    private void RequestPickUpServerRpc(ulong networkObjectId)
-    {
-        if(!NetworkManager.SpawnManager.SpawnedObjects
-               .TryGetValue(networkObjectId, out NetworkObject target))
-        {
-            return;
-        }
-        if(!target.TryGetComponent(out PickableBase pickableItem))
-        {
-            return;
-        }
-        if(!pickableItem.CanBePickedUp)
-        {
-            return;
-        }
-        if(m_heldObjectType.Value != ObjectType.None)
-        {
-            DropCurrentItem();
-        }
-        if(pickableItem is PickableTool)
-        {
-            m_heldNetworkObjectId.Value = networkObjectId;
-        }
-
-
-        m_heldObjectType.Value = pickableItem.ObjectType;
-        pickableItem.PickUp();
-    }
-    
-    private void DropCurrentItem()
-    {
-        if(IsServer == false)
-        {
-            return;
-        }
-        if(m_heldObjectType.Value == ObjectType.None)
-        {
-            m_heldNetworkObjectId.Value = ulong.MaxValue;
-            return;
-        }
-        if(m_heldObjectType.Value is ObjectType.Axe or ObjectType.PickAxe)
-        {
-            if(NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(
-                   m_heldNetworkObjectId.Value, out NetworkObject target))
-            {
-                if(target.TryGetComponent(out PickableTool pickableItem))
-                {
-                    pickableItem.Drop(transform.position);
-                }
-            }
-        }
-        else
-        {
-            //m_resourceSpawner.SpawnResource(m_heldObjectType.Value, transform.position);
-        }
-        m_heldObjectType.Value = ObjectType.None;
-        m_heldNetworkObjectId.Value = ulong.MaxValue;
-    }
-    
     public override void OnNetworkDespawn()
     {
-        m_heldObjectType.OnValueChanged -= HandleHeldItemChanged;
-        if (IsOwner)
-        {
-            RequestDropServerRpc();
-            //m_animationEvents.OnInteract -= HandleInteractAction;
-            //m_animationEvents.OnAnimationDone -= HandleAnimationDone;
-            //m_animationEvents.OnChop -= HandleChopAction;
-        }
         base.OnNetworkDespawn();
-        
         stamina._stamina.OnValueChanged -= OnStaminaChanged;
-
-        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().m_players.Remove(gameObject);
-        //GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().SceneReload();
-    }
-    
-    [Rpc(SendTo.Server)]
-    private void RequestDropServerRpc()
-    {
-        DropCurrentItem();
     }
 
     [ClientRpc]
@@ -828,18 +716,26 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         }
     }
 
+    // The boss's target list only matters on the server (the boss AI runs there). These are called
+    // from state Enter/Exit, which run on every machine, so only the server's copy acts.
     public void AddPlayerFromBossList()
     {
-        if (!IsOwner) return;
-        GameObject.FindGameObjectWithTag("Enemy")
-            .GetComponent<BossBehaviour>().players.Add(gameObject);
+        if (!IsServer) return;
+        BossBehaviour boss = FindBoss();
+        if (boss != null) boss.AddTarget(gameObject);
     }
-    
+
     public void RemovePlayerFromBossList()
     {
-        if (!IsOwner) return;
-        GameObject.FindGameObjectWithTag("Enemy")
-            .GetComponent<BossBehaviour>().players.Remove(gameObject);
+        if (!IsServer) return;
+        BossBehaviour boss = FindBoss();
+        if (boss != null) boss.RemoveTarget(gameObject);
+    }
+
+    private static BossBehaviour FindBoss()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        return enemy != null ? enemy.GetComponent<BossBehaviour>() : null;
     }
 }
 

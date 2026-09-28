@@ -12,7 +12,7 @@ public class ChargeState_B : State_B
     public override void Enter()
     {
         //reminder to change the damage logic
-        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = boss.damage;
+        boss.chargeHitBox.damage = boss.damage;
         boss.StartCoroutine(Wait());
         
         //Audio
@@ -27,8 +27,8 @@ public class ChargeState_B : State_B
 
     public override void Exit()
     {
-        boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
-        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = 0;
+        boss.chargeHitBoxCollider.isTrigger = false;
+        boss.chargeHitBox.damage = 0;
         boss.chargeHitBox.gameObject.layer = 7;
         
         boss.StopAllCoroutines();
@@ -55,7 +55,7 @@ public class ChargeState_B : State_B
         
         yield return new WaitForSeconds(1);
         
-        boss.chargeHitBox.GetComponent<Collider>().isTrigger = true;
+        boss.chargeHitBoxCollider.isTrigger = true;
         boss.chargeHitBox.gameObject.layer = 9;
         charge = true;
         

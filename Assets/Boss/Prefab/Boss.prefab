@@ -351,7 +351,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2847696183123333305}
-  - component: {fileID: 1596004854774769672}
   m_Layer: 7
   m_Name: Detector
   m_TagString: Untagged
@@ -374,23 +373,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8796926961650866662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1596004854774769672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127555642198844732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a8f3101a17afa4e879423c84c847ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_detectionRadius: 3
-  m_detectionAngle: 60
-  m_pickupLayer:
-    serializedVersion: 2
-    m_Bits: 72
 --- !u!1 &2255566916442839699
 GameObject:
   m_ObjectHideFlags: 0
@@ -6278,7 +6260,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4234516766037397327}
   - component: {fileID: 1453282204876753570}
-  - component: {fileID: 7450510561203280218}
   - component: {fileID: 3764648198352342045}
   m_Layer: 0
   m_Name: Mesh
@@ -6326,21 +6307,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7450510561203280218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3571308585560839669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a233523b2321255488506e39982b8571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEvents
-  OnStep:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3764648198352342045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17733,7 +17699,6 @@ GameObject:
   - component: {fileID: 5217259083311470555}
   - component: {fileID: 1786571155882600704}
   - component: {fileID: 3575165361325302358}
-  - component: {fileID: 2054388775556113775}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -17869,21 +17834,6 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 1
   AnimatorParametersExpanded: 0
---- !u!114 &2054388775556113775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8489707428077008500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a233523b2321255488506e39982b8571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEvents
-  OnStep:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8496390614014114605
 GameObject:
   m_ObjectHideFlags: 0
@@ -18078,7 +18028,6 @@ MonoBehaviour:
   scaledMaxHealth:
     m_InternalValue: 0
   animator: {fileID: 1786571155882600704}
-  m_animationEvents: {fileID: 2054388775556113775}
   greatSwordModel: {fileID: 1890145477471268160}
   slider: {fileID: 0}
   upperBody: {fileID: 3330115430005122473}

@@ -34,7 +34,7 @@ public class Combo2State_B : State_B
     public override void Exit()
     {
         boss.hitBox.damage = 0;
-        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        boss.swordCollider.enabled = false;
         boss.chargeHitBox.gameObject.layer = 7;
         
         boss.StopAllCoroutines();
@@ -52,7 +52,7 @@ public class Combo2State_B : State_B
         
         yield return new WaitForSeconds(0.8f);
         boss.hitBox.hitTargets.Clear();
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        boss.swordCollider.enabled = true;
 
         yield return new WaitForSeconds(2.2f);
         
@@ -61,16 +61,16 @@ public class Combo2State_B : State_B
         chargeDirection.y = 0;
         
         charge = true;
-        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = boss.damage;
-        boss.chargeHitBox.GetComponent<Collider>().isTrigger = true;
+        boss.chargeHitBox.damage = boss.damage;
+        boss.chargeHitBoxCollider.isTrigger = true;
         boss.chargeHitBox.gameObject.layer = 9;
         
         yield return new WaitForSeconds(0.4f);
         
         boss.chargeHitBox.gameObject.layer = 7;
         charge = false;
-        boss.chargeHitBox.GetComponent<ChargeHitBox>().damage = 0;
-        boss.chargeHitBox.GetComponent<Collider>().isTrigger = false;
+        boss.chargeHitBox.damage = 0;
+        boss.chargeHitBoxCollider.isTrigger = false;
         
         yield return new WaitForSeconds(3.3f);
         

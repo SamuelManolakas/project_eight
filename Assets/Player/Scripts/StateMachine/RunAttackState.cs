@@ -14,7 +14,7 @@ public class RunAttackState : State
     {
         player.animator.Play("Run Attack");
         
-        player.weapon.GetComponent<Collider>().enabled = true;
+        player.weaponCollider.enabled = true;
         player.hitBox.damage = player.primaryAttackDamage;
         
         _attackDirection = player.controller.velocity;
@@ -32,7 +32,7 @@ public class RunAttackState : State
 
     public override void Exit()
     {
-        player.weapon.GetComponent<Collider>().enabled = false;
+        player.weaponCollider.enabled = false;
         
         player.StopAllCoroutines();
     }
@@ -45,12 +45,18 @@ public class RunAttackState : State
             return;
         }
 
-        _attackTimer += Time.deltaTime;
-        float t = Mathf.Clamp01(_attackTimer / player.dodgeDuration);
+        float dt = Time.deltaTime;
+        if (dt <= 0f) return;
 
-        player.horizontalVelocity = _attackDirection * _attackSpeed;
+        // Lunge lasts 40% of dodgeDuration. Only move for the part of this frame that's inside that
+        // window, so a long (low-FPS) last frame doesn't carry the player further.
+        float lungeDuration = 0.4f * player.dodgeDuration;
+        float activeTime = Mathf.Min(dt, lungeDuration - _attackTimer);
+        _attackTimer += dt;
 
-        if (t >= 0.4f)
+        player.horizontalVelocity = _attackDirection * (_attackSpeed * activeTime / dt);
+
+        if (_attackTimer >= lungeDuration)
             _isAttacking = false;
     }
     

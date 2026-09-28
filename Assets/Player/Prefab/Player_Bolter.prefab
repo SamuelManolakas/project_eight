@@ -467,6 +467,37 @@ Transform:
   - {fileID: 3657910471008188023}
   m_Father: {fileID: 5568740431639081464}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &960698989925113840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2300252023511842648}
+  m_Layer: 0
+  m_Name: CarryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2300252023511842648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960698989925113840}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.15876, y: 0.87266, z: 0.70435}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 820807651429821145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1022380510260778755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,7 +1671,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034217497068213754}
-  - component: {fileID: 6711439868172442985}
   m_Layer: 8
   m_Name: Detector
   m_TagString: Untagged
@@ -1663,23 +1693,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 820807651429821145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6711439868172442985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2858338108727155311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a8f3101a17afa4e879423c84c847ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_detectionRadius: 3
-  m_detectionAngle: 60
-  m_pickupLayer:
-    serializedVersion: 2
-    m_Bits: 72
 --- !u!1 &2909502342726119998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,7 +2126,6 @@ GameObject:
   - component: {fileID: 2824911670817546591}
   - component: {fileID: 8202241183113722661}
   - component: {fileID: 5205707449410600023}
-  - component: {fileID: 5392343377665509244}
   m_Layer: 0
   m_Name: Player_Bolter_Model (1)
   m_TagString: Untagged
@@ -2191,21 +2203,6 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 1
   AnimatorParametersExpanded: 0
---- !u!114 &5392343377665509244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3206504239905848293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a233523b2321255488506e39982b8571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEvents
-  OnStep:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3206775447409515243
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,6 +3271,8 @@ MonoBehaviour:
   carrySpeedMultiplier: 0.6
   throwForce: 6
   throwUpwardForce: 3
+  carriedPlayer: {fileID: 0}
+  carrierPlayer: {fileID: 0}
   isMoving: 0
   animator: {fileID: 8202241183113722661}
   weapon: {fileID: 4790160099083158083}
@@ -3281,11 +3280,13 @@ MonoBehaviour:
   hudPrefab: {fileID: 8428385172736465457, guid: dd957d6ac6134c7418e67adefcd36e31, type: 3}
   PlayerAudioScriptableObject: {fileID: 11400000, guid: b45051e28321a1b41b2e5f2baa7fd2af, type: 2}
   audioSource: {fileID: 4907625671478818420}
+  networkTransform: {fileID: 0}
   cameraTransform: {fileID: 0}
   controller: {fileID: 0}
   moveInput: {x: 0, y: 0}
   velocity: {x: 0, y: 0, z: 0}
   horizontalVelocity: {x: 0, y: 0, z: 0}
+  gravityScale: 1
   initialSpeed: 0
   hitBox: {fileID: 0}
   shieldHitBox: {fileID: 0}
@@ -3295,7 +3296,6 @@ MonoBehaviour:
   stamina: {fileID: 0}
   playerShoot: {fileID: 0}
   camera: {fileID: 0}
-  stateMachine: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3563,6 +3563,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  ReviveProgress:
+    m_InternalValue: 0
 --- !u!114 &5296430105436699208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3578,7 +3580,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPrefab: {fileID: 775290615496694872, guid: 6c6169c9298595f40bb7845e0c40ca5a, type: 3}
   firePoint: {fileID: 4385925974512642274}
-  damage: 5
+  damage: 10
 --- !u!1 &5146331886742341556
 GameObject:
   m_ObjectHideFlags: 0
@@ -4669,7 +4671,6 @@ GameObject:
   - component: {fileID: 6068687999210389984}
   - component: {fileID: 2600101153406213727}
   - component: {fileID: 1007389719989868208}
-  - component: {fileID: 8016644041812297849}
   m_Layer: 0
   m_Name: Player_Bolter_Model
   m_TagString: Untagged
@@ -4748,21 +4749,6 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 1
   AnimatorParametersExpanded: 0
---- !u!114 &8016644041812297849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6878016120522857306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a233523b2321255488506e39982b8571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEvents
-  OnStep:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7293233341330222913
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,34 +5399,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &960698989925113840
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2300252023511842648}
-  m_Layer: 0
-  m_Name: CarryPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2300252023511842648
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960698989925113840}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15876, y: 0.87266, z: 0.70435}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 820807651429821145}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

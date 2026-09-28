@@ -56,7 +56,7 @@ public class NukeState_B : State_B
         Vector3 finalMove = move * (boss.speed + 10f);
         
         boss.controller.Move(finalMove * Time.deltaTime);
-        boss.animator.SetFloat("speed", move.magnitude);
+        boss.animator.SetFloat(AnimatorParams.Speed, move.magnitude);
         
         if (move.sqrMagnitude > 0.001f)
         {

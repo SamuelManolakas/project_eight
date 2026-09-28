@@ -1090,7 +1090,6 @@ GameObject:
   - component: {fileID: 3367857327155415101}
   - component: {fileID: 8673128803003159111}
   - component: {fileID: 5829796371417469942}
-  - component: {fileID: 3433176283529310835}
   m_Layer: 8
   m_Name: Player_ShortSword_Model
   m_TagString: Player
@@ -1168,21 +1167,6 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 1
   AnimatorParametersExpanded: 0
---- !u!114 &3433176283529310835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2735612184393142919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a233523b2321255488506e39982b8571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEvents
-  OnStep:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2858338108727155311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1176,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034217497068213754}
-  - component: {fileID: 6711439868172442985}
   m_Layer: 8
   m_Name: Detector
   m_TagString: Untagged
@@ -1215,23 +1198,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 820807651429821145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6711439868172442985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2858338108727155311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a8f3101a17afa4e879423c84c847ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_detectionRadius: 3
-  m_detectionAngle: 60
-  m_pickupLayer:
-    serializedVersion: 2
-    m_Bits: 72
 --- !u!1 &3392139654491861162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1366874158
+  GlobalObjectIdHash: 860196082
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2122,8 +2088,8 @@ MonoBehaviour:
   gravity: -15
   dodgeDuration: 1
   dodgeDistance: 6
-  primaryAttackDamage: 10
-  secondaryAttackDamage: 20
+  primaryAttackDamage: 15
+  secondaryAttackDamage: 30
   fireRate: 0
   primaryAttackStaminaCost: 10
   secondaryAttackStaminaCost: 20
@@ -2155,6 +2121,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0}
   velocity: {x: 0, y: 0, z: 0}
   horizontalVelocity: {x: 0, y: 0, z: 0}
+  gravityScale: 1
   initialSpeed: 0
   hitBox: {fileID: 0}
   shieldHitBox: {fileID: 0}
@@ -2164,7 +2131,6 @@ MonoBehaviour:
   stamina: {fileID: 0}
   playerShoot: {fileID: 0}
   camera: {fileID: 0}
-  stateMachine: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,10 +2309,6 @@ MonoBehaviour:
     m_ActionId: 60f823ac-c4b8-484d-9631-6ea4b14fd384
     m_ActionName: 'Gameplay/Reload[/Keyboard/r]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9ee9054b-f2bd-4674-a9cf-308a8c4f9422
-    m_ActionName: 'Gameplay/Revive[/Keyboard/e,/DualSenseGamepadHID/dpad/up]'
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2722297990731148367}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
@@ -2362,10 +2324,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: eeaa86f4-9e65-4446-b745-84b81ff60a56
     m_ActionName: 'Gameplay/Interact[/Keyboard/c]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 457477d4-0b2c-4650-9f1c-ac6c607444be
-    m_ActionName: Gameplay/Throw
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -2420,6 +2378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  ReviveProgress:
+    m_InternalValue: 0
 --- !u!1 &5472721737541937953
 GameObject:
   m_ObjectHideFlags: 0

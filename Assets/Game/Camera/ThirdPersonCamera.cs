@@ -48,6 +48,7 @@ public class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float distance        = 5f;
     [SerializeField] private float minDistance     = 1.5f;
     [SerializeField] private float maxDistance     = 12f;
+    [Tooltip("Distance change per scroll-wheel notch.")]
     [SerializeField] private float zoomSensitivity = 2f;
     [SerializeField] private float zoomSmoothing   = 8f;
 
@@ -195,12 +196,13 @@ public class ThirdPersonCamera : MonoBehaviour
         // --- Zoom (scroll wheel) ---
         if (zoomAction != null)
         {
+            // Scroll is already an amount per frame (like mouse delta), so no deltaTime here
             float scroll = zoomAction.action.ReadValue<float>();
-            _targetDist -= scroll * zoomSensitivity * Time.deltaTime;
+            _targetDist -= scroll * zoomSensitivity;
             _targetDist  = Mathf.Clamp(_targetDist, minDistance, maxDistance);
         }
 
-        distance = Mathf.Lerp(distance, _targetDist, zoomSmoothing * Time.deltaTime);
+        distance = Mathf.Lerp(distance, _targetDist, Smoothing.Factor(zoomSmoothing));
     }
 
     // ---------------------------------------------------------------
@@ -209,7 +211,7 @@ public class ThirdPersonCamera : MonoBehaviour
         _followPos = Vector3.Lerp(
             _followPos,
             target.position + targetOffset,
-            followSmoothing * Time.deltaTime
+            Smoothing.Factor(followSmoothing)
         );
     }
 
@@ -218,7 +220,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         // Smoothly blend aim distance and shoulder offset
         float aimTarget = _isAiming ? 1f : 0f;
-        _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, aimTransitionSpeed * Time.deltaTime);
+        _currentAimBlend = Mathf.Lerp(_currentAimBlend, aimTarget, Smoothing.Factor(aimTransitionSpeed));
 
         float activeDist = Mathf.Lerp(distance, aimDistance, _currentAimBlend);
         Vector3 activeOffset = Vector3.Lerp(Vector3.zero, aimShoulderOffset, _currentAimBlend);
@@ -243,7 +245,7 @@ public class ThirdPersonCamera : MonoBehaviour
             Vector3    lookAtPoint = lockOnTarget.position + lockOnOffset;
             Quaternion targetRot   = Quaternion.LookRotation(lookAtPoint - transform.position);
             transform.rotation     = Quaternion.Slerp(transform.rotation, targetRot,
-                                                      lockOnRotationSpeed * Time.deltaTime);
+                                                      Smoothing.Factor(lockOnRotationSpeed));
 
             _yaw   = transform.eulerAngles.y;
             _pitch = transform.eulerAngles.x;

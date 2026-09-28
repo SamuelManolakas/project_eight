@@ -27,7 +27,7 @@ public class Combo1State_B : State_B
     public override void Exit()
     {
         boss.hitBox.damage = 0;
-        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        boss.swordCollider.enabled = false;
         
         boss.StopAllCoroutines();
     }
@@ -38,7 +38,7 @@ public class Combo1State_B : State_B
         boss.animator.Play("3HitCombo");
         
         yield return new WaitForSeconds(1f);
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        boss.swordCollider.enabled = true;
 
         yield return new WaitForSeconds(1.5f);
         boss.hitBox.hitTargets.Clear();

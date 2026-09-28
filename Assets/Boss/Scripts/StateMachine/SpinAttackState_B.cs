@@ -37,7 +37,7 @@ public class SpinAttackState_B : State_B
     public override void Exit()
     {
         boss.hitBox.damage = 0;
-        boss.greatSwordModel.GetComponent<Collider>().enabled = false;
+        boss.swordCollider.enabled = false;
         
         boss.StopAllCoroutines();
     }
@@ -48,7 +48,7 @@ public class SpinAttackState_B : State_B
         boss.animator.Play("SpinAttack");
         
         yield return new WaitForSeconds(1f);
-        boss.greatSwordModel.GetComponent<Collider>().enabled = true;
+        boss.swordCollider.enabled = true;
         _isSpinning = true;
 
         yield return new WaitForSeconds(1);

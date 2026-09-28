@@ -24,17 +24,17 @@ public class CarryState : State
             ? player.acceleration
             : player.deceleration;
 
-        player.horizontalVelocity = Vector3.Lerp(player.horizontalVelocity, targetVelocity, lerpRate * Time.deltaTime);
+        player.horizontalVelocity = Vector3.Lerp(player.horizontalVelocity, targetVelocity, Smoothing.Factor(lerpRate));
 
         if (player.horizontalVelocity.sqrMagnitude > 0.001f)
         {
             Quaternion toRotation = Quaternion.LookRotation(player.horizontalVelocity.normalized, Vector3.up);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Time.deltaTime * 10f);
-            player.animator.SetFloat("speed", player.horizontalVelocity.magnitude / moveSpeed);
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, toRotation, Smoothing.Factor(10f));
+            player.animator.SetFloat(AnimatorParams.Speed, player.horizontalVelocity.magnitude / moveSpeed);
         }
         else
         {
-            player.animator.SetFloat("speed", 0f);
+            player.animator.SetFloat(AnimatorParams.Speed, 0f);
         }
     }
 
