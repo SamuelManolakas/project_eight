@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NukeState_B : State_B
@@ -18,7 +17,6 @@ public class NukeState_B : State_B
     {
         _hasReachedPosition = false;
        
-        boss.StopAllCoroutines();
     }
 
     public override void ContinuousAction()
@@ -68,7 +66,7 @@ public class NukeState_B : State_B
 
     private void OnPositionReached()
     {
-        boss.StartCoroutine(NukeSequence());
+        StartCoroutine(NukeSequence());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -76,12 +74,7 @@ public class NukeState_B : State_B
             boss.bossAudioNetworker.TriggerNukeAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
     }
 
     private IEnumerator NukeSequence()

@@ -7,12 +7,7 @@ public class Phase1State : State_B
     
     public override void Enter()
     {
-        boss.StartCoroutine(Wait());
-    }
-
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
+        StartCoroutine(Wait());
     }
 
     private IEnumerator Wait()

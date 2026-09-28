@@ -13,7 +13,7 @@ public class Combo2State_B : State_B
     public override void Enter()
     {
         boss.hitBox.damage = boss.damage;
-        boss.StartCoroutine(Combo());
+        StartCoroutine(Combo());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -21,12 +21,7 @@ public class Combo2State_B : State_B
             boss.bossAudioNetworker.Trigger4HcAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
     }
 
     public override void Exit()
@@ -35,7 +30,6 @@ public class Combo2State_B : State_B
         boss.swordCollider.enabled = false;
         boss.chargeHitBox.gameObject.layer = 7;
         
-        boss.StopAllCoroutines();
     }
     
     private IEnumerator Combo()
@@ -80,7 +74,7 @@ public class Combo2State_B : State_B
 
     private void SmallExplosions()
     {
-        boss.CanonExplosions();
+        boss.CannonExplosion();
     }
 
     public override void ContinuousAction()

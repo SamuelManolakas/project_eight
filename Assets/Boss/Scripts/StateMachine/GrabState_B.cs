@@ -10,7 +10,7 @@ public class GrabState_B : State_B
     {
         _shouldMove = true;
         boss.animator.Play("Grab");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -18,19 +18,9 @@ public class GrabState_B : State_B
             boss.bossAudioNetworker.TriggerGrabAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
     }
 
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
-    }
-    
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(1.5f);

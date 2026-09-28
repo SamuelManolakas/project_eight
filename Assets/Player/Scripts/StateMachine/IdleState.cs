@@ -9,11 +9,6 @@ public class IdleState : State
         player.animator.Play("Idle");
     }
 
-    public override void Exit()
-    {
-        player.StopAllCoroutines();
-    }
-
     public override void ContinuousAction()
     {
         if (player.moveInput.sqrMagnitude > 0.01f)

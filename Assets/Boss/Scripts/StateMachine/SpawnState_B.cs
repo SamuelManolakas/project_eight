@@ -7,14 +7,9 @@ public class SpawnState_B : State_B
     
     public override void Enter()
     {
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
     }
 
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
-    }
-    
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(2f);

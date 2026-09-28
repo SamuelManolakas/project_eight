@@ -28,7 +28,6 @@ public class MovementState : State
             player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
         }
         
-        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()
@@ -59,9 +58,9 @@ public class MovementState : State
         
         if (player.horizontalVelocity.sqrMagnitude > 0.001f)
         {
-            if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
+            if (player.playerCamera._isLockedOn && player.speed != player.sprintSpeed)
             {
-                Vector3 bossDirection = player.camera.lockOnTarget.position - player.transform.position;
+                Vector3 bossDirection = player.playerCamera.lockOnTarget.position - player.transform.position;
                 bossDirection.y = 0;
                 
                 Quaternion toRotation = Quaternion.LookRotation(bossDirection.normalized, Vector3.up);

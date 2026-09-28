@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class DeadState : State
@@ -10,13 +9,8 @@ public class DeadState : State
         player.animator.Play("KnockedBack");
         player.RemovePlayerFromBossList();
         
-        player.StopAllCoroutines();
     }
 
-    public override void Exit()
-    {
-        player.StopAllCoroutines();
-    }
     public override void GetHit(int damage){}
     public override void ContinuousAction()
     {

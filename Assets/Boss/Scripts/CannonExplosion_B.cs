@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CanonExplosions_B : NetworkBehaviour
+public class CannonExplosion_B : NetworkBehaviour
 {
      public int damage;
      [HideInInspector]

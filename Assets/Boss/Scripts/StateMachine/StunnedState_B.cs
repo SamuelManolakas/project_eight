@@ -8,7 +8,7 @@ public class StunnedState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Stunned");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -16,17 +16,7 @@ public class StunnedState_B : State_B
             boss.bossAudioNetworker.TriggerStunAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
-    }
-
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
+        boss.SetEngineSound(0);
     }
 
     public override void ContinuousAction()

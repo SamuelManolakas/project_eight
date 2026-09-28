@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 
 public class SecondaryAttackState : State
@@ -13,12 +12,12 @@ public class SecondaryAttackState : State
         if (player.swordAndShield)
         {
             player.hitBox.damage = player.secondaryAttackDamage;
-            player.StartCoroutine(SwordAndShieldCombo());
+            StartCoroutine(SwordAndShieldCombo());
         }
         else if(player.greatSword)
         {
             player.hitBox.damage = player.secondaryAttackDamage;
-            player.StartCoroutine(GreatSwordCombo());
+            StartCoroutine(GreatSwordCombo());
         }
         else if(player.bolter)
         {
@@ -32,19 +31,18 @@ public class SecondaryAttackState : State
         if (player.swordAndShield || player.greatSword)
             player.weaponCollider.enabled = false;
         
-        player.StopAllCoroutines();
     }
 
     private void Aim()
     {
         //player.animator.Play("Aim");
         
-        player.camera.canAim = true;
+        player.playerCamera.canAim = true;
     }
 
     public void ExitAim()
     {
-        player.camera.canAim = false;
+        player.playerCamera.canAim = false;
         
         player.stateMachine.Transit(player.idleState);
     }
@@ -61,7 +59,7 @@ public class SecondaryAttackState : State
                 new Quaternion(0, cameraYawRotation.y, 0, cameraYawRotation.w), Smoothing.Factor(50f));
 
             // Fire point aims at what the crosshair is actually over
-            Vector3 aimPoint     = player.camera.AimPoint;
+            Vector3 aimPoint     = player.playerCamera.AimPoint;
             Vector3 firePointPos = player.playerShoot.firePoint.transform.position;
             Quaternion aimRotation = Quaternion.LookRotation((aimPoint - firePointPos).normalized, Vector3.up);
 
@@ -76,7 +74,7 @@ public class SecondaryAttackState : State
     public override void OnPrimaryAttack()
     {
         if(_timer <= 0 && player.ammo > 0)
-            player.StartCoroutine(Shoot());
+            StartCoroutine(Shoot());
     }
 
     private IEnumerator Shoot()

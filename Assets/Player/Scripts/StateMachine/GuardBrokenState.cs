@@ -20,14 +20,13 @@ public class GuardBrokenState : State
         _isGettingUp = false;
         // The animator controllers move KnockedBack → LayingDown on their own once the knockback finishes.
         player.animator.Play("KnockedBack");
-        player.StartCoroutine(Knockdown());
+        StartCoroutine(Knockdown());
     }
 
     public override void Exit()
     {
         _canGetUp = false;
         _isGettingUp = false;
-        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()
@@ -46,7 +45,7 @@ public class GuardBrokenState : State
         if (!_canGetUp || _isGettingUp) return;
 
         _isGettingUp = true;
-        player.StartCoroutine(GetUp());
+        StartCoroutine(GetUp());
     }
 
     private IEnumerator Knockdown()

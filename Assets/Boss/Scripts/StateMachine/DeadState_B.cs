@@ -8,15 +8,10 @@ public class DeadState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Death");
-        boss.StartCoroutine(DeathSequence());
+        StartCoroutine(DeathSequence());
         
         //Audio
-        boss.bossEngineSound = 3;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(3);
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioNetworker.TriggerDieAudio();
@@ -26,7 +21,6 @@ public class DeadState_B : State_B
 
     public override void Exit()
     {
-        boss.StopAllCoroutines();
         
         //Audio
         boss.bossEngineSound = 3;

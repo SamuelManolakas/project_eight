@@ -9,6 +9,8 @@ public abstract class State : HierarchicalState<State>
         this.player = player;
     }
 
+    protected override MonoBehaviour CoroutineRunner => player;
+
     // Player input — unhandled input falls through to the parent state.
     public virtual void OnPrimaryAttack() => parent?.OnPrimaryAttack();
     public virtual void OnMove() => parent?.OnMove();

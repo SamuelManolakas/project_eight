@@ -11,24 +11,14 @@ public class MovementState_B : State_B
     public override void Enter()
     {
         //Audio
-        boss.bossEngineSound = 1;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(1);
 
         _attackCooldownTimer = boss.attackCooldown;
 
         if (boss.currentHealth.Value <= boss.maxHealth / 2 && !_hasFiredNuke)
         {
-            boss.StartCoroutine(FireNuke());
+            StartCoroutine(FireNuke());
         }
-    }
-
-    public override void Exit()
-    {
-        //boss.StopAllCoroutines();
     }
 
     private float _rangedAttackTimer;
@@ -111,9 +101,11 @@ public class MovementState_B : State_B
 
     private IEnumerator FireNuke()
     {
-        _hasFiredNuke = true;
-        
         yield return new WaitForSeconds(0.2f);
+
+        // Set only once the nuke actually starts: if the boss leaves this state during the wait,
+        // this coroutine is cancelled and the nuke is retried next time it's back in movement.
+        _hasFiredNuke = true;
         boss.stateMachine.Transit(boss.NukeState);
     }
 

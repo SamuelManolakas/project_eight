@@ -52,6 +52,12 @@ public class HierarchicalStateMachine<TState> where TState : HierarchicalState<T
         }
     }
 
+    private static void ExitState(TState state)
+    {
+        state.Exit();
+        state.StopOwnCoroutines(); // a state's coroutines never outlive it
+    }
+
     private void TransitNow(TState toState)
     {
         TState exitState = currentState;
@@ -62,7 +68,7 @@ public class HierarchicalStateMachine<TState> where TState : HierarchicalState<T
         // at their closest shared ancestor.
         while (enterState.level < exitState.level)
         {
-            exitState.Exit();
+            ExitState(exitState);
             exitState = exitState.parent;
         }
         while (exitState.level < enterState.level)
@@ -72,7 +78,7 @@ public class HierarchicalStateMachine<TState> where TState : HierarchicalState<T
         }
         while (exitState != enterState)
         {
-            exitState.Exit();
+            ExitState(exitState);
             _enterStack.Push(enterState);
             exitState = exitState.parent;
             enterState = enterState.parent;

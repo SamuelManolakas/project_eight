@@ -9,12 +9,7 @@ public class ReloadState : State
     {
         player.animator.Play("Reload");
 
-        player.StartCoroutine(Wait());
-    }
-
-    public override void Exit()
-    {
-        player.StopAllCoroutines();
+        StartCoroutine(Wait());
     }
 
     public override void ContinuousAction()

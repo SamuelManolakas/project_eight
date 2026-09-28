@@ -8,12 +8,7 @@ public class SpawnState : State
     public override void Enter()
     {
         
-        player.StartCoroutine(Wait());
-    }
-
-    public override void Exit()
-    {
-        player.StopAllCoroutines();
+        StartCoroutine(Wait());
     }
 
     private IEnumerator Wait()

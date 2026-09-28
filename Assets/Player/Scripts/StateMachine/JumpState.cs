@@ -11,13 +11,12 @@ public class JumpState : State
         canJump = false;
         player.animator.Play("Jump");
 
-        player.StartCoroutine(Wait());
+        StartCoroutine(Wait());
     }
     public override void Exit()
     {
         canJump = false;
         
-        player.StopAllCoroutines();
     }
 
     private IEnumerator Wait()
@@ -55,7 +54,7 @@ public class JumpState : State
         if (!player.stamina.TryUseStamina(player.primaryAttackStaminaCost)) return;
         
         if (player.swordAndShield || player.greatSword)
-            player.StartCoroutine(WaitToTransition());
+            StartCoroutine(WaitToTransition());
     }
 
     private IEnumerator WaitToTransition()

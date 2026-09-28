@@ -44,7 +44,6 @@ public class JumpAttackState : State
 
         _fireOnce = 0;
         
-        player.StopAllCoroutines();
     }
 
     public override void OnPrimaryAttack()
@@ -63,7 +62,7 @@ public class JumpAttackState : State
             player.BleedHorizontalVelocity();
 
             if (_fireOnce < 1)
-                player.StartCoroutine(Wait());
+                StartCoroutine(Wait());
             
             player.ClearHitTargets();
         }

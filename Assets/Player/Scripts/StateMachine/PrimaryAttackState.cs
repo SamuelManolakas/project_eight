@@ -12,12 +12,12 @@ public class PrimaryAttackState : State
             if (player.swordAndShield)
             {
                 player.hitBox.damage = player.primaryAttackDamage;
-                player.StartCoroutine(SwordAndShieldCombo());
+                StartCoroutine(SwordAndShieldCombo());
             }
             else if(player.greatSword)
             {
                 player.hitBox.damage = player.primaryAttackDamage;
-                player.StartCoroutine(GreatSwordCombo());
+                StartCoroutine(GreatSwordCombo());
             }
         }
     }
@@ -27,7 +27,6 @@ public class PrimaryAttackState : State
         if (player.swordAndShield)
             player.weaponCollider.enabled = false;
         
-        player.StopAllCoroutines();
     }
 
     public override void OnPrimaryAttack()

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class GuardState : State
@@ -20,6 +19,5 @@ public class GuardState : State
         
         player.stamina.IsGuarding.Value = false;
         
-        player.StopAllCoroutines();
     }
 }

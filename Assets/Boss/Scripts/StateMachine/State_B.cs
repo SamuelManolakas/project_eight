@@ -8,4 +8,6 @@ public abstract class State_B : HierarchicalState<State_B>
     {
         this.boss = boss;
     }
+
+    protected override MonoBehaviour CoroutineRunner => boss;
 }

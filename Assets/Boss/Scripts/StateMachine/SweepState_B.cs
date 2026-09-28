@@ -9,7 +9,7 @@ public class SweepState_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.animator.Play("Sweep");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         boss.swordCollider.enabled = true;
         
         //Audio
@@ -17,11 +17,7 @@ public class SweepState_B : State_B
         {
             boss.bossAudioNetworker.TriggerSweepAudio();
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-        }
+        boss.SetEngineSound(0);
     }
 
     public override void Exit()
@@ -29,7 +25,6 @@ public class SweepState_B : State_B
         boss.hitBox.damage = 0;
         boss.swordCollider.enabled = false;
         
-        boss.StopAllCoroutines();
     }
     
     public override void ContinuousAction()

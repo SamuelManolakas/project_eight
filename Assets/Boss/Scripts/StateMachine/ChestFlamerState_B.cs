@@ -18,25 +18,16 @@ public class ChestFlamerState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("ChestFlamer");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
         {
             boss.bossAudioNetworker.TriggerChestAudio();
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-        }
+        boss.SetEngineSound(0);
     }
 
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
-    }
-    
     public override void ContinuousAction()
     {
         if (!boss.currentTarget)

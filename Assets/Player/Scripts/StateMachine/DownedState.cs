@@ -9,7 +9,6 @@ public class DownedState : State
     public override void Enter()
     {
         player.animator.Play("KnockedBack");
-        player.StopAllCoroutines();
 
         //if (player.IsOwner)
             //HUDManager.Instance.ShowDownedUI(true);

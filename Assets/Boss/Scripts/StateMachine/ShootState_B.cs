@@ -8,7 +8,7 @@ public class ShootState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Shoot");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -16,21 +16,11 @@ public class ShootState_B : State_B
             boss.bossAudioNetworker.TriggerRangedAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
 
         boss.currentTarget = GetFurthestPlayer();
     }
 
-    public override void Exit()
-    {
-        boss.StopAllCoroutines();
-    }
-    
     public override void ContinuousAction()
     {
         if (!boss.currentTarget)

@@ -27,14 +27,13 @@ public class RunAttackState : State
         
         player.stamina.TryUseStamina(player.primaryAttackStaminaCost);
         
-        player.StartCoroutine(Attack());
+        StartCoroutine(Attack());
     }
 
     public override void Exit()
     {
         player.weaponCollider.enabled = false;
         
-        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()

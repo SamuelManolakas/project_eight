@@ -9,7 +9,7 @@ public class StrikeState_B : State_B
     {
         boss.hitBox.damage = boss.damage;
         boss.animator.Play("Strike");
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         boss.swordCollider.enabled = true;
         
         //Audio
@@ -18,12 +18,7 @@ public class StrikeState_B : State_B
             boss.bossAudioNetworker.TriggerStrikeAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
     }
 
     public override void Exit()
@@ -31,7 +26,6 @@ public class StrikeState_B : State_B
         boss.hitBox.damage = 0;
         boss.swordCollider.enabled = false;
         
-        boss.StopAllCoroutines();
     }
     
     public override void ContinuousAction()

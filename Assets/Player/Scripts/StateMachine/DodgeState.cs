@@ -31,7 +31,7 @@ public class DodgeState : State
         
         player.stamina.TryUseStamina(player.dodgeStaminaCost);
         
-        player.StartCoroutine(IFrameWindow(0.1f, 0.4f));
+        StartCoroutine(IFrameWindow(0.1f, 0.4f));
         
         //Audio
         if (player.PlayerAudioScriptableObject != null)
@@ -44,7 +44,6 @@ public class DodgeState : State
     {
         player.animator.speed = 1f;
         
-        player.StopAllCoroutines();
     }
 
     public override void GetHit(int damage)
@@ -97,7 +96,7 @@ public class DodgeState : State
     
     private void HandleAnimation()
     {
-        if (player.camera._isLockedOn && player.speed != player.sprintSpeed)
+        if (player.playerCamera._isLockedOn && player.speed != player.sprintSpeed)
         {
             if (player.moveInput.x > 0.5f)
             {

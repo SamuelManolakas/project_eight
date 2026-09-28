@@ -9,7 +9,7 @@ public class GrabbedState : State
     public override void Enter()
     {
         player.animator.Play("LayingDown");
-        player.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         canMove = false;
     }
 
@@ -17,7 +17,6 @@ public class GrabbedState : State
     {
         canMove = false;
         
-        player.StopAllCoroutines();
     }
 
     public override void ContinuousAction()
@@ -28,7 +27,7 @@ public class GrabbedState : State
     public override void OnMove()
     {
         if (canMove)
-            player.StartCoroutine(GetUp());
+            StartCoroutine(GetUp());
     }
 
     private IEnumerator GetUp()

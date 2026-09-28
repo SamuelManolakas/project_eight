@@ -12,15 +12,10 @@ public class ChargeState_B : State_B
     {
         //reminder to change the damage logic
         boss.chargeHitBox.damage = boss.damage;
-        boss.StartCoroutine(Wait());
+        StartCoroutine(Wait());
         
         //Audio
-        boss.bossEngineSound = 2;
-        boss.bossChargeCrashSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-        }
+        boss.SetEngineSound(2, 0);
     }
 
     public override void Exit()
@@ -29,16 +24,9 @@ public class ChargeState_B : State_B
         boss.chargeHitBox.damage = 0;
         boss.chargeHitBox.gameObject.layer = 7;
         
-        boss.StopAllCoroutines();
 
         //Audio
-        boss.bossChargeCrashSound = 1;
-        boss.bossEngineSound = 3;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(3, 1);
         
     }
     

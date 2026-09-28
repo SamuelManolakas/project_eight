@@ -16,7 +16,7 @@ public class SpinAttackState_B : State_B
     public override void Enter()
     {
         boss.hitBox.damage = boss.damage;
-        boss.StartCoroutine(Spin());
+        StartCoroutine(Spin());
         
         //Audio
         if (boss.bossAudioScriptableObject != null)
@@ -24,12 +24,7 @@ public class SpinAttackState_B : State_B
             boss.bossAudioNetworker.TriggerSpinAudio();
 
         }
-        boss.bossEngineSound = 0;
-        if (boss.bossAudioScriptableObject != null)
-        {
-            boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
-
-        }
+        boss.SetEngineSound(0);
     }
 
     public override void Exit()
@@ -37,7 +32,6 @@ public class SpinAttackState_B : State_B
         boss.hitBox.damage = 0;
         boss.swordCollider.enabled = false;
         
-        boss.StopAllCoroutines();
     }
     
     private IEnumerator Spin()

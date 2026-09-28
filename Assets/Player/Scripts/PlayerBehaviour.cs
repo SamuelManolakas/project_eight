@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
@@ -125,7 +123,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     [HideInInspector]
     public PlayerShoot playerShoot;
     [HideInInspector]
-    public ThirdPersonCamera camera;
+    public ThirdPersonCamera playerCamera; // not "camera": that hides Unity's obsolete Component.camera (warning CS0108)
 
     [HideInInspector]
     public HierarchicalStateMachine<State> stateMachine = null;
@@ -649,11 +647,11 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         }
 
         foundCamera.gameObject.SetActive(true); // NEW — turn on the real gameplay camera
-        camera = foundCamera;
-        camera.target = transform;
+        playerCamera = foundCamera;
+        playerCamera.target = transform;
         cameraTransform = foundCamera.transform; // NEW — refresh the cached reference from Awake()
         if (bolter)
-            camera.isRanged = true;
+            playerCamera.isRanged = true;
 
         WaitingCameraMarker waitingCam = FindObjectOfType<WaitingCameraMarker>(true);
         if (waitingCam != null)

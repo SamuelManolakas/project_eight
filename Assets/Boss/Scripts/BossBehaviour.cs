@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BossBehaviour : Enemy
@@ -55,7 +56,8 @@ public class BossBehaviour : Enemy
     public Transform firePoint;
     public ChargeHitBox chargeHitBox;
     public GameObject bulletPrefab;
-    public GameObject canonExplosionPrefab;
+    [FormerlySerializedAs("canonExplosionPrefab")] // keeps the prefab's existing assignment after the rename
+    public GameObject cannonExplosionPrefab;
     public GameObject flamePrefab;
     public GameObject chestFlamer;
     public Transform nukePosition;
@@ -447,6 +449,17 @@ public class BossBehaviour : Enemy
         stateMachine.Transit(stunnedState);
     }
 
+    /// <summary>Server only. Switches the engine sound for everyone (the networker's RPC also plays it on the host).</summary>
+    public void SetEngineSound(int engineState) => SetEngineSound(engineState, bossChargeCrashSound);
+
+    public void SetEngineSound(int engineState, int chargeCrash)
+    {
+        bossEngineSound = engineState;
+        bossChargeCrashSound = chargeCrash;
+        if (bossAudioScriptableObject != null)
+            bossAudioNetworker.TriggerEngineAudio(bossEngineSound, bossChargeCrashSound);
+    }
+
     public void Shoot() => RequestShootServerRpc();
 
     [ServerRpc]
@@ -460,14 +473,14 @@ public class BossBehaviour : Enemy
         bullet.GetComponent<NetworkObject>().Spawn();
     }
     
-    public void CanonExplosions() => RequestCanonExplosionsServerRpc();
+    public void CannonExplosion() => RequestCannonExplosionServerRpc();
 
     [ServerRpc]
-    private void RequestCanonExplosionsServerRpc()
+    private void RequestCannonExplosionServerRpc()
     {
         Vector3 dir = (currentTarget.transform.position - firePoint.position).normalized;
-        GameObject explosion = Instantiate(canonExplosionPrefab, firePoint.position, Quaternion.LookRotation(dir));
-        CanonExplosions_B explosionB = explosion.GetComponent<CanonExplosions_B>();
+        GameObject explosion = Instantiate(cannonExplosionPrefab, firePoint.position, Quaternion.LookRotation(dir));
+        CannonExplosion_B explosionB = explosion.GetComponent<CannonExplosion_B>();
         explosionB.damage = ScaleDamage(explosionB.damage); // prefab value is the 1-player damage
         explosion.GetComponent<NetworkObject>().Spawn();
     }
