@@ -28,9 +28,9 @@ public class NukeState_B : State_B
 
         if (_isRotating)
         {
-            Quaternion toRotation = Quaternion.LookRotation(-boss.nukePosition.forward, Vector3.up);
-            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime * 2);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
+            Vector3 faceDirection = -boss.nukePosition.forward;
+            boss.TurnToward(boss.lowerBody.transform, faceDirection, 2f);
+            boss.TurnToward(boss.upperBody.transform, faceDirection, 3f);
         }
 
         if (_hasReachedPosition) return;
@@ -47,21 +47,11 @@ public class NukeState_B : State_B
 
     private void MoveToPosition()
     {
-        Vector3 move = boss.nukePosition.position - boss.transform.position;
-        move = Vector3.ClampMagnitude(move, 1);
-        move.y = 0;
-        
-        Vector3 finalMove = move * (boss.speed + 10f);
-        
-        boss.controller.Move(finalMove * Time.deltaTime);
+        // Sprints to the nuke position; the caller stops this once within 5m
+        Vector3 move = boss.FlatDirectionTo(boss.nukePosition.position);
+        boss.MoveToward(boss.nukePosition.position, boss.speed + 10f, 0f);
         boss.animator.SetFloat(AnimatorParams.Speed, move.magnitude);
-        
-        if (move.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
-        }
+        boss.FaceDirection(move);
     }
 
     private void OnPositionReached()

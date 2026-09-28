@@ -28,20 +28,16 @@ public class MovementState_B : State_B
         {
             return;
         }
-        Vector3 move = boss.currentTarget.transform.position - boss.transform.position;
-        move = Vector3.ClampMagnitude(move, 1);
-        move.y = 0;
-        
-        Vector3 finalMove = move * boss.speed;
+        Vector3 targetPosition = boss.currentTarget.transform.position;
+        Vector3 move = boss.FlatDirectionTo(targetPosition);
 
         if (_attackCooldownTimer >= 0)
         {
             _attackCooldownTimer -= Time.deltaTime;
         }
-        
-        if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
+
+        if (boss.MoveToward(targetPosition, boss.speed, BossBehaviour.StoppingDistance))
         {
-            boss.controller.Move(finalMove * Time.deltaTime);
             boss.animator.SetFloat(AnimatorParams.Speed, move.magnitude);
             
             _rangedAttackTimer += Time.deltaTime;
@@ -57,16 +53,11 @@ public class MovementState_B : State_B
 
             if (_attackCooldownTimer <= 0)
             {
-                CombatWheel();   
+                CombatWheel();
             }
         }
-        
-        if (move.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
-        }
+
+        boss.FaceDirection(move);
     }
 
     private void CombatWheel()

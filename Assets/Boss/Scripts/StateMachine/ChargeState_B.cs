@@ -34,9 +34,7 @@ public class ChargeState_B : State_B
     {
         boss.animator.Play("Charge");
         
-        chargeDirection = boss.currentTarget.transform.position - boss.transform.position;
-        chargeDirection = Vector3.ClampMagnitude(chargeDirection, 1);
-        chargeDirection.y = 0;
+        chargeDirection = boss.FlatDirectionTo(boss.currentTarget.transform.position);
         
         yield return new WaitForSeconds(1);
         
@@ -61,10 +59,8 @@ public class ChargeState_B : State_B
 
     public override void ContinuousAction()
     {
-        Quaternion toRotation = Quaternion.LookRotation(chargeDirection, Vector3.up);
-        boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime);
-        boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
-        
+        boss.FaceDirection(chargeDirection); // chargeDirection is zero until the charge starts; FaceDirection skips that
+
         if (charge)
             boss.controller.Move(chargeDirection * (Time.deltaTime * 40));
     }

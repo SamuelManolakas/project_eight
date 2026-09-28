@@ -48,9 +48,7 @@ public class Combo2State_B : State_B
 
         yield return new WaitForSeconds(2.2f);
         
-        chargeDirection = boss.currentTarget.transform.position - boss.transform.position;
-        chargeDirection = Vector3.ClampMagnitude(chargeDirection, 1);
-        chargeDirection.y = 0;
+        chargeDirection = boss.FlatDirectionTo(boss.currentTarget.transform.position);
         
         charge = true;
         boss.chargeHitBox.damage = boss.damage;
@@ -79,17 +77,13 @@ public class Combo2State_B : State_B
 
     public override void ContinuousAction()
     {
-        Vector3 lookDirection = boss.currentTarget.transform.position - boss.transform.position;
-        lookDirection = Vector3.ClampMagnitude(lookDirection, 1);
-        lookDirection.y = 0;
-        
-        Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-        boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 5);
+        Vector3 lookDirection = boss.FlatDirectionTo(boss.currentTarget.transform.position);
+        boss.TurnToward(boss.upperBody.transform, lookDirection, 5f);
 
         if (charge)
         {
-            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime * 5);
-            boss.controller.Move(chargeDirection * (Time.deltaTime * 40));   
+            boss.TurnToward(boss.lowerBody.transform, lookDirection, 5f);
+            boss.controller.Move(chargeDirection * (Time.deltaTime * 40));
         }
 
         if (exploding)

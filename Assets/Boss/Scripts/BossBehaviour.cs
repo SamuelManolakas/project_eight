@@ -449,6 +449,44 @@ public class BossBehaviour : Enemy
         stateMachine.Transit(stunnedState);
     }
 
+    // ── Movement helpers (used by the boss states) ──────────────────────────────
+
+    /// <summary>The boss stops walking toward its target once it's this close.</summary>
+    public const float StoppingDistance = 8f;
+
+    /// <summary>Flat direction toward a point, length 1 (shorter when the point is closer than 1m).</summary>
+    public Vector3 FlatDirectionTo(Vector3 point)
+    {
+        Vector3 direction = Vector3.ClampMagnitude(point - transform.position, 1f);
+        direction.y = 0f;
+        return direction;
+    }
+
+    /// <summary>Walks toward a point unless already within stopDistance. Returns true if it moved.</summary>
+    public bool MoveToward(Vector3 point, float moveSpeed, float stopDistance)
+    {
+        if (Vector3.Distance(transform.position, point) <= stopDistance) return false;
+
+        controller.Move(FlatDirectionTo(point) * (moveSpeed * Time.deltaTime));
+        return true;
+    }
+
+    /// <summary>Turns the legs and torso toward a flat direction (the torso turns faster).</summary>
+    public void FaceDirection(Vector3 flatDirection)
+    {
+        TurnToward(lowerBody.transform, flatDirection, 1f);
+        TurnToward(upperBody.transform, flatDirection, 3f);
+    }
+
+    /// <summary>Smoothly turns one body part (e.g. just the torso during an attack) toward a flat direction.</summary>
+    public void TurnToward(Transform part, Vector3 flatDirection, float turnRate)
+    {
+        if (flatDirection.sqrMagnitude <= 0.001f) return; // no direction yet: LookRotation(zero) would log a warning
+
+        Quaternion toRotation = Quaternion.LookRotation(flatDirection, Vector3.up);
+        part.rotation = Quaternion.Slerp(part.rotation, toRotation, Smoothing.Factor(turnRate));
+    }
+
     /// <summary>Server only. Switches the engine sound for everyone (the networker's RPC also plays it on the host).</summary>
     public void SetEngineSound(int engineState) => SetEngineSound(engineState, bossChargeCrashSound);
 

@@ -45,11 +45,7 @@ public class Combo1State_B : State_B
 
     public override void ContinuousAction()
     {
-        Vector3 lookDirection = boss.currentTarget.transform.position - boss.transform.position;
-        lookDirection = Vector3.ClampMagnitude(lookDirection, 1);
-        lookDirection.y = 0;
-        
-        Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-        boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime);
+        Vector3 lookDirection = boss.FlatDirectionTo(boss.currentTarget.transform.position);
+        boss.TurnToward(boss.upperBody.transform, lookDirection, 1f); // torso tracks the target during the combo
     }
 }

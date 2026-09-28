@@ -47,22 +47,8 @@ public class GrabState_B : State_B
         }
         if (!_shouldMove) return;
         
-        Vector3 move = boss.currentTarget.transform.position - boss.transform.position;
-        move = Vector3.ClampMagnitude(move, 1);
-        move.y = 0;
-        
-        Vector3 finalMove = move * boss.speed;
-
-        if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
-        {
-            boss.controller.Move(finalMove * (Time.deltaTime * 3));
-        }
-
-        if (move.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            boss.lowerBody.transform.rotation = Quaternion.Slerp(boss.lowerBody.transform.rotation, toRotation, Time.deltaTime);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
-        }
+        Vector3 targetPosition = boss.currentTarget.transform.position;
+        boss.MoveToward(targetPosition, boss.speed * 3f, BossBehaviour.StoppingDistance); // lunges in at triple speed
+        boss.FaceDirection(boss.FlatDirectionTo(targetPosition));
     }
 }

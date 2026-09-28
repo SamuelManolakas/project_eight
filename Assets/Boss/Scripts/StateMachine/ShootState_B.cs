@@ -27,15 +27,8 @@ public class ShootState_B : State_B
         {
             return;
         }
-        Vector3 direction = boss.currentTarget.transform.position - boss.transform.position;
-        direction = Vector3.ClampMagnitude(direction, 1);
-        direction.y = 0;
-        
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
-            boss.upperBody.transform.rotation = Quaternion.Slerp(boss.upperBody.transform.rotation, toRotation, Time.deltaTime * 3);
-        }
+        Vector3 direction = boss.FlatDirectionTo(boss.currentTarget.transform.position);
+        boss.TurnToward(boss.upperBody.transform, direction, 3f); // torso tracks the target during the attack
     }
 
     private IEnumerator Wait()

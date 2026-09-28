@@ -68,16 +68,8 @@ public class SpinAttackState_B : State_B
         float delta = ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
         boss.upperBody.transform.Rotate(rotationSpeed * delta, Space.Self);
         
-        Vector3 move = boss.currentTarget.transform.position - boss.transform.position;
-        move = Vector3.ClampMagnitude(move, 1);
-        move.y = 0;
-        
-        Vector3 finalMove = move * boss.speed / 1.5f;
-
-        if (Vector3.Distance(boss.transform.position, boss.currentTarget.transform.position) > 8f)
-        {
-            boss.controller.Move(finalMove * Time.deltaTime);
-        }
+        // Drifts toward the target at reduced speed while the torso spins (so no FaceDirection here)
+        boss.MoveToward(boss.currentTarget.transform.position, boss.speed / 1.5f, BossBehaviour.StoppingDistance);
         
         HandFlamer();
     }
