@@ -59,18 +59,28 @@ public class PlayerHealth : NetworkBehaviour
         if (!IsServer) return;
         if (!IsAlive) return;
 
+        // A blocked hit costs stamina instead of health. Stamina is written by its owner, so the
+        // server decides the outcome from the value it has and asks the owner to spend it.
         if (stamina != null && stamina.IsGuarding.Value)
         {
-            stamina.TryUseStamina(amount);
+            bool canAfford = stamina.Stamina >= amount;
+            float remaining = stamina.Stamina - amount;
+            stamina.DrainStaminaRpc(amount); // clamps at 0, so an unaffordable hit empties the bar
 
-            if (stamina._stamina.Value <= 1)
-            {
-                player.TransitToStunnedStateClientRpc(player.transform.position);
-            }
-            
+            if (!canAfford)
+                ApplyDamage(amount); // the hit goes through the guard
+
+            if (remaining <= 1f && IsAlive) // guard broken (also on an unaffordable hit)
+                player.TransitToGuardBrokenStateClientRpc();
+
             return;
         }
 
+        ApplyDamage(amount);
+    }
+
+    private void ApplyDamage(int amount)
+    {
         _health.Value = Mathf.Max(0, _health.Value - amount);
 
         if (!IsAlive)

@@ -15,13 +15,11 @@ public class SweepState_B : State_B
         //Audio
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.BossSweepAudioPlay(boss.audioSource);
             boss.bossAudioNetworker.TriggerSweepAudio();
         }
         boss.bossEngineSound = 0;
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
             boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
         }
     }

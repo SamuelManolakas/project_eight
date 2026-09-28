@@ -13,13 +13,11 @@ public class Combo1State_B : State_B
         //Audio
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.Boss3HcAudioPlay(boss.audioSource);
             boss.bossAudioNetworker.Trigger3HcAudio();
         }
         boss.bossEngineSound = 0;
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
             boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
         }
     }

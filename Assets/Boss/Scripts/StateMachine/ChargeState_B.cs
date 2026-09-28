@@ -20,7 +20,6 @@ public class ChargeState_B : State_B
         boss.bossChargeCrashSound = 0;
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
             boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
         }
     }
@@ -38,7 +37,6 @@ public class ChargeState_B : State_B
         boss.bossEngineSound = 3;
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
             boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
 
         }

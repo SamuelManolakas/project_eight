@@ -10,19 +10,21 @@ public class PlayerStamina : NetworkBehaviour
         
         private float _regenDelayTimer = 0f;
     
-        // Owner can write directly — no ServerRpc needed
+        // Owner can write directly — no ServerRpc needed.
+        // Read = Owner: only the owner (HUD, input checks) and the server (guard) need it. It changes
+        // every frame while regenerating, so this stops it being sent to every other client.
         [HideInInspector]
         public NetworkVariable<float> _stamina = new NetworkVariable<float>(
             100f,
-            NetworkVariableReadPermission.Everyone,
+            NetworkVariableReadPermission.Owner,
             NetworkVariableWritePermission.Owner
         );
-    
+
         // Owner sets this when guarding — server reads it
         [HideInInspector]
         public NetworkVariable<bool> IsGuarding = new NetworkVariable<bool>(
             false,
-            NetworkVariableReadPermission.Everyone,
+            NetworkVariableReadPermission.Owner,
             NetworkVariableWritePermission.Owner
         );
 
@@ -64,10 +66,21 @@ public class PlayerStamina : NetworkBehaviour
             _regenDelayTimer = staminaRegenDelay; // Reset the delay on use
             return true;
         }
+
+        /// <summary>
+        /// Server → owner. Stamina is written by its owner, so when the server needs to spend it
+        /// (e.g. a blocked hit while guarding) it asks the owner. Runs locally when the owner is the host.
+        /// </summary>
+        [Rpc(SendTo.Owner)]
+        public void DrainStaminaRpc(float amount)
+        {
+            _stamina.Value = Mathf.Max(0f, _stamina.Value - amount);
+            _regenDelayTimer = staminaRegenDelay;
+        }
     
         private void OnStaminaChanged(float previous, float current)
         {
-            // Still fires on all clients — use for UI updates
+            // Fires on the owner and server only (read permission is Owner)
         }
     
 }

@@ -142,6 +142,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public PrimaryAttackState primaryAttackState = null;
     public JumpAttackState jumpAttackState = null;
     public GrabbedState grabbedState = null;
+    public GuardBrokenState guardBrokenState = null;
     public GuardState guardState = null;
     public SecondaryAttackState secondaryAttackState = null;
     public ReloadState reloadState = null;
@@ -167,6 +168,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         primaryAttackState = new PrimaryAttackState(this, aliveState);
         jumpAttackState = new JumpAttackState(this, aliveState);
         grabbedState = new GrabbedState(this, aliveState);
+        guardBrokenState = new GuardBrokenState(this, aliveState);
         guardState = new GuardState(this, aliveState);
         secondaryAttackState = new SecondaryAttackState(this, aliveState);
         reloadState = new ReloadState(this, aliveState);
@@ -529,7 +531,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         if(!IsOwner) return;
         if(health.Health <= 0) return;
         
-        if (context.performed && bolter && stateMachine.currentState != grabbedState)
+        if (context.performed && bolter && stateMachine.currentState != grabbedState && stateMachine.currentState != guardBrokenState)
         {
             stateMachine.Transit(reloadState);
         }
@@ -688,6 +690,14 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         position.y = transform.position.y;
         transform.position = position;
         stateMachine.Transit(grabbedState);
+    }
+
+    // Guard break: knocked down like a grab, but no damage and a short recovery (see GuardBrokenState).
+    [ClientRpc]
+    public void TransitToGuardBrokenStateClientRpc()
+    {
+        if (health.Health <= 0) return;
+        stateMachine.Transit(guardBrokenState);
     }
 
     [ClientRpc]

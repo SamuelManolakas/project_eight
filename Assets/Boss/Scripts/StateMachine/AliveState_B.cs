@@ -20,7 +20,6 @@ public class AliveState_B : State_B
         //Audio
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.BossDamageAudioPlay(boss.audioSource);
             boss.bossAudioNetworker.TriggerDamageAudio();
         }
     }

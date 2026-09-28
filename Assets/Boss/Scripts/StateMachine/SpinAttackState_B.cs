@@ -21,14 +21,12 @@ public class SpinAttackState_B : State_B
         //Audio
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.BossSpinAudioPlay(boss.audioSource);
             boss.bossAudioNetworker.TriggerSpinAudio();
 
         }
         boss.bossEngineSound = 0;
         if (boss.bossAudioScriptableObject != null)
         {
-            boss.bossAudioScriptableObject.PlayEngineAudioPlay(boss.audioSource, boss.bossEngineSound, boss.bossChargeCrashSound);
             boss.bossAudioNetworker.TriggerEngineAudio(boss.bossEngineSound, boss.bossChargeCrashSound);
 
         }

@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 74620194
+  GlobalObjectIdHash: 385064661
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1189,6 +1189,8 @@ MonoBehaviour:
   initialSpeed: 0
   hitBox: {fileID: 0}
   shieldHitBox: {fileID: 0}
+  weaponCollider: {fileID: 0}
+  shieldCollider: {fileID: 0}
   hurtBox: {fileID: 0}
   attackBuffer: 0
   health: {fileID: 0}
