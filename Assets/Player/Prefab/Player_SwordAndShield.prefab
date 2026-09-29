@@ -218,7 +218,7 @@ Transform:
   m_GameObject: {fileID: 960698989925113840}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15876, y: 0.87266, z: 0.70435}
+  m_LocalPosition: {x: -0.465, y: 1.005, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -744,6 +744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
   attackerNetworkObjectId: 0
+  instantKill: 0
 --- !u!1 &2206689751160023702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,7 +2062,7 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
+  SwitchTransformSpaceWhenParented: 1
   Interpolate: 1
   SlerpPosition: 0
 --- !u!114 &2722297990731148367
@@ -2106,6 +2107,8 @@ MonoBehaviour:
   carrySpeedMultiplier: 0.6
   throwForce: 6
   throwUpwardForce: 3
+  dropForce: 1.5
+  dropUpwardForce: 2
   carriedPlayer: {fileID: 0}
   carrierPlayer: {fileID: 0}
   isMoving: 0
@@ -2125,12 +2128,14 @@ MonoBehaviour:
   initialSpeed: 0
   hitBox: {fileID: 0}
   shieldHitBox: {fileID: 0}
+  weaponCollider: {fileID: 0}
+  shieldCollider: {fileID: 0}
   hurtBox: {fileID: 0}
   attackBuffer: 0
   health: {fileID: 0}
   stamina: {fileID: 0}
   playerShoot: {fileID: 0}
-  camera: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,6 +2491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
   attackerNetworkObjectId: 0
+  instantKill: 0
 --- !u!136 &7199136687836623858
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -71,6 +71,9 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public float carrySpeedMultiplier = 0.6f;
     public float throwForce = 6f;
     public float throwUpwardForce = 3f;
+    [Tooltip("Small toss used when the carrier is interrupted (downed, grabbed...) and drops the carried player.")]
+    public float dropForce = 1.5f;
+    public float dropUpwardForce = 2f;
 
     [HideInInspector] public PlayerBehaviour carriedPlayer;   // set on the carrier
     [HideInInspector] public PlayerBehaviour carrierPlayer;   // set on the carried player
@@ -414,7 +417,38 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         carrier.stateMachine.Transit(carrier.idleState);
         carried.stateMachine.Transit(carried.thrownState);
     }
-    
+
+    /// <summary>
+    /// Server only. Called when this player leaves CarryState. If they're still holding someone
+    /// (they were downed, grabbed, guard-broken... rather than throwing), drop the carried player
+    /// with a small toss so they don't stay stuck to this player.
+    /// </summary>
+    public void DropCarriedPlayerIfStillHeld()
+    {
+        if (!IsServer || carriedPlayer == null) return;
+
+        PlayerBehaviour target = carriedPlayer;
+        if (target.transform.parent != transform) return; // already thrown: the throw unparents first
+
+        target.NetworkObject.TrySetParent((Transform)null, true);
+
+        Vector3 dropVelocity = transform.forward * dropForce + Vector3.up * dropUpwardForce;
+        NotifyDroppedClientRpc(target.NetworkObjectId, dropVelocity);
+    }
+
+    [ClientRpc]
+    private void NotifyDroppedClientRpc(ulong carriedId, Vector3 dropVelocity)
+    {
+        if (!NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(carriedId, out NetworkObject carriedObj)) return;
+
+        // Same as a throw for the carried player (lands, then goes back to Downed); the carrier's
+        // own state is left alone since whatever interrupted the carry already set it.
+        PlayerBehaviour carried = carriedObj.GetComponent<PlayerBehaviour>();
+        carried.velocity = new Vector3(0f, dropVelocity.y, 0f);
+        carried.horizontalVelocity = new Vector3(dropVelocity.x, 0f, dropVelocity.z);
+        carried.stateMachine.Transit(carried.thrownState);
+    }
+
     [Rpc(SendTo.Server)]
     public void NotifyThrowLandedServerRpc()
     {
@@ -556,6 +590,14 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     {
         if (!controller.enabled) return; // e.g. CarriedState — position comes from the carrier
 
+        // On clients, Netcode places the player at its spawn point after creating it; make sure the
+        // controller has picked that up before the first Move (see SyncControllerToTransform).
+        if (!_controllerSyncedAfterSpawn)
+        {
+            SyncControllerToTransform();
+            _controllerSyncedAfterSpawn = true;
+        }
+
         if (controller.isGrounded && velocity.y < 0f)
             velocity.y = -2f; // small constant push keeps isGrounded stable on slopes/steps
 
@@ -567,6 +609,26 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         Vector3 motion = horizontalVelocity;
         motion.y = (startVerticalSpeed + velocity.y) * 0.5f;
         controller.Move(motion * Time.deltaTime);
+    }
+
+    private bool _controllerSyncedAfterSpawn;
+
+    // A CharacterController keeps its own copy of the position, and with Physics "Auto Sync Transforms"
+    // off (this project) it only picks up a position set directly on the transform at the next physics
+    // step. Until then, Move() starts from the old position and undoes the change. Re-enabling the
+    // controller makes it take the transform's current position immediately.
+    private void SyncControllerToTransform()
+    {
+        controller.enabled = false;
+        controller.enabled = true;
+    }
+
+    /// <summary>Instantly moves the player (use this instead of setting transform.position).</summary>
+    public void Teleport(Vector3 position)
+    {
+        transform.position = position;
+        if (controller.enabled)
+            SyncControllerToTransform();
     }
 
     // Default for states that don't drive movement: horizontal speed bleeds off smoothly.
@@ -685,7 +747,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         if(health.Health <= 0) return;
         
         position.y = transform.position.y;
-        transform.position = position;
+        Teleport(position);
         stateMachine.Transit(grabbedState);
     }
 

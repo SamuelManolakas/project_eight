@@ -137,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   damage: 0
   attackerNetworkObjectId: 0
+  instantKill: 0
 --- !u!65 &1454482658374996447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -249,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 960698989925113840}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15876, y: 0.87266, z: 0.70435}
+  m_LocalPosition: {x: -0.465, y: 1.005, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1069,7 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 385064661
+  GlobalObjectIdHash: 74620194
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1125,7 +1126,7 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
+  SwitchTransformSpaceWhenParented: 1
   Interpolate: 1
   SlerpPosition: 0
 --- !u!114 &2722297990731148367
@@ -1170,6 +1171,8 @@ MonoBehaviour:
   carrySpeedMultiplier: 0.6
   throwForce: 6
   throwUpwardForce: 3
+  dropForce: 1.5
+  dropUpwardForce: 2
   carriedPlayer: {fileID: 0}
   carrierPlayer: {fileID: 0}
   isMoving: 0
@@ -1196,7 +1199,7 @@ MonoBehaviour:
   health: {fileID: 0}
   stamina: {fileID: 0}
   playerShoot: {fileID: 0}
-  camera: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!114 &191098058858177352
 MonoBehaviour:
   m_ObjectHideFlags: 0

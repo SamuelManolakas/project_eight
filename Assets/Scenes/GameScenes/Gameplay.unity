@@ -1622,10 +1622,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 733651130467181808, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: headProjectilePrefab
-      value: 
-      objectReference: {fileID: 8204267237495505718, guid: 995373771ad19d54eb765788cc8a6d07, type: 3}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: slider
       value: 
@@ -1636,7 +1632,7 @@ PrefabInstance:
       objectReference: {fileID: 2022002471}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: maxHealth
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukePosition
