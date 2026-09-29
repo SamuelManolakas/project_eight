@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class DeadState_B : State_B
@@ -8,7 +7,7 @@ public class DeadState_B : State_B
     public override void Enter()
     {
         boss.animator.Play("Death");
-        StartCoroutine(DeathSequence());
+        boss.deathSequence.Play(); // explosions, head launch and fallen sword (timings on BossDeathSequence)
         
         //Audio
         boss.SetEngineSound(3);
@@ -32,16 +31,4 @@ public class DeadState_B : State_B
     public override void GetHit(int damage){}
 
     public override void ContinuousAction(){}
-
-    private IEnumerator DeathSequence()
-    {
-        yield return new WaitForSeconds(2.3f);
-        boss.SetDeathVFXClientRpc(true, 1);
-        
-        yield return new WaitForSeconds(1.7f);
-        boss.SetDeathVFXClientRpc(true, 2);
-        
-        yield return new WaitForSeconds(3.5f);
-        boss.SetDeathVFXClientRpc(true, 3);
-    }
 }

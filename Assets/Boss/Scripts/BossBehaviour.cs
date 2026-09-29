@@ -92,6 +92,7 @@ public class BossBehaviour : Enemy
     [HideInInspector] public HurtBox hurtBox;
     [HideInInspector] public Collider swordCollider;       // cached: attack states toggle these on every attack
     [HideInInspector] public Collider chargeHitBoxCollider;
+    [HideInInspector] public BossDeathSequence deathSequence;
     //Audio
     [HideInInspector] public int bossEngineSound;
     [HideInInspector] public int bossChargeCrashSound;
@@ -162,6 +163,7 @@ public class BossBehaviour : Enemy
         _rigidbody = GetComponent<Rigidbody>();
         swordCollider        = greatSwordModel.GetComponent<Collider>();
         chargeHitBoxCollider = chargeHitBox.GetComponent<Collider>();
+        deathSequence        = GetComponent<BossDeathSequence>();
         controller = GetComponent<CharacterController>();
 
         chargeHitBox.OnHitWall += TransitionToStunnedState;

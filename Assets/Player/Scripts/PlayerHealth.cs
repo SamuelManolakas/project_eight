@@ -86,6 +86,16 @@ public class PlayerHealth : NetworkBehaviour
             HandleDeath();
     }
 
+    /// <summary>
+    /// Server only. Drops the player to 0 health (downed) regardless of guard or dodge i-frames.
+    /// Used by instant-kill hazards (the boss's falling head and fallen sword).
+    /// </summary>
+    public void Kill()
+    {
+        if (!IsServer || !IsAlive) return;
+        ApplyDamage(_health.Value);
+    }
+
     public void Heal(int amount)
     {
         if (!IsAlive) return;

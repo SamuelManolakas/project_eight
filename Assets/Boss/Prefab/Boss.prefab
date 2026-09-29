@@ -17850,6 +17850,7 @@ GameObject:
   - component: {fileID: 6989152216669118413}
   - component: {fileID: 5942188228963186110}
   - component: {fileID: -4577532226953923579}
+  - component: {fileID: 733651130467181808}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
@@ -20594,3 +20595,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3981006407292095138, guid: a1ea5cf0237152b4ea58f7f2f77c42f5, type: 3}
   m_PrefabInstance: {fileID: 8360815858380465684}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &733651130467181808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496390614014114605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4921cc80266269070a87ca74f434729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossDeathSequence
+  ShowTopMostFoldoutHeaderGroup: 1
+  frontLeftExplosionTime: 2.3
+  backRightExplosionTime: 4
+  flamesTime: 7.5
+  head: {fileID: 2708560296039559422}
+  headProjectilePrefab: {fileID: 0}
+  headLaunchTime: 12
+  fallbackLandingDistance: 6
+  swordLethalStartTime: 9
+  swordLethalEndTime: 14

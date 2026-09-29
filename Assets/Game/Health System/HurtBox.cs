@@ -17,4 +17,11 @@ public class HurtBox : NetworkBehaviour
             boss.GetHitRpc(damage, attackerNetworkObjectId);
         }
     }
+
+    // Instant kill (players only; the boss has no instant-kill hazards)
+    public void Kill()
+    {
+        if (player)
+            player.Kill();
+    }
 }
