@@ -15,6 +15,9 @@ public class HostLobbyUI : MonoBehaviour
     [SerializeField] private Button closeLobbyButton;
     [SerializeField] private TMP_Text errorText; // NEW
 
+    [Tooltip("Maximum players per lobby, host included. Unity's session/Relay services allow up to 100.")]
+    [SerializeField, Range(1, 100)] private int maxPlayers = 8;
+
     private ISession currentSession; // store this when you create it
 
     private void Awake()
@@ -46,7 +49,7 @@ public class HostLobbyUI : MonoBehaviour
             var options = new SessionOptions
             {
                 Name = string.IsNullOrEmpty(lobbyNameInput.text) ? "Unnamed Lobby" : lobbyNameInput.text,
-                MaxPlayers = 4,
+                MaxPlayers = maxPlayers,
                 IsPrivate = false,
                 Password = PasswordUtils.Normalize(passwordInput.text)
             }.WithRelayNetwork();
