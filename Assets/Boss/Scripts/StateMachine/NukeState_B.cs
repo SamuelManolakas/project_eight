@@ -16,7 +16,12 @@ public class NukeState_B : State_B
     public override void Exit()
     {
         _hasReachedPosition = false;
-       
+        _isRotating = false;
+
+        // If the nuke is interrupted (e.g. the boss gets staggered), its sequence stops before turning
+        // these off, so make sure they don't stay on for everyone.
+        boss.SetTelegraphVFXClientRpc(false);
+        boss.SetNukeVFXClientRpc(false);
     }
 
     public override void ContinuousAction()

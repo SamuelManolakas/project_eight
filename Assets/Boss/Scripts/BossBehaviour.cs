@@ -437,6 +437,9 @@ public class BossBehaviour : Enemy
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void GetHitRpc(int dmg, ulong attackerNetworkObjectId)
     {
+        // Ignore hits once dead: otherwise stagger damage could still Transit the dead boss into StunnedState
+        if (currentHealth.Value <= 0) return;
+
         RegisterDamage(attackerNetworkObjectId, dmg);
         RegisterStaggerDamage(dmg);             // ← feeds the stagger window
         stateMachine.currentState.GetHit(dmg);
@@ -557,6 +560,12 @@ public class BossBehaviour : Enemy
     public void SetNukeVFXClientRpc(bool active)
     {
         if (nukeVFX) nukeVFX.SetActive(active);
+    }
+
+    [ClientRpc]
+    public void SetGrabExplosionVFXClientRpc(bool active)
+    {
+        if (grabExplosionVFX) grabExplosionVFX.SetActive(active);
     }
     
     [ClientRpc]

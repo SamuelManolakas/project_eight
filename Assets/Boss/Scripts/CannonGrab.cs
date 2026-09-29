@@ -5,9 +5,10 @@ public class CannonGrab : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (!IsServer) return; // grabs are decided on the server (only it may send the ClientRpc)
+
+        if (other.CompareTag("Player") && other.TryGetComponent(out PlayerBehaviour player))
         {
-            other.TryGetComponent(out PlayerBehaviour player);
             player.TransitToStunnedStateClientRpc(transform.position);
         }
     }
