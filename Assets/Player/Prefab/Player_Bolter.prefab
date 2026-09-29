@@ -275,7 +275,7 @@ Transform:
   m_GameObject: {fileID: 960698989925113840}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.465, y: 1.005, z: -1}
+  m_LocalPosition: {x: -0.465, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1115,7 +1115,7 @@ GameObject:
   - component: {fileID: 8202241183113722661}
   - component: {fileID: 5205707449410600023}
   m_Layer: 0
-  m_Name: Player_Bolter_Model (1)
+  m_Name: Player_Bolter_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1150,7 +1150,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 2c6ae5ddf0ef09548872fac20e192b58, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
