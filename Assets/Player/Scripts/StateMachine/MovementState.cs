@@ -32,16 +32,8 @@ public class MovementState : State
 
     public override void ContinuousAction()
     {
-        if (player.speed == player.sprintSpeed)
-        {
-            player.stamina.TryUseStamina(player.sprintStaminaCost * Time.deltaTime);
+        player.UpdateSprintStamina();
 
-            if (player.stamina._stamina.Value <= 2)
-            {
-                player.speed = player.initialSpeed;
-            }
-        }
-        
         // Target velocity this frame based on input
         Vector3 targetVelocity = player.GetCameraRelativeInput() * player.speed;
 
@@ -110,17 +102,7 @@ public class MovementState : State
         player.stateMachine.Transit(player.dodgeState);
     }
 
-    public override void OnSprint()
-    {
-        if (player.speed == player.sprintSpeed)
-        {
-            player.speed = player.initialSpeed;
-        }
-        else
-        {
-            player.speed = player.sprintSpeed;
-        }
-    }
+    public override void OnSprint() => player.ToggleSprint();
 
     public override void OnGuard()
     {

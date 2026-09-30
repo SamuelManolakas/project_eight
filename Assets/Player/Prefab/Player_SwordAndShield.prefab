@@ -2105,8 +2105,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   carrySpeedMultiplier: 0.6
-  throwForce: 6
-  throwUpwardForce: 3
+  throwForce: 8
+  throwUpwardForce: 6
   dropForce: 1.5
   dropUpwardForce: 2
   carriedPlayer: {fileID: 0}

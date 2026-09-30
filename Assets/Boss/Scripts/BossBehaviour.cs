@@ -200,8 +200,7 @@ public class BossBehaviour : Enemy
             currentHealth.Value = maxHealth;
         }
 
-        OnMaxHealthChanged(0, scaledMaxHealth.Value);
-        slider.value = currentHealth.Value;
+        UpdateHealthBar();
         currentHealth.OnValueChanged += OnHealthChanged;
         scaledMaxHealth.OnValueChanged += OnMaxHealthChanged;
     }
@@ -212,16 +211,20 @@ public class BossBehaviour : Enemy
         scaledMaxHealth.OnValueChanged -= OnMaxHealthChanged;
     }
 
-    private void OnHealthChanged(int previousValue, int newValue)
-    {
-        slider.value = newValue;
-    }
+    private void OnHealthChanged(int previousValue, int newValue) => UpdateHealthBar();
 
-    private void OnMaxHealthChanged(int previousValue, int newValue)
+    private void OnMaxHealthChanged(int previousValue, int newValue) => UpdateHealthBar();
+
+    // Sets the max first, then the value. On clients the health and max-health values can arrive in either
+    // order; setting the value while the slider's max is still its default (1) clamps it, so both are
+    // always re-applied together.
+    private void UpdateHealthBar()
     {
-        if (newValue <= 0) return;
-        maxHealth = newValue; // keeps maxHealth-based checks (e.g. the half-health nuke) in sync on clients too
-        slider.maxValue = newValue;
+        if (scaledMaxHealth.Value > 0)
+            maxHealth = scaledMaxHealth.Value; // keeps maxHealth-based checks (e.g. the half-health nuke) in sync on clients too
+
+        slider.maxValue = maxHealth;
+        slider.value = currentHealth.Value;
     }
 
     // ── Player Count Scaling ─────────────────────────────────────────────────────

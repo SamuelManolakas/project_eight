@@ -638,6 +638,21 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
         if (horizontalVelocity.sqrMagnitude < 0.0001f) horizontalVelocity = Vector3.zero;
     }
 
+    // Sprint is a toggle between initialSpeed and sprintSpeed (used by MovementState and CarryState)
+    public bool IsSprinting => speed == sprintSpeed;
+
+    public void ToggleSprint() => speed = IsSprinting ? initialSpeed : sprintSpeed;
+
+    // Call every frame while moving: drains stamina while sprinting and stops sprinting when it runs out
+    public void UpdateSprintStamina()
+    {
+        if (!IsSprinting) return;
+
+        stamina.TryUseStamina(sprintStaminaCost * Time.deltaTime);
+        if (stamina._stamina.Value <= 2)
+            speed = initialSpeed;
+    }
+
     // Move input mapped onto the camera's flattened forward/right. Magnitude is clamped to 1.
     public Vector3 GetCameraRelativeInput()
     {

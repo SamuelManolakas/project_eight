@@ -8,8 +8,7 @@ public class AliveState_B : State_B
     public override void Exit() {}
     public override void GetHit(int damage)
     {
-        boss.currentHealth.Value -= damage;
-        boss.slider.value = boss.currentHealth.Value;
+        boss.currentHealth.Value -= damage; // the health bar updates from currentHealth's change event
 
         if (boss.currentHealth.Value <= 0)
         {
