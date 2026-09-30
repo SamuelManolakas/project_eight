@@ -45,10 +45,7 @@ public class PrimaryAttackState : State
         player.weaponCollider.enabled = true;
         player.animator.Play("Combo1a");
         
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.SwordAndShieldLight); // heard by every player
         
         yield return new WaitForSeconds(1f);
         if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
@@ -59,10 +56,7 @@ public class PrimaryAttackState : State
             player.attackBuffer  = false;
             
             //Audio
-            if (player.PlayerAudioScriptableObject != null)
-            {
-                player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
-            }
+            player.PlaySound(PlayerSound.SwordAndShieldLight); // heard by every player
             
             yield return new WaitForSeconds(1f);
             if (player.attackBuffer && player.stamina.TryUseStamina(player.primaryAttackStaminaCost))
@@ -73,10 +67,7 @@ public class PrimaryAttackState : State
                 player.attackBuffer  = false;
                 
                 //Audio
-                if (player.PlayerAudioScriptableObject != null)
-                {
-                    player.PlayerAudioScriptableObject.PlaySSLightAudioPlay(player.audioSource);
-                }
+                player.PlaySound(PlayerSound.SwordAndShieldLight); // heard by every player
 
                 StartAttackLunge(1f);
                 
@@ -106,10 +97,7 @@ public class PrimaryAttackState : State
         player.animator.Play("Combo1a");
 
         //Audio
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayGSLightAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.GreatswordLight); // heard by every player
         
         yield return new WaitForSeconds(1.8f);
         

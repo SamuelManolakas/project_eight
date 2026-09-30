@@ -6,28 +6,13 @@ public class MovementState : State
     
     public override void Enter()
     {
-        player.animator.Play("Run");
-
-        player.isMoving = 1;
-        
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
-        }
+        player.animator.Play("Run"); // footsteps start on their own from the animator (PlayerFootsteps)
     }
 
     public override void Exit()
     {
         player.animator.SetFloat(AnimatorParams.Speed, 0);
         player.animator.SetLayerWeight(1, 0);
-
-        player.isMoving = 0;
-        
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayFootstepAudioPlay(player.audioSource, player.isMoving);
-        }
-        
     }
 
     public override void ContinuousAction()

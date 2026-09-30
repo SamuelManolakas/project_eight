@@ -5,6 +5,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>One-shot player sounds that are played for everyone (see PlayerBehaviour.PlaySound).</summary>
+public enum PlayerSound : byte
+{
+    Roll,
+    SwordAndShieldLight,
+    SwordAndShieldHeavy,
+    GreatswordLight,
+    GreatswordHeavy,
+    BolterShot,
+    Heal,
+}
+
 public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
 {
     [Header("Weapon Choice")]
@@ -81,9 +93,6 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     public CarryState carryState = null;
     public CarriedState carriedState = null;
 
-    [Header("Sound")] 
-    public int isMoving;
-    
     [Header("Components")]
     public Animator animator;
     public GameObject weapon;
@@ -550,10 +559,7 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
             healConsumableAmount--;
             
             //Audio
-            if (PlayerAudioScriptableObject != null)
-            {
-                PlayerAudioScriptableObject.PlayHealAudioPlay(audioSource);
-            }
+            PlaySound(PlayerSound.Heal); // heard by every player
         }
     }
     
@@ -636,6 +642,37 @@ public class PlayerBehaviour : NetworkBehaviour, IExtractionCarryable
     {
         horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, Smoothing.Factor(deceleration));
         if (horizontalVelocity.sqrMagnitude < 0.0001f) horizontalVelocity = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Owner only. Plays a sound on this player for everyone: straight away here (no delay for the
+    /// player doing the action), and on every other machine through an RPC.
+    /// </summary>
+    public void PlaySound(PlayerSound sound)
+    {
+        PlaySoundLocal(sound);
+        if (IsSpawned && IsOwner)
+            PlaySoundRpc(sound);
+    }
+
+    [Rpc(SendTo.NotMe, InvokePermission = RpcInvokePermission.Owner)]
+    private void PlaySoundRpc(PlayerSound sound) => PlaySoundLocal(sound);
+
+    private void PlaySoundLocal(PlayerSound sound)
+    {
+        AvatarAudio audio = PlayerAudioScriptableObject;
+        if (audio == null || audioSource == null) return;
+
+        switch (sound)
+        {
+            case PlayerSound.Roll:                audio.PlayRollAudioPlay(audioSource); break;
+            case PlayerSound.SwordAndShieldLight: audio.PlaySSLightAudioPlay(audioSource); break;
+            case PlayerSound.SwordAndShieldHeavy: audio.PlaySSHeavyAudioPlay(audioSource); break;
+            case PlayerSound.GreatswordLight:     audio.PlayGSLightAudioPlay(audioSource); break;
+            case PlayerSound.GreatswordHeavy:     audio.PlayGSHeavyAudioPlay(audioSource); break;
+            case PlayerSound.BolterShot:          audio.PlayPewPewAudioPlay(audioSource); break;
+            case PlayerSound.Heal:                audio.PlayHealAudioPlay(audioSource); break;
+        }
     }
 
     // Sprint is a toggle between initialSpeed and sprintSpeed (used by MovementState and CarryState)

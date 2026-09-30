@@ -51,6 +51,21 @@ public class BossAudio : ScriptableObject
             }
         }
     }
+
+    /// <summary>
+    /// Stops and frees the looping engine sound. The instance lives on this ScriptableObject, which
+    /// outlives scenes, so the boss calls this when it's destroyed; otherwise the sound keeps playing
+    /// after leaving the game (and the next match would reuse it, attached to the old boss).
+    /// </summary>
+    public void StopEngineAudio()
+    {
+        if (!engineInstance.isValid()) return;
+
+        engineInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        engineInstance.release();
+        engineInstance.clearHandle();
+    }
+
     public void BossSweepAudioPlay(GameObject PunchObj)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(bossSweepEvent);

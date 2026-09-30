@@ -34,10 +34,7 @@ public class DodgeState : State
         StartCoroutine(IFrameWindow(0.1f, 0.4f));
         
         //Audio
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayRollAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.Roll); // heard by every player
     }
 
     public override void Exit()

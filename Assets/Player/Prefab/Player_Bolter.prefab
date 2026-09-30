@@ -1825,6 +1825,7 @@ GameObject:
   - component: {fileID: -1169890945680866379}
   - component: {fileID: 7333547590676185647}
   - component: {fileID: 5296430105436699208}
+  - component: {fileID: 852308728648528501}
   m_Layer: 8
   m_Name: Player_Bolter
   m_TagString: Player
@@ -3002,3 +3003,16 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &852308728648528501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125210286697788315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfba6fd3ebd6f2d9d2d41fa08b7ef2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootsteps
+  movingThreshold: 0.1

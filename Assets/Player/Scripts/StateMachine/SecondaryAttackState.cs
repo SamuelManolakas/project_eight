@@ -85,10 +85,7 @@ public class SecondaryAttackState : State
         player.playerShoot.Shoot();
         
         //Audio
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayPewPewAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.BolterShot); // heard by every player
         
         yield return new WaitForSeconds(0.25f);
         
@@ -103,10 +100,7 @@ public class SecondaryAttackState : State
         player.weaponCollider.enabled = true;
         
         //Audio
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlaySSHeavyAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.SwordAndShieldHeavy); // heard by every player
         
         yield return new WaitForSeconds(1.75f);
         player.stateMachine.Transit(player.idleState);
@@ -120,10 +114,7 @@ public class SecondaryAttackState : State
         player.weaponCollider.enabled = true;
         
         //Audio
-        if (player.PlayerAudioScriptableObject != null)
-        {
-            player.PlayerAudioScriptableObject.PlayGSHeavyAudioPlay(player.audioSource);
-        }
+        player.PlaySound(PlayerSound.GreatswordHeavy); // heard by every player
         
         yield return new WaitForSeconds(1.75f);
         

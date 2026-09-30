@@ -13,44 +13,10 @@ public class AvatarAudio : ScriptableObject
     [SerializeField] private EventReference playerGSHeavyAttackEvent;
     [SerializeField] private EventReference playerBolterAttackEvent;
     [SerializeField] private EventReference playerHealEvent;
-    
-    // 1. Store the instance here so it persists between method calls
-    private EventInstance footstepInstance;
 
-    public void PlayFootstepAudioPlay(GameObject feetObj, int moving)
-    {
-        // 2. If the instance hasn't been created yet (or was destroyed), create it.
-        if (!footstepInstance.isValid())
-        {
-            footstepInstance = RuntimeManager.CreateInstance(playerFootstepEvent);
-            RuntimeManager.AttachInstanceToGameObject(footstepInstance, feetObj.transform, feetObj.GetComponent<Rigidbody>());
-        }
-         
-        // 3. Update the parameter on the persistent instance
-        footstepInstance.setParameterByName("Moving", moving);
-
-        // 4. Start or Stop based on the integer
-        if (moving == 1)
-        {
-            footstepInstance.start();
-        }
-        else if (moving == 0)
-        {
-            // Stop gracefully, letting reverb and tails ring out.
-            // Notice we do NOT release() it here, so it's ready for the next footstep.
-            footstepInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
-    }
-
-    // 5. ALWAYS clean up FMOD instances in ScriptableObjects when the game quits
-    private void OnDisable()
-    {
-        if (footstepInstance.isValid())
-        {
-            footstepInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            footstepInstance.release();
-        }
-    }
+    // The footstep loop is played per player by PlayerFootsteps (a looping instance can't live on this
+    // shared asset: all players on a machine would share one sound, and it would outlive the scene).
+    public EventReference FootstepEvent => playerFootstepEvent;
 
     public void PlayRollAudioPlay(GameObject feetObj)
     {

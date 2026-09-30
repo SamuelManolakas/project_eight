@@ -177,6 +177,13 @@ public class BossBehaviour : Enemy
     public override void OnDestroy()
     {
         chargeHitBox.OnHitWall -= TransitionToStunnedState;
+
+        // The engine loop lives on the BossAudio asset, which outlives this scene: stop it here
+        // (runs on every machine when the boss is destroyed, e.g. leaving the game)
+        if (bossAudioScriptableObject != null)
+            bossAudioScriptableObject.StopEngineAudio();
+
+        base.OnDestroy();
     }
 
     private void Start()
