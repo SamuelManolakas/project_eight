@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Server-authoritative hover device that flies to a downed player, picks them up,
 /// carries them along an "upside-down L" path (straight up above the pit, then across
-/// and slightly down) to a fixed drop-off point, then despawns.
+/// and slightly down) to a fixed drop-off point, flies back to where it spawned, then despawns.
 ///
 /// Setup requirements on the prefab:
 ///  - NetworkObject component
@@ -23,6 +23,9 @@ public class PitExtractionDevice : NetworkBehaviour
 
     [Tooltip("Time from pickup to drop-off. Stays constant no matter how far apart the pit and drop point are.")]
     [SerializeField] private float carryDuration = 3f;
+
+    [Tooltip("Time from drop-off back to the spawn point, where it then despawns.")]
+    [SerializeField] private float returnDuration = 2f;
 
     [Header("Path shape")]
     [Tooltip("How far above the drop-off height the device rises before crossing over to it.")]
@@ -79,6 +82,15 @@ public class PitExtractionDevice : NetworkBehaviour
 
         // Drop-off.
         _carryable?.OnExtractionDropoff();
+
+        // Phase 3 — the approach in reverse: straight up from the drop point, across,
+        // then down onto the spawn point if it's lower than the cruise height.
+        float returnY = Mathf.Max(spawnPosition.y, _dropPosition.y + cruiseHeightAboveDrop);
+        Vector3 liftCorner = new Vector3(_dropPosition.x, returnY, _dropPosition.z);   // above the drop point
+        Vector3 aboveSpawn = new Vector3(spawnPosition.x, returnY, spawnPosition.z);   // above the spawn point
+        Vector3[] returnPath = { _dropPosition, liftCorner, aboveSpawn, spawnPosition };
+
+        yield return MoveAlongWaypoints(returnPath, returnDuration);
 
         // Only the server may despawn a NetworkObject.
         NetworkObject.Despawn();
