@@ -93,8 +93,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: cacb6f0170f834e40ad65a2a053a6056, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 91980c8e79e830a42af28870e455cb38, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: fe0b44bc1a9f7ef42a12375bc52c0f6d, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 0621ea2259f155941a0612d9b3e2fb59, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1503,13 +1503,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2022002471}
     - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
-      propertyPath: maxHealth
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: nukePosition
       value: 
       objectReference: {fileID: 2142270099}
+    - target: {fileID: 6989152216669118413, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
+      propertyPath: attackCooldown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8006838744608920341, guid: f4da3375e1bc0cc48952112343d70cff, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2764105833

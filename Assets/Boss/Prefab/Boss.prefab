@@ -18017,7 +18017,7 @@ MonoBehaviour:
   speed: 5
   damage: 20
   gravity: -15
-  attackCooldown: 5
+  attackCooldown: 2.5
   aggroEvaluationInterval: 8
   randomSwitchChance: 0.25
   randomTauntDuration: 15
