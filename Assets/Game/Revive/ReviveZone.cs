@@ -3,9 +3,10 @@ using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
-/// Area that revives downed players left inside it. Teammates carry a downed player here and
-/// drop them off (or throw them in, or a pit extraction device drops them here); while they
-/// lie Downed inside the zone, revive progress fills and they get back up once it completes.
+/// Area that revives downed players brought to it. Teammates carry a downed player here and
+/// throw them in (or a pit extraction device drops them here); while they lie Downed inside the
+/// zone, revive progress fills and they get back up once it completes. Players who go down inside
+/// the zone aren't revived unless someone picks them up first (PlayerHealth.CanBeZoneRevived).
 ///
 /// Setup: put this on a scene GameObject with a Collider that defines the area (Box, Sphere,
 /// Capsule or convex Mesh). Mark the collider as a trigger so it doesn't block movement.
@@ -39,7 +40,10 @@ public class ReviveZone : MonoBehaviour
             if (!client.PlayerObject.TryGetComponent(out PlayerBehaviour player)) continue;
 
             PlayerHealth health = player.health;
-            bool isReviving = player.stateMachine.currentState == player.downedState && IsInside(player.transform.position);
+            // Only players who were carried here since going down: going down inside the zone doesn't count
+            bool isReviving = player.stateMachine.currentState == player.downedState
+                              && health.CanBeZoneRevived
+                              && IsInside(player.transform.position);
 
             if (isReviving)
                 TickRevive(player, health);

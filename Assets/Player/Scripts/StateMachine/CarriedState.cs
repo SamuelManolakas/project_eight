@@ -12,6 +12,7 @@ public class CarriedState : State
         player.velocity = Vector3.zero;
         player.horizontalVelocity = Vector3.zero;
         player.RemovePlayerFromBossList();
+        player.health.MarkCarriedSinceDowned(); // now allowed to be revived by a revive zone
     }
 
     public override void Exit()

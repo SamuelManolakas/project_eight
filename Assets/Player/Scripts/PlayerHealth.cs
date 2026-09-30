@@ -124,7 +124,21 @@ public class PlayerHealth : NetworkBehaviour
 
     private void HandleDeath()
     {
+        CanBeZoneRevived = false; // must be carried to a revive zone, even if they went down inside one
         OnDownedClientRpc(); // enter downed state instead
+    }
+
+    /// <summary>
+    /// Server only. A downed player can only be revived by a ReviveZone after being carried there
+    /// (by a teammate or the pit extraction device). Being downed resets it, so players can't go
+    /// down inside the zone and get back up on their own.
+    /// </summary>
+    public bool CanBeZoneRevived { get; private set; }
+
+    // Called when the player is picked up while downed (CarriedState)
+    public void MarkCarriedSinceDowned()
+    {
+        if (IsServer) CanBeZoneRevived = true;
     }
 
     [ClientRpc]
